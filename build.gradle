@@ -12,11 +12,11 @@ repositories {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21) // ⚠️ besser als 26
+        languageVersion = JavaLanguageVersion.of(26) // ⚠️ besser als 26
     }
 }
 
-def javafxVersion = "21"
+def javafxVersion = "26"
 def platform = "linux" // important for JitPack!
 
 dependencies {
