@@ -11,10 +11,6 @@ public abstract class GameEngine extends Application {
 
     private GameScheduler scheduler;
 
-    public static void startEngine(String[] args) {
-        launch(args);
-    }
-
     @Override
     public void start(Stage stage) {
         scheduler = new GameScheduler();
