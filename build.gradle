@@ -1,9 +1,10 @@
 plugins {
     id 'java-library'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
-group = 'com.github.Jakomi1'
-version = '1.0'
+group = 'de.jakob.game'
+version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -11,6 +12,20 @@ repositories {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(21) // ⚠️ besser als 26
     }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+javafx {
+    version = "21"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.media' ]
+}
+
+test {
+    useJUnitPlatform()
 }
