@@ -11,7 +11,7 @@ public abstract class GameEngine extends Application {
 
     private GameScheduler scheduler;
 
-    public void startEngine(String[] args) {
+    public static void startEngine(String[] args) {
         launch(args);
     }
 
