@@ -1,0 +1,1364 @@
+[15:58:23] [ServerMain/INFO]: [PaperBootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.3+9-LTS; Eclipse Adoptium Temurin-21.0.3+9) on Linux 5.15.0-174-generic (amd64)
+[15:58:23] [ServerMain/INFO]: [PaperBootstrap] Loading DivineMC 1.21.11-24-ver/1.21.11@d7f0821 (2026-04-01T12:11:57Z) for Minecraft 1.21.11
+[15:58:23] [ServerMain/INFO]: [PaperBootstrap] Running JVM args [-Xms16384M, -Xmx16384M, -Dfml.queryResult=confirm, -XX:+UseG1GC, -XX:+ParallelRefProcEnabled, -XX:MaxGCPauseMillis=200, -XX:+UnlockExperimentalVMOptions, -XX:+DisableExplicitGC, -XX:+AlwaysPreTouch, -XX:G1NewSizePercent=30, -XX:G1MaxNewSizePercent=40, -XX:G1HeapRegionSize=32M, -XX:G1ReservePercent=20, -XX:G1HeapWastePercent=5, -XX:G1MixedGCCountTarget=4, -XX:InitiatingHeapOccupancyPercent=15, -XX:G1MixedGCLiveThresholdPercent=90, -XX:G1RSetUpdatingPauseTimePercent=5, -XX:SurvivorRatio=32, -XX:+PerfDisableSharedMem, -XX:MaxTenuringThreshold=1, -Dfile.encoding=UTF-8, -Dlog4j2.formatMsgNoLookups=true, -Dpaper.disableChannelLimit=true]
+[15:58:24] [ServerMain/INFO]: [PluginInitializerManager] Initializing plugins...
+[15:58:25] [ServerMain/INFO]: [PluginInitializerManager] Initialized 8 plugins
+[15:58:25] [ServerMain/INFO]: [PluginInitializerManager] Paper plugins (2):
+ - Crystalblock2 (1.0.0), PurpurExtras (1.37.1)
+[15:58:25] [ServerMain/INFO]: [PluginInitializerManager] Bukkit plugins (6):
+ - BetterBan (1.2.0), CoreProtect (23.1), GSit (3.3.1), InvSeePlusPlus (0.30.15), VoiceServer (1.3.0), voicechat (2.6.11)
+[15:58:31] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[15:58:32] [ServerMain/INFO]: [Crystalblock2] Loaded CustomBootstrapper succesfully!
+[15:58:33] [ServerMain/INFO]: Loaded 1470 recipes
+[15:58:33] [ServerMain/INFO]: Loaded 1584 advancements
+[15:58:33] [ServerMain/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[15:58:34] [ServerMain/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 534.1ms
+[15:58:34] [Server thread/INFO]: Starting minecraft server version 1.21.11
+[15:58:34] [Server thread/INFO]: Loading properties
+[15:58:34] [Server thread/INFO]: [DivineConfig] Loading config...
+[15:58:34] [Server thread/WARN]: [DivineConfig] Invalid regionized chunk ticking thread count: 16, resetting to default (4)
+[15:58:34] [Server thread/INFO]: [DivineConfig] Using 16 threads for Async Pathfinding
+[15:58:34] [Server thread/INFO]: [DivineConfig] Using 16 threads for Async Entity Tracker
+[15:58:34] [Server thread/WARN]: [DivineConfig] You have the following experimental features enabled: [Parallel World Ticking, Regionized Chunk Ticking]. Please proceed with caution!
+[15:58:34] [Server thread/INFO]: [DivineConfig] Config loaded in 118ms
+[15:58:34] [Server thread/INFO]: This server is running DivineMC version 1.21.11-24-ver/1.21.11@d7f0821 (2026-04-01T12:11:57Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
+[15:58:34] [Server thread/INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[15:58:34] [Server thread/INFO]: Server Ping Player Sample Count: 12
+[15:58:34] [Server thread/INFO]: Using 4 threads for Netty based IO
+[15:58:35] [Server thread/INFO]: [MoonriseCommon] DivineMC is using 24 worker threads, 1 I/O threads
+[15:58:35] [Server thread/WARN]: SIMD operations are available for your server, but are not configured!
+[15:58:35] [Server thread/WARN]: To enable additional optimizations, add "--add-modules=jdk.incubator.vector" to your startup flags, BEFORE the "-jar".
+[15:58:35] [Server thread/WARN]: If you have already added this flag, then SIMD operations are not supported on your JVM or CPU.
+[15:58:35] [Server thread/WARN]: Debug: Java: 21.0.3, test run: false
+[15:58:35] [Server thread/INFO]: Using 30 permits for Parallel world ticking
+[15:58:35] [Server thread/INFO]: Default game type: SURVIVAL
+[15:58:35] [Server thread/INFO]: Generating keypair
+[15:58:35] [Server thread/INFO]: Starting Minecraft server on 194.163.164.32:26585
+[15:58:35] [Server thread/INFO]: Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+[15:58:35] [Server thread/INFO]: Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
+[15:58:36] [Server thread/WARN]: [org.bukkit.craftbukkit.legacy.CraftLegacy] Initializing Legacy Material Support. Unless you have legacy plugins and/or data this is a bug!
+[15:58:45] [Server thread/INFO]: [voicechat] Loading server plugin voicechat v2.6.11
+[15:58:45] [Server thread/INFO]: [InvSee++] Loading server plugin InvSeePlusPlus v0.30.15
+[15:58:45] [Server thread/INFO]: [GSit] Loading server plugin GSit v3.3.1
+[15:58:45] [Server thread/INFO]: [Crystalblock2] Loading server plugin Crystalblock2 v1.0.0
+[15:58:45] [Server thread/INFO]: [CoreProtect] Loading server plugin CoreProtect v23.1
+[15:58:45] [Server thread/INFO]: [BetterBan] Loading server plugin BetterBan v1.2.0
+[15:58:45] [Server thread/INFO]: [VoiceServer] Loading server plugin VoiceServer v1.3.0
+[15:58:45] [Server thread/INFO]: [PurpurExtras] Loading server plugin PurpurExtras v1.37.1
+[15:58:45] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[15:58:45] [Server thread/INFO]: Preparing level "world"
+[15:58:46] [Server thread/INFO]: [ca.spottedleaf.moonrise.common.util.MoonriseConstants] NUMA enable flag is not set; however there is NUMA interaction support for this OS.
+[15:58:46] [Server thread/INFO]: [ca.spottedleaf.moonrise.common.util.MoonriseConstants] Detected 1 NUMA nodes.
+[15:58:46] [Server thread/INFO]: Density function compilation finished in 10.44 ms
+[15:58:46] [Server thread/INFO]: Density function compilation finished in 448.2 μs
+[15:58:46] [Server thread/INFO]: Density function compilation finished in 177.6 μs
+[15:58:46] [Server thread/INFO]: Density function compilation finished in 162.4 μs
+[15:58:46] [Server thread/INFO]: Density function compilation finished in 491.9 μs
+[15:58:46] [Server thread/INFO]: Density function compilation finished in 130.4 μs
+[15:58:46] [Server thread/INFO]: Density function compilation finished in 154.1 μs
+[15:58:46] [Server thread/INFO]: Density function compilation finished in 129.0 μs
+[15:58:46] [Server thread/INFO]: Density function compilation finished in 249.2 μs
+[15:58:46] [Server thread/INFO]: Loading 144 persistent chunks for world 'minecraft:overworld'...
+[15:58:46] [Server thread/INFO]: Preparing spawn area: 6%
+[15:58:48] [Server thread/INFO]: Prepared spawn area in 1433 ms
+[15:58:48] [Server thread/INFO]: Loading 25 persistent chunks for world 'crystalblock:bossroom'...
+[15:58:48] [Server thread/INFO]: Preparing spawn area: 28%
+[15:58:48] [Server thread/INFO]: Prepared spawn area in 44 ms
+[15:58:48] [Server thread/INFO]: Loading 25 persistent chunks for world 'crystalblock:nether'...
+[15:58:48] [Server thread/INFO]: Preparing spawn area: 28%
+[15:58:48] [Server thread/INFO]: Prepared spawn area in 229 ms
+[15:58:48] [Server thread/INFO]: Loading 0 persistent chunks for world 'preset:preset'...
+[15:58:48] [Server thread/INFO]: Prepared spawn area in 0 ms
+[15:58:48] [Server thread/INFO]: Loading 25 persistent chunks for world 'crystalblock:sky'...
+[15:58:48] [Server thread/INFO]: Preparing spawn area: 28%
+[15:58:49] [Server thread/INFO]: Prepared spawn area in 334 ms
+[15:58:49] [Server thread/INFO]: Loading 115 persistent chunks for world 'crystalblock:aetheria'...
+[15:58:49] [Server thread/INFO]: Preparing spawn area: 8%
+[15:58:49] [Server thread/INFO]: Prepared spawn area in 140 ms
+[15:58:49] [Server thread/INFO]: Loading 25 persistent chunks for world 'crystalblock:stone'...
+[15:58:49] [Server thread/INFO]: Preparing spawn area: 28%
+[15:58:49] [Server thread/INFO]: Prepared spawn area in 57 ms
+[15:58:49] [Server thread/INFO]: Loading 25 persistent chunks for world 'crystalblock:void'...
+[15:58:49] [Server thread/INFO]: Preparing spawn area: 28%
+[15:58:49] [Server thread/INFO]: Prepared spawn area in 53 ms
+[15:58:49] [Server thread/INFO]: Loading 25 persistent chunks for world 'crystalblock:ocean'...
+[15:58:49] [Server thread/INFO]: Preparing spawn area: 28%
+[15:58:49] [Server thread/INFO]: Prepared spawn area in 136 ms
+[15:58:49] [Server thread/INFO]: Done preparing level "world" (3.617s)
+[15:58:49] [Server thread/INFO]: [voicechat] Enabling voicechat v2.6.11
+[15:58:49] [Server thread/INFO]: [voicechat] Initializing compatibility for version 1.21.11-R0.1
+[15:58:49] [Server thread/INFO]: [voicechat] Compatibility version 20
+[15:58:49] [Server thread/INFO]: [voicechat] Successfully initialized commodore command completion
+[15:58:49] [Server thread/INFO]: [InvSee++] Enabling InvSeePlusPlus v0.30.15
+[15:58:49] [Server thread/INFO]: [InvSee++] Detected server software: Paper version 1.21.11
+[15:58:50] [Server thread/INFO]: [GSit] Enabling GSit v3.3.1
+[15:58:50] [Server thread/INFO]: [GSit] The plugin was successfully enabled.
+[15:58:50] [Server thread/INFO]: [Crystalblock2] Enabling Crystalblock2 v1.0.0
+[15:58:50] [Server thread/INFO]: [Crystalblock2] Datenbank verbunden: plugins/Crystalblock2/database.db
+[15:58:50] [Server thread/INFO]: [Crystalblock2] Tabelle 'joinedPlayers' erstellt oder existiert bereits.
+[15:58:50] [Server thread/INFO]: [Crystalblock2] Cache mit 43 Spielern geladen.
+[15:58:50] [Server thread/INFO]: [Crystalblock2] Tabelle 'whitelist' erstellt oder existiert bereits.
+[15:58:50] [Server thread/INFO]: [Crystalblock2] Tabelle 'server_manager' erstellt oder existiert bereits.
+[15:58:50] [Server thread/INFO]: [Crystalblock2] StorageManager: Tabelle 'storage' initialisiert.
+[15:58:50] [Server thread/INFO]: [Crystalblock] Bestehender Server-Marker wiederverwendet.
+[15:58:50] [Server thread/INFO]: [Crystalblock] serverLevel = 2
+[15:58:51] [Server thread/INFO]: [Crystalblock2] Registered all Crystalblock Items!
+[15:58:51] [Server thread/INFO]: [CoreProtect] Enabling CoreProtect v23.1
+[15:58:51] [Server thread/INFO]: [CoreProtect] CoreProtect Community Edition has been successfully enabled! 
+[15:58:51] [Server thread/INFO]: [CoreProtect] Using SQLite for data storage.
+[15:58:51] [Server thread/INFO]: --------------------
+[15:58:51] [Server thread/INFO]: [CoreProtect] Enjoy CoreProtect? Join our Discord!
+[15:58:51] [Server thread/INFO]: [CoreProtect] Discord: www.coreprotect.net/discord/
+[15:58:51] [Server thread/INFO]: --------------------
+[15:58:51] [Server thread/INFO]: [BetterBan] Enabling BetterBan v1.2.0
+[15:58:51] [Server thread/INFO]: [VoiceServer] Enabling VoiceServer v1.3.0
+[15:58:51] [Server thread/WARN]: [VoiceServer] Cannot register the "/testcommand" command
+[15:58:51] [Server thread/INFO]: [PurpurExtras] Enabling PurpurExtras v1.37.1
+[15:58:51] [Server thread/INFO]: [org.purpurmc.purpurextras.reflections.Reflections] Reflections took 60 ms to scan 1 urls, producing 3 keys and 69 values
+[15:58:52] [Server thread/INFO]: [spark] Starting background profiler...
+[15:58:52] [Server thread/INFO]: Starting GS4 status listener
+[15:58:52] [Server thread/INFO]: Thread Query Listener started
+[15:58:52] [Server thread/INFO]: Starting remote control listener
+[15:58:52] [Query Listener #1/INFO]: Query running on 194.163.164.32:26585
+[15:58:52] [Server thread/INFO]: Thread RCON Listener started
+[15:58:52] [Server thread/INFO]: RCON running on 194.163.164.32:26575
+[15:58:52] [Server thread/INFO]: Running delayed init tasks
+[15:58:52] [Server thread/INFO]: Done (30.529s)! For help, type "help"
+[15:58:52] [Server thread/INFO]: [voicechat] Loading plugins
+[15:58:52] [Server thread/INFO]: [voicechat] Loaded 1 plugin(s)
+[15:58:52] [Server thread/INFO]: [voicechat] Initializing plugins
+[15:58:52] [Server thread/INFO]: [VoiceServer] VoiceServer debug DISABLED
+[15:58:52] [Server thread/INFO]: [VoiceServer] VoiceServer config.yml loaded successfully.
+[15:58:52] [Server thread/INFO]: [VoiceServer] Persistent groups cleared (survive-restart=false).
+[15:58:52] [Server thread/INFO]: [voicechat] Initialized 1 plugin(s)
+[15:58:52] [Server thread/INFO]: [voicechat] Registering events for 'voiceserver'
+[15:58:52] [VoiceChatServerThread/INFO]: [voicechat] Using server-ip as bind address: 194.163.164.32
+[15:58:52] [VoiceChatServerThread/INFO]: [voicechat] Voice chat server started at 194.163.164.32:26586
+[15:58:53] [Server thread/ERROR]: Command exception: /unban Korbi76
+java.lang.NullPointerException: Cannot invoke "net.minecraft.server.level.ServerLevel.getGameRules()" because the return value of "net.minecraft.commands.CommandSourceStack.getLevel()" is null
+	at net.minecraft.commands.Commands.executeCommandInContext(Commands.java:470) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.commands.Commands.performCommand(Commands.java:382) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.commands.Commands.performCommand(Commands.java:370) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.commands.Commands.performPrefixedCommand(Commands.java:361) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.dedicated.DedicatedServer.handleConsoleInputs(DedicatedServer.java:674) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.dedicated.DedicatedServer.tickConnection(DedicatedServer.java:630) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.MinecraftServer.tickChildren(MinecraftServer.java:1931) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1672) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.dedicated.DedicatedServer.tickServer(DedicatedServer.java:507) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.MinecraftServer.processPacketsAndTick(MinecraftServer.java:1728) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:1395) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.MinecraftServer.lambda$spin$2(MinecraftServer.java:395) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+[15:58:53] [User Authenticator #0/INFO]: UUID of player Jxel126 is c4c849dc-d3db-4038-9830-7bd6456c15e0
+[15:58:53] [Server thread/INFO]: An unexpected error occurred trying to execute that command
+[15:58:53] [Server thread/ERROR]: Command exception: /unban Korbi77
+java.lang.NullPointerException: Cannot invoke "net.minecraft.server.level.ServerLevel.getGameRules()" because the return value of "net.minecraft.commands.CommandSourceStack.getLevel()" is null
+	at net.minecraft.commands.Commands.executeCommandInContext(Commands.java:470) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.commands.Commands.performCommand(Commands.java:382) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.commands.Commands.performCommand(Commands.java:370) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.commands.Commands.performPrefixedCommand(Commands.java:361) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.dedicated.DedicatedServer.handleConsoleInputs(DedicatedServer.java:674) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.dedicated.DedicatedServer.tickConnection(DedicatedServer.java:630) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.MinecraftServer.tickChildren(MinecraftServer.java:1931) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1672) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.dedicated.DedicatedServer.tickServer(DedicatedServer.java:507) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.MinecraftServer.processPacketsAndTick(MinecraftServer.java:1728) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:1395) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.MinecraftServer.lambda$spin$2(MinecraftServer.java:395) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+[15:58:53] [Server thread/INFO]: An unexpected error occurred trying to execute that command
+[15:58:53] [Server thread/INFO]: There are 0 of a max of 200 players online: 
+[15:58:53] [User Authenticator #1/INFO]: UUID of player Nailimixam07 is 510f65d0-dea7-4f96-8c34-9f86d0d4a852
+[15:58:53] [User Authenticator #1/INFO]: UUID of player HalloJost is 6ba782be-0a31-49c6-b1f4-f6fafc30e2ea
+[15:58:53] [User Authenticator #0/INFO]: UUID of player ItzzGizmo is 42d4c62e-28de-4cbf-8231-726ac6475750
+[15:58:54] [Server thread/INFO]: 510f65d0-dea7-4f96-8c34-9f86d0d4a852
+[15:58:54] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[15:58:54] [Server thread/INFO]: [+] Nailimixam07 hat den Server betreten
+[15:58:54] [Server thread/INFO]: Nailimixam07[/93.232.222.46:63767] logged in with entity id 874 at ([world_crystalblock_aetheria]-247.32199360790457, 114.19366615334314, -4.332627309844882)
+[15:58:54] [Server thread/INFO]: c4c849dc-d3db-4038-9830-7bd6456c15e0
+[15:58:54] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[15:58:54] [Server thread/INFO]: [+] Jxel126 hat den Server betreten
+[15:58:54] [Server thread/INFO]: Jxel126[/94.31.108.233:48187] logged in with entity id 875 at ([world_crystalblock_aetheria]-9.752274963550791, 123.73525539114875, -29.89877817231554)
+[15:58:54] [Server thread/INFO]: [voicechat] Received secret request of Nailimixam07 (20)
+[15:58:54] [Server thread/INFO]: [voicechat] Sent secret to Nailimixam07
+[15:58:54] [Server thread/INFO]: [voicechat] Received secret request of Jxel126 (20)
+[15:58:54] [Server thread/INFO]: [voicechat] Sent secret to Jxel126
+[15:58:55] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 510f65d0-dea7-4f96-8c34-9f86d0d4a852
+[15:58:55] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player c4c849dc-d3db-4038-9830-7bd6456c15e0
+[15:58:55] [Server thread/INFO]: 42d4c62e-28de-4cbf-8231-726ac6475750
+[15:58:55] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[15:58:55] [Server thread/INFO]: [+] ItzzGizmo hat den Server betreten
+[15:58:55] [Server thread/INFO]: ItzzGizmo[/89.247.167.187:6316] logged in with entity id 891 at ([world_crystalblock_sky]51.30000001192093, 69.0, -3.699999988079071)
+[15:58:55] [Server thread/INFO]: 6ba782be-0a31-49c6-b1f4-f6fafc30e2ea
+[15:58:55] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[15:58:55] [Server thread/INFO]: [+] HalloJost hat den Server betreten
+[15:58:55] [Server thread/INFO]: HalloJost[/95.33.103.113:55901] logged in with entity id 892 at ([world_crystalblock_sky]-11.18169718782213, 67.30168918176126, -9.009424673086592)
+[15:58:55] [Server thread/INFO]: [voicechat] Received secret request of ItzzGizmo (20)
+[15:58:55] [Server thread/INFO]: [voicechat] Sent secret to ItzzGizmo
+[15:58:55] [Server thread/INFO]: [voicechat] Received secret request of HalloJost (20)
+[15:58:55] [Server thread/INFO]: [voicechat] Sent secret to HalloJost
+[15:58:55] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 42d4c62e-28de-4cbf-8231-726ac6475750
+[15:58:56] [User Authenticator #0/INFO]: UUID of player Korbi77 is e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[15:58:56] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 6ba782be-0a31-49c6-b1f4-f6fafc30e2ea
+[15:58:56] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 510f65d0-dea7-4f96-8c34-9f86d0d4a852
+[15:58:56] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Nailimixam07 (510f65d0-dea7-4f96-8c34-9f86d0d4a852) successfully connected to voice chat
+[15:58:56] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player c4c849dc-d3db-4038-9830-7bd6456c15e0
+[15:58:56] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Jxel126 (c4c849dc-d3db-4038-9830-7bd6456c15e0) successfully connected to voice chat
+[15:58:56] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 42d4c62e-28de-4cbf-8231-726ac6475750
+[15:58:56] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player ItzzGizmo (42d4c62e-28de-4cbf-8231-726ac6475750) successfully connected to voice chat
+[15:58:56] [Server thread/INFO]: e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[15:58:56] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[15:58:56] [Server thread/INFO]: [+] Korbi77 hat den Server betreten
+[15:58:56] [Server thread/INFO]: Korbi77[/87.188.29.136:60233] logged in with entity id 1077 at ([world_crystalblock_ocean]2.055027188407774, 78.72958993125671, -26.2245525228676)
+[15:58:56] [User Authenticator #0/INFO]: UUID of player KabeljauNation is e31223eb-eac8-434f-84ee-08407e49261d
+[15:58:57] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 6ba782be-0a31-49c6-b1f4-f6fafc30e2ea
+[15:58:57] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player HalloJost (6ba782be-0a31-49c6-b1f4-f6fafc30e2ea) successfully connected to voice chat
+[15:58:57] [Server thread/INFO]: [voicechat] Received secret request of Korbi77 (20)
+[15:58:57] [Server thread/INFO]: [voicechat] Sent secret to Korbi77
+[15:58:57] [Server thread/INFO]: e31223eb-eac8-434f-84ee-08407e49261d
+[15:58:57] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[15:58:57] [Server thread/INFO]: [+] KabeljauNation hat den Server betreten
+[15:58:57] [Server thread/INFO]: KabeljauNation[/155.133.202.172:61105] logged in with entity id 1210 at ([world_crystalblock_ocean]-19.69999998807907, -61.0, -44.30000001192093)
+[15:58:57] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[15:58:58] [Server thread/INFO]: [voicechat] Received secret request of KabeljauNation (20)
+[15:58:58] [Server thread/INFO]: [voicechat] Sent secret to KabeljauNation
+[15:58:58] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player e31223eb-eac8-434f-84ee-08407e49261d
+[15:58:58] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[15:58:58] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Korbi77 (e1d809e4-5e84-426e-92a9-e58f0f15c5ca) successfully connected to voice chat
+[15:58:59] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player e31223eb-eac8-434f-84ee-08407e49261d
+[15:58:59] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player KabeljauNation (e31223eb-eac8-434f-84ee-08407e49261d) successfully connected to voice chat
+[15:59:03] [Server thread/INFO]: Unknown or incomplete command. See below for error
+lisr<--[HERE]
+[15:59:05] [Server thread/INFO]: There are 6 of a max of 200 players online: [S] Nailimixam07, [S] Jxel126, [S] ItzzGizmo, [S] HalloJost, [S] Korbi77, [O] KabeljauNation
+[15:59:08] [Server thread/INFO]: Chunk-Cleanup abgeschlossen!
+[15:59:19] [Server thread/INFO]: [BB] No players are chat-banned.
+[15:59:37] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[15:59:37] [Server thread/INFO]: [VS] Given permission 'speak' to player 'Korbi77'.
+[15:59:40] [User Authenticator #0/INFO]: UUID of player Enni_Craft is 1f78bb31-fac3-4362-b00f-b09717bca0ff
+[15:59:41] [Server thread/INFO]: 1f78bb31-fac3-4362-b00f-b09717bca0ff
+[15:59:41] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[15:59:41] [Server thread/INFO]: [+] Enni_Craft hat den Server betreten
+[15:59:41] [Server thread/INFO]: Enni_Craft[/87.166.150.58:63662] logged in with entity id 4711 at ([world]6.699999988079071, 129.0, -12.926270602331638)
+[15:59:41] [Server thread/INFO]: [voicechat] Received secret request of Enni_Craft (20)
+[15:59:41] [Server thread/INFO]: [voicechat] Sent secret to Enni_Craft
+[15:59:41] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 1f78bb31-fac3-4362-b00f-b09717bca0ff
+[15:59:42] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 1f78bb31-fac3-4362-b00f-b09717bca0ff
+[15:59:42] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Enni_Craft (1f78bb31-fac3-4362-b00f-b09717bca0ff) successfully connected to voice chat
+[15:59:49] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[15:59:49] [Server thread/INFO]: [VS] Given permission 'listen' to player 'Korbi77'.
+[15:59:58] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[15:59:58] [Server thread/INFO]: [VS] Given permission 'groups' to player 'Korbi77'.
+[16:00:00] [User Authenticator #0/INFO]: UUID of player Redstone_Craft__ is ddb05115-9ecd-4489-92b6-a9589f0e5074
+[16:00:00] [Server thread/INFO]: ddb05115-9ecd-4489-92b6-a9589f0e5074
+[16:00:00] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:00:00] [Server thread/INFO]: [+] Redstone_Craft__ hat den Server betreten
+[16:00:00] [Server thread/INFO]: Redstone_Craft__[/31.220.65.56:62268] logged in with entity id 6160 at ([world]0.6102090455258448, 129.60131520987474, 5.488959928052901)
+[16:00:00] [Server thread/INFO]: [voicechat] Received secret request of Redstone_Craft__ (20)
+[16:00:00] [Server thread/INFO]: [voicechat] Sent secret to Redstone_Craft__
+[16:00:00] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player ddb05115-9ecd-4489-92b6-a9589f0e5074
+[16:00:01] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player ddb05115-9ecd-4489-92b6-a9589f0e5074
+[16:00:01] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Redstone_Craft__ (ddb05115-9ecd-4489-92b6-a9589f0e5074) successfully connected to voice chat
+[16:00:17] [Server thread/INFO]: There are 8 of a max of 200 players online: [S] Nailimixam07, [S] Jxel126, [S] ItzzGizmo, [S] HalloJost, [S] Korbi77, [O] KabeljauNation, [O] Enni_Craft, [S] Redstone_Craft__
+[16:01:30] [Server thread/INFO]: KabeljauNation lost connection: Disconnected
+[16:01:30] [Server thread/INFO]: [voicechat] Disconnecting client KabeljauNation
+[16:01:30] [Server thread/INFO]: [-] KabeljauNation hat den Server verlassen
+[16:04:53] [User Authenticator #2/INFO]: UUID of player KabeljauNation is e31223eb-eac8-434f-84ee-08407e49261d
+[16:04:54] [Server thread/INFO]: e31223eb-eac8-434f-84ee-08407e49261d
+[16:04:54] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:04:54] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for KabeljauNation: Given attachment is not part of Permissible object CraftPlayer{name=KabeljauNation, uuid=e31223eb-eac8-434f-84ee-08407e49261d}
+[16:04:54] [Server thread/INFO]: [+] KabeljauNation hat den Server betreten
+[16:04:54] [Server thread/INFO]: KabeljauNation[/155.133.202.172:62069] logged in with entity id 32287 at ([world_crystalblock_ocean]-14.132125314619254, -61.0, -45.90648295794321)
+[16:04:54] [Server thread/INFO]: [voicechat] Received secret request of KabeljauNation (20)
+[16:04:54] [Server thread/INFO]: [voicechat] Sent secret to KabeljauNation
+[16:04:55] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player e31223eb-eac8-434f-84ee-08407e49261d
+[16:04:56] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player e31223eb-eac8-434f-84ee-08407e49261d
+[16:04:56] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player KabeljauNation (e31223eb-eac8-434f-84ee-08407e49261d) successfully connected to voice chat
+[16:08:38] [Region Ticking-2/INFO]: [S] Korbi77 was slain by Zombified Piglin
+[16:09:12] [Server thread/INFO]: [S] Korbi77 tried to swim in lava
+[16:09:18] [Region Ticking-3/INFO]: [S] Jxel126 was speared by Antiker Wächter
+[16:16:28] [Server thread/INFO]: Korbi77 lost connection: Disconnected
+[16:16:28] [Server thread/INFO]: [voicechat] Disconnecting client Korbi77
+[16:16:28] [Server thread/INFO]: [-] Korbi77 hat den Server verlassen
+[16:16:30] [User Authenticator #3/INFO]: UUID of player Korbi77 is e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[16:16:30] [Server thread/INFO]: e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[16:16:30] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:16:30] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Korbi77: Given attachment is not part of Permissible object CraftPlayer{name=Korbi77, uuid=e1d809e4-5e84-426e-92a9-e58f0f15c5ca}
+[16:16:30] [Server thread/INFO]: [+] Korbi77 hat den Server betreten
+[16:16:30] [Server thread/INFO]: Korbi77[/87.188.29.136:63533] logged in with entity id 97297 at ([world_crystalblock_ocean]-17.17902330273234, -61.0, -47.145378612892635)
+[16:16:30] [Server thread/INFO]: [voicechat] Received secret request of Korbi77 (20)
+[16:16:30] [Server thread/INFO]: [voicechat] Sent secret to Korbi77
+[16:16:30] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[16:16:31] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[16:16:31] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Korbi77 (e1d809e4-5e84-426e-92a9-e58f0f15c5ca) successfully connected to voice chat
+[16:18:24] [Region Ticking-4/INFO]: [S] Nailimixam07 was speared by Antiker Wächter
+[16:21:07] [Server thread/INFO]: Jxel126 lost connection: Disconnected
+[16:21:07] [Server thread/INFO]: [voicechat] Disconnecting client Jxel126
+[16:21:07] [Server thread/INFO]: [-] Jxel126 hat den Server verlassen
+[16:23:34] [world_crystalblock_sky - ServerLevel Tick Worker/WARN]: [ca.spottedleaf.moonrise.patches.chunk_system.level.entity.EntityLookup] Entity uuid already exists: 67cfd0b4-8bd7-4f7f-af84-014c419c7937, mapped to ItemEntity['Cobblestone'/141898, uuid='67cfd0b4-8bd7-4f7f-af84-014c419c7937', l='ServerLevel[world_crystalblock_sky]', x=-12.50, y=74.68, z=2.50, cpos=[-1, 0], tl=0, v=true], can't add ItemEntity['Cobblestone'/141903, uuid='67cfd0b4-8bd7-4f7f-af84-014c419c7937', l='ServerLevel[world_crystalblock_sky]', x=-6.50, y=74.68, z=18.50, cpos=[-1, 1], tl=0, v=false]
+[16:24:00] [User Authenticator #4/INFO]: UUID of player FahrradShulker is 64cb482a-36c1-41f6-af59-5b304c576c32
+[16:24:01] [Server thread/INFO]: 64cb482a-36c1-41f6-af59-5b304c576c32
+[16:24:01] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:24:01] [Server thread/INFO]: [+] FahrradShulker hat den Server betreten
+[16:24:01] [Server thread/INFO]: FahrradShulker[/89.12.255.65:57133] logged in with entity id 144456 at ([world_crystalblock_ocean]198.3751850677798, -62.0, -26.31222520853885)
+[16:24:02] [Server thread/INFO]: [voicechat] Received secret request of FahrradShulker (20)
+[16:24:02] [Server thread/INFO]: [voicechat] Sent secret to FahrradShulker
+[16:24:02] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 64cb482a-36c1-41f6-af59-5b304c576c32
+[16:24:03] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 64cb482a-36c1-41f6-af59-5b304c576c32
+[16:24:03] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player FahrradShulker (64cb482a-36c1-41f6-af59-5b304c576c32) successfully connected to voice chat
+[16:24:24] [User Authenticator #4/INFO]: UUID of player Jxel126 is c4c849dc-d3db-4038-9830-7bd6456c15e0
+[16:24:25] [Server thread/INFO]: c4c849dc-d3db-4038-9830-7bd6456c15e0
+[16:24:25] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:24:25] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Jxel126: Given attachment is not part of Permissible object CraftPlayer{name=Jxel126, uuid=c4c849dc-d3db-4038-9830-7bd6456c15e0}
+[16:24:25] [Server thread/INFO]: [+] Jxel126 hat den Server betreten
+[16:24:25] [Server thread/INFO]: Jxel126[/94.31.108.233:48129] logged in with entity id 146862 at ([world_crystalblock_sky]5.391551186033066, 70.0, -2.2205736326435845)
+[16:24:26] [Server thread/INFO]: [voicechat] Received secret request of Jxel126 (20)
+[16:24:26] [Server thread/INFO]: [voicechat] Sent secret to Jxel126
+[16:24:28] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player c4c849dc-d3db-4038-9830-7bd6456c15e0
+[16:24:29] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player c4c849dc-d3db-4038-9830-7bd6456c15e0
+[16:24:29] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Jxel126 (c4c849dc-d3db-4038-9830-7bd6456c15e0) successfully connected to voice chat
+[16:24:37] [Server thread/INFO]: [O] FahrradShulker fell from a high place
+[16:24:43] [Async Chat Thread - #5/INFO]: [O] <Enni_Craft> . _ .
+[16:24:50] [Region Ticking-4/INFO]: [S] Korbi77 was blown up by Creeper
+[16:24:55] [Region Ticking-1/INFO]: [S] Nailimixam07 was speared by Antiker Wächter
+[16:26:06] [Server thread/INFO]: Korbi77 lost connection: Disconnected
+[16:26:06] [Server thread/INFO]: [voicechat] Disconnecting client Korbi77
+[16:26:06] [Server thread/INFO]: [-] Korbi77 hat den Server verlassen
+[16:27:34] [Server thread/INFO]: Redstone_Craft__ lost connection: Disconnected
+[16:27:34] [Server thread/INFO]: [voicechat] Disconnecting client Redstone_Craft__
+[16:27:34] [Server thread/INFO]: [-] Redstone_Craft__ hat den Server verlassen
+[16:28:42] [User Authenticator #5/INFO]: UUID of player Korbi77 is e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[16:28:42] [Server thread/INFO]: e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[16:28:42] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:28:42] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Korbi77: Given attachment is not part of Permissible object CraftPlayer{name=Korbi77, uuid=e1d809e4-5e84-426e-92a9-e58f0f15c5ca}
+[16:28:42] [Server thread/INFO]: [+] Korbi77 hat den Server betreten
+[16:28:42] [Server thread/INFO]: Korbi77[/87.188.29.136:62169] logged in with entity id 178434 at ([world_crystalblock_stone]-103.17890864847004, 59.0, -6.612525881700552)
+[16:28:42] [Server thread/INFO]: [voicechat] Received secret request of Korbi77 (20)
+[16:28:42] [Server thread/INFO]: [voicechat] Sent secret to Korbi77
+[16:28:42] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[16:28:43] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[16:28:43] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Korbi77 (e1d809e4-5e84-426e-92a9-e58f0f15c5ca) successfully connected to voice chat
+[16:30:56] [Async Chat Thread - #8/INFO]: [S] <ItzzGizmo> KabeljauNation Hast du die Axt?
+[16:31:20] [Async Chat Thread - #8/INFO]: [O] <KabeljauNation> ja hab die uunendliche Axt
+[16:31:33] [Async Chat Thread - #8/INFO]: [S] <ItzzGizmo> normal oder schon verbessert?
+[16:31:40] [Async Chat Thread - #8/INFO]: [O] <KabeljauNation> normal
+[16:31:42] [Async Chat Thread - #8/INFO]: [S] <ItzzGizmo> oka
+[16:31:43] [Async Chat Thread - #8/INFO]: [S] <ItzzGizmo> y
+[16:34:09] [Async Chat Thread - #10/INFO]: [S] <ItzzGizmo> Na korbi wat machste mit dem server hier?
+[16:34:18] [Async Chat Thread - #10/INFO]: [S] <Korbi77> Spielen?
+[16:34:22] [Async Chat Thread - #10/INFO]: [S] <Korbi77> Was machst du denn
+[16:34:30] [Async Chat Thread - #10/INFO]: [S] <ItzzGizmo> alle hatten eben nen hohen ping außer du
+[16:34:42] [Async Chat Thread - #10/INFO]: [S] <ItzzGizmo> Du bist schuldig, ich kanns bloß nicht beweisen
+[16:34:42] [Async Chat Thread - #10/INFO]: [S] <Korbi77> Und?
+[16:34:52] [Async Chat Thread - #10/INFO]: [S] <Korbi77> Chille in ocean hab n alibi
+[16:35:15] [Async Chat Thread - #10/INFO]: [S] <ItzzGizmo> mhm jaja
+[16:35:46] [Async Chat Thread - #10/INFO]: [S] <Korbi77> Neinnn bim aufgeflogen meine boat-lagmaschiene wurde gefundennnn#
+[16:36:11] [Async Chat Thread - #10/INFO]: [S] <Korbi77> Eif ragebait gizmo
+[16:38:04] [User Authenticator #6/INFO]: UUID of player Redstone_Craft__ is ddb05115-9ecd-4489-92b6-a9589f0e5074
+[16:38:05] [Server thread/INFO]: ddb05115-9ecd-4489-92b6-a9589f0e5074
+[16:38:05] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:38:05] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Redstone_Craft__: Given attachment is not part of Permissible object CraftPlayer{name=Redstone_Craft__, uuid=ddb05115-9ecd-4489-92b6-a9589f0e5074}
+[16:38:05] [Server thread/INFO]: [+] Redstone_Craft__ hat den Server betreten
+[16:38:05] [Server thread/INFO]: Redstone_Craft__[/31.220.65.56:61707] logged in with entity id 246210 at ([world_crystalblock_stone]13.928946030703981, 64.0, 5.7000190283636405)
+[16:38:05] [Server thread/INFO]: [voicechat] Received secret request of Redstone_Craft__ (20)
+[16:38:05] [Server thread/INFO]: [voicechat] Sent secret to Redstone_Craft__
+[16:38:05] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player ddb05115-9ecd-4489-92b6-a9589f0e5074
+[16:38:06] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player ddb05115-9ecd-4489-92b6-a9589f0e5074
+[16:38:06] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Redstone_Craft__ (ddb05115-9ecd-4489-92b6-a9589f0e5074) successfully connected to voice chat
+[16:38:19] [Async Chat Thread - #12/INFO]: [O] <Enni_Craft> Rotstein_Kraft ?
+[16:38:26] [Async Chat Thread - #12/INFO]: [S] <Redstone_Craft__> JA
+[16:38:30] [Async Chat Thread - #12/INFO]: [O] <Enni_Craft> was gehttt A?
+[16:38:33] [User Authenticator #6/INFO]: UUID of player BlockTOB is 56aa6573-e4c9-4886-ba0b-066708842d5a
+[16:38:34] [Server thread/INFO]: 56aa6573-e4c9-4886-ba0b-066708842d5a
+[16:38:34] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:38:34] [Server thread/INFO]: [+] BlockTOB hat den Server betreten
+[16:38:34] [Server thread/INFO]: BlockTOB[/217.88.74.254:49849] logged in with entity id 249667 at ([world_crystalblock_stone]-100.25466879230395, 59.0, -6.792563275057022)
+[16:38:34] [Server thread/INFO]: [voicechat] Received secret request of BlockTOB (20)
+[16:38:34] [Server thread/INFO]: [voicechat] Sent secret to BlockTOB
+[16:38:35] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 56aa6573-e4c9-4886-ba0b-066708842d5a
+[16:38:36] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 56aa6573-e4c9-4886-ba0b-066708842d5a
+[16:38:36] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player BlockTOB (56aa6573-e4c9-4886-ba0b-066708842d5a) successfully connected to voice chat
+[16:38:42] [Server thread/INFO]: BlockTOB lost connection: Disconnected
+[16:38:42] [Server thread/INFO]: [voicechat] Disconnecting client BlockTOB
+[16:38:42] [Server thread/INFO]: [-] BlockTOB hat den Server verlassen
+[16:38:45] [Server thread/INFO]: General_1_18 (/194.140.114.213:29871) lost connection: Disconnected
+[16:38:54] [Async Chat Thread - #12/INFO]: [S] <Redstone_Craft__> Holz farmen
+[16:39:04] [Async Chat Thread - #12/INFO]: [O] <Enni_Craft> Holz kann laufen ?
+[16:39:18] [Async Chat Thread - #12/INFO]: [S] <Korbi77> Ja
+[16:39:22] [Async Chat Thread - #12/INFO]: [O] <Enni_Craft> ggs
+[16:39:39] [Async Chat Thread - #12/INFO]: [S] <Korbi77> Was isn das
+[16:39:44] [Async Chat Thread - #12/INFO]: [O] <Enni_Craft> Mmhh
+[16:39:54] [Async Chat Thread - #12/INFO]: [S] <Korbi77> Gib malll
+[16:40:00] [Async Chat Thread - #12/INFO]: [O] <Enni_Craft> nö
+[16:40:06] [Async Chat Thread - #12/INFO]: [S] <Korbi77> Bittiiiiii
+[16:40:07] [User Authenticator #7/INFO]: UUID of player General_1_18 is b340f679-df6f-49bf-950c-63043c56ab2f
+[16:40:08] [Server thread/INFO]: b340f679-df6f-49bf-950c-63043c56ab2f
+[16:40:08] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:40:08] [Server thread/INFO]: [+] General_1_18 hat den Server betreten
+[16:40:08] [Server thread/INFO]: General_1_18[/194.140.114.213:1670] logged in with entity id 260462 at ([world_crystalblock_stone]-135.50190986984126, 60.0, 7.877565981493755)
+[16:40:08] [Server thread/INFO]: [voicechat] Received secret request of General_1_18 (20)
+[16:40:08] [Server thread/INFO]: [voicechat] Sent secret to General_1_18
+[16:40:09] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player b340f679-df6f-49bf-950c-63043c56ab2f
+[16:40:10] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player b340f679-df6f-49bf-950c-63043c56ab2f
+[16:40:10] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player General_1_18 (b340f679-df6f-49bf-950c-63043c56ab2f) successfully connected to voice chat
+[16:40:15] [Server thread/INFO]: General_1_18 lost connection: Disconnected
+[16:40:15] [Server thread/INFO]: [voicechat] Disconnecting client General_1_18
+[16:40:15] [Server thread/INFO]: [-] General_1_18 hat den Server verlassen
+[16:40:20] [Async Chat Thread - #12/INFO]: [S] <Korbi77> Wtf
+[16:40:22] [Async Chat Thread - #12/INFO]: [O] <Enni_Craft> xD
+[16:40:58] [Async Chat Thread - #12/INFO]: [O] <Enni_Craft> WAYYY JO
+[16:41:03] [Async Chat Thread - #12/INFO]: [O] <Enni_Craft> oh dankö
+[16:41:13] [Async Chat Thread - #12/INFO]: [S] <Korbi77> Kp
+[16:44:22] [User Authenticator #8/INFO]: UUID of player Ello1818_GHG is 7f7fe2bf-0fb7-4fc3-be43-be2e07691a15
+[16:44:22] [Server thread/INFO]: 7f7fe2bf-0fb7-4fc3-be43-be2e07691a15
+[16:44:22] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:44:22] [Server thread/INFO]: [+] Ello1818_GHG hat den Server betreten
+[16:44:22] [Server thread/INFO]: Ello1818_GHG[/91.64.4.251:59398] logged in with entity id 290625 at ([world_crystalblock_ocean]191.52238840042585, -62.0, -29.28166615654328)
+[16:44:23] [Server thread/INFO]: [voicechat] Received secret request of Ello1818_GHG (20)
+[16:44:23] [Server thread/INFO]: [voicechat] Sent secret to Ello1818_GHG
+[16:44:24] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 7f7fe2bf-0fb7-4fc3-be43-be2e07691a15
+[16:44:25] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 7f7fe2bf-0fb7-4fc3-be43-be2e07691a15
+[16:44:25] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Ello1818_GHG (7f7fe2bf-0fb7-4fc3-be43-be2e07691a15) successfully connected to voice chat
+[16:44:33] [Server thread/INFO]: [S] Nailimixam07 tried to swim in lava
+[16:45:21] [Server thread/INFO]: [S] Nailimixam07 fell out of the world
+[16:47:08] [Region Ticking-3/INFO]: [O] Ello1818_GHG was blown up by Creeper
+[16:47:28] [Async Chat Thread - #16/INFO]: [S] <Jxel126> ello wie siehts aus
+[16:47:34] [Async Chat Thread - #16/INFO]: [S] <Jxel126> willst noch essenz?
+[16:47:49] [Async Chat Thread - #16/INFO]: [O] <Enni_Craft> Ello ist gerade ig weg
+[16:47:55] [Async Chat Thread - #16/INFO]: [S] <Jxel126> achsoo
+[16:50:43] [Region Ticking-3/INFO]: [S] Nailimixam07 was slain by Düsterer Soldat
+[16:55:20] [User Authenticator #9/INFO]: UUID of player FanzPimon is 573e2e59-5475-42ff-a34c-732efb90e76e
+[16:55:21] [Server thread/INFO]: 573e2e59-5475-42ff-a34c-732efb90e76e
+[16:55:21] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:55:21] [Server thread/INFO]: [+] FanzPimon hat den Server betreten
+[16:55:21] [Server thread/INFO]: FanzPimon[/91.20.42.239:60871] logged in with entity id 367978 at ([world_crystalblock_stone]29.69999998807907, 62.0, 47.69999998807907)
+[16:55:23] [Server thread/INFO]: [voicechat] Received secret request of FanzPimon (20)
+[16:55:23] [Server thread/INFO]: [voicechat] Sent secret to FanzPimon
+[16:55:25] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 573e2e59-5475-42ff-a34c-732efb90e76e
+[16:55:26] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 573e2e59-5475-42ff-a34c-732efb90e76e
+[16:55:26] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player FanzPimon (573e2e59-5475-42ff-a34c-732efb90e76e) successfully connected to voice chat
+[16:55:43] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player 573e2e59-5475-42ff-a34c-732efb90e76e timed out
+[16:55:43] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Reconnecting player FanzPimon
+[16:55:43] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Sent secret to FanzPimon
+[16:56:03] [Server thread/INFO]: FanzPimon lost connection: Timed out
+[16:56:03] [Server thread/INFO]: [voicechat] Disconnecting client FanzPimon
+[16:56:03] [Server thread/INFO]: [-] FanzPimon hat den Server verlassen
+[16:56:45] [User Authenticator #10/INFO]: UUID of player General_1_18 is b340f679-df6f-49bf-950c-63043c56ab2f
+[16:56:45] [User Authenticator #10/INFO]: UUID of player BlockTOB is 56aa6573-e4c9-4886-ba0b-066708842d5a
+[16:56:45] [Server thread/INFO]: b340f679-df6f-49bf-950c-63043c56ab2f
+[16:56:45] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:56:45] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for General_1_18: Given attachment is not part of Permissible object CraftPlayer{name=General_1_18, uuid=b340f679-df6f-49bf-950c-63043c56ab2f}
+[16:56:45] [Server thread/INFO]: [+] General_1_18 hat den Server betreten
+[16:56:45] [Server thread/INFO]: General_1_18[/194.140.114.213:1598] logged in with entity id 377731 at ([world_crystalblock_stone]-135.50190986984126, 60.0, 7.877565981493755)
+[16:56:45] [Server thread/INFO]: [voicechat] Received secret request of General_1_18 (20)
+[16:56:45] [Server thread/INFO]: [voicechat] Sent secret to General_1_18
+[16:56:46] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player b340f679-df6f-49bf-950c-63043c56ab2f
+[16:56:46] [Server thread/INFO]: 56aa6573-e4c9-4886-ba0b-066708842d5a
+[16:56:46] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[16:56:46] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for BlockTOB: Given attachment is not part of Permissible object CraftPlayer{name=BlockTOB, uuid=56aa6573-e4c9-4886-ba0b-066708842d5a}
+[16:56:46] [Server thread/INFO]: [+] BlockTOB hat den Server betreten
+[16:56:46] [Server thread/INFO]: BlockTOB[/217.88.74.254:62436] logged in with entity id 377791 at ([world_crystalblock_stone]-91.68714217555592, 64.0, 0.7221287908927827)
+[16:56:46] [Server thread/INFO]: [voicechat] Received secret request of BlockTOB (20)
+[16:56:46] [Server thread/INFO]: [voicechat] Sent secret to BlockTOB
+[16:56:47] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player b340f679-df6f-49bf-950c-63043c56ab2f
+[16:56:47] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player General_1_18 (b340f679-df6f-49bf-950c-63043c56ab2f) successfully connected to voice chat
+[16:56:47] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 56aa6573-e4c9-4886-ba0b-066708842d5a
+[16:56:48] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 56aa6573-e4c9-4886-ba0b-066708842d5a
+[16:56:48] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player BlockTOB (56aa6573-e4c9-4886-ba0b-066708842d5a) successfully connected to voice chat
+[16:59:15] [Server thread/INFO]: BlockTOB lost connection: Disconnected
+[16:59:15] [Server thread/INFO]: [voicechat] Disconnecting client BlockTOB
+[16:59:15] [Server thread/INFO]: [-] BlockTOB hat den Server verlassen
+[17:01:17] [Async Chat Thread - #24/INFO]: [S] <Korbi77> Hahahha hab deine build gegrieft Enni_Craft
+[17:01:29] [Async Chat Thread - #24/INFO]: [O] <Enni_Craft> cwazy
+[17:01:38] [Async Chat Thread - #24/INFO]: [S] <Korbi77> Muss gebannt werdennnn
+[17:01:52] [Async Chat Thread - #24/INFO]: [S] <Nailimixam07> du auch <3
+[17:03:20] [Async Chat Thread - #26/INFO]: [S] <Nailimixam07> du auch <3
+[17:03:25] [Async Chat Thread - #26/INFO]: [O] <Ello1818_GHG> gg
+[17:03:27] [Async Chat Thread - #26/INFO]: [O] <Enni_Craft> ggs
+[17:03:34] [Async Chat Thread - #26/INFO]: [S] <Jxel126> ey ellooo
+[17:03:44] [Async Chat Thread - #26/INFO]: [O] <Ello1818_GHG> yo
+[17:03:49] [Async Chat Thread - #26/INFO]: [O] <Ello1818_GHG> stimmt
+[17:03:50] [Async Chat Thread - #26/INFO]: [O] <Ello1818_GHG> ja
+[17:03:54] [Async Chat Thread - #27/INFO]: [S] <Jxel126> okayy
+[17:03:59] [Async Chat Thread - #27/INFO]: [O] <Ello1818_GHG> also würde noch nehmen
+[17:04:05] [Async Chat Thread - #26/INFO]: [S] <Jxel126> kommst her?
+[17:04:05] [Async Chat Thread - #26/INFO]: [O] <Ello1818_GHG> nur muss noch bsl farmen
+[17:04:24] [Async Chat Thread - #26/INFO]: [O] <Ello1818_GHG> hab 2 mal Rafiniertes
+[17:04:44] [Async Chat Thread - #26/INFO]: [O] <Ello1818_GHG> würde dir noch mehr besorgen
+[17:04:55] [Async Chat Thread - #26/INFO]: [S] <Jxel126> gerne hab insg 13 essenzen
+[17:05:10] [Server thread/WARN]: KabeljauNation dropped their items too quickly!
+[17:05:10] [Server thread/INFO]: KabeljauNation lost connection: You dropped your items too quickly (Hacking?)
+[17:05:10] [Server thread/INFO]: [voicechat] Disconnecting client KabeljauNation
+[17:05:10] [Server thread/INFO]: [-] KabeljauNation hat den Server verlassen
+[17:05:17] [Async Chat Thread - #26/INFO]: [O] <Ello1818_GHG> ja ich schau mal was der tag heute so bringt , ich komm auf dich zurück
+[17:05:19] [User Authenticator #11/INFO]: UUID of player KabeljauNation is e31223eb-eac8-434f-84ee-08407e49261d
+[17:05:19] [Server thread/INFO]: e31223eb-eac8-434f-84ee-08407e49261d
+[17:05:19] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[17:05:19] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for KabeljauNation: Given attachment is not part of Permissible object CraftPlayer{name=KabeljauNation, uuid=e31223eb-eac8-434f-84ee-08407e49261d}
+[17:05:19] [Server thread/INFO]: [+] KabeljauNation hat den Server betreten
+[17:05:19] [Server thread/INFO]: KabeljauNation[/155.133.202.172:59762] logged in with entity id 438978 at ([world_crystalblock_ocean]-2.4009303443146828, 50.141637713046805, 4.047228254931957)
+[17:05:19] [Server thread/INFO]: [voicechat] Received secret request of KabeljauNation (20)
+[17:05:19] [Server thread/INFO]: [voicechat] Sent secret to KabeljauNation
+[17:05:19] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player e31223eb-eac8-434f-84ee-08407e49261d
+[17:05:20] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player e31223eb-eac8-434f-84ee-08407e49261d
+[17:05:20] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player KabeljauNation (e31223eb-eac8-434f-84ee-08407e49261d) successfully connected to voice chat
+[17:05:26] [Server thread/INFO]: [O] KabeljauNation fell from a high place
+[17:06:41] [Server thread/INFO]: [O] KabeljauNation fell from a high place
+[17:07:22] [User Authenticator #12/INFO]: UUID of player BlockTOB is 56aa6573-e4c9-4886-ba0b-066708842d5a
+[17:07:22] [Server thread/INFO]: 56aa6573-e4c9-4886-ba0b-066708842d5a
+[17:07:22] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[17:07:22] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for BlockTOB: Given attachment is not part of Permissible object CraftPlayer{name=BlockTOB, uuid=56aa6573-e4c9-4886-ba0b-066708842d5a}
+[17:07:22] [Server thread/INFO]: [+] BlockTOB hat den Server betreten
+[17:07:22] [Server thread/INFO]: BlockTOB[/217.88.74.254:59314] logged in with entity id 453782 at ([world_crystalblock_stone]-101.09865966569711, 59.0, -3.1030989014818835)
+[17:07:22] [Server thread/INFO]: [voicechat] Received secret request of BlockTOB (20)
+[17:07:22] [Server thread/INFO]: [voicechat] Sent secret to BlockTOB
+[17:07:23] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 56aa6573-e4c9-4886-ba0b-066708842d5a
+[17:07:24] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 56aa6573-e4c9-4886-ba0b-066708842d5a
+[17:07:24] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player BlockTOB (56aa6573-e4c9-4886-ba0b-066708842d5a) successfully connected to voice chat
+[17:13:05] [Server thread/INFO]: [S] Redstone_Craft__ fell from a high place
+[17:13:41] [Server thread/INFO]: [O] Enni_Craft fell from a high place
+[17:21:14] [Region Ticking-4/INFO]: [S] BlockTOB was blown up by Creeper
+[17:21:23] [Region Ticking-3/INFO]: [S] Redstone_Craft__ blew up
+[17:22:24] [Server thread/INFO]: [S] General_1_18 fell from a high place
+[17:23:50] [Region Ticking-1/INFO]: [S] Redstone_Craft__ blew up
+[17:24:47] [Server thread/INFO]: [O] KabeljauNation fell from a high place
+[17:25:45] [Region Ticking-1/INFO]: [S] BlockTOB was shot by Skeleton
+[17:27:18] [Server thread/INFO]: [S] General_1_18 fell from a high place
+[17:27:51] [Region Ticking-3/INFO]: [S] General_1_18 was slain by Enderman
+[17:28:11] [Server thread/INFO]: [O] FahrradShulker has made the advancement [Cover Me with Diamonds]
+[17:28:16] [Async Chat Thread - #29/INFO]: [S] <Nailimixam07> was
+[17:28:19] [Async Chat Thread - #29/INFO]: [O] <FahrradShulker> hahahaaa
+[17:28:23] [Async Chat Thread - #29/INFO]: [S] <Korbi77> Hihihi
+[17:28:24] [Async Chat Thread - #29/INFO]: [O] <Enni_Craft> brd
+[17:28:29] [Async Chat Thread - #29/INFO]: [O] <Enni_Craft> ahhh
+[17:28:32] [Async Chat Thread - #29/INFO]: [S] <Nailimixam07> upgarde der hose oder schuhe?
+[17:28:34] [Async Chat Thread - #29/INFO]: [O] <Enni_Craft> check check
+[17:28:35] [Async Chat Thread - #29/INFO]: [O] <Ello1818_GHG> brd hat schuhe gelvlt
+[17:28:46] [Server thread/INFO]: [S] BlockTOB was doomed to fall
+[17:29:34] [Server thread/INFO]: [S] Korbi77 was doomed to fall by Skeleton
+[17:29:58] [Server thread/INFO]: [S] BlockTOB fell from a high place
+[17:30:49] [Server thread/INFO]: [S] BlockTOB was doomed to fall
+[17:32:14] [Region Ticking-1/INFO]: [S] BlockTOB blew up
+[17:33:33] [Region Ticking-1/INFO]: [S] BlockTOB blew up
+[17:33:56] [Region Ticking-3/INFO]: [S] General_1_18 blew up
+[17:34:00] [Async Chat Thread - #31/INFO]: [S] <Korbi77> pov man habt n loch aus
+[17:34:13] [Async Chat Thread - #31/INFO]: [S] <General_1_18> cwazy rechtschreibung
+[17:34:23] [Async Chat Thread - #31/INFO]: [O] <Enni_Craft> EYY
+[17:34:26] [Async Chat Thread - #31/INFO]: [O] <Enni_Craft> cwazy ist meins
+[17:34:32] [Async Chat Thread - #31/INFO]: [O] <Enni_Craft> du staubsauger
+[17:34:33] [Async Chat Thread - #31/INFO]: [S] <General_1_18> pech gehabt
+[17:34:42] [Async Chat Thread - #31/INFO]: [O] <Enni_Craft> nö
+[17:34:50] [User Authenticator #13/INFO]: UUID of player itzzFimo is 38d6185b-6f96-484f-8396-b1f4d08fe389
+[17:34:51] [Server thread/INFO]: 38d6185b-6f96-484f-8396-b1f4d08fe389
+[17:34:51] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[17:34:51] [Server thread/INFO]: [+] itzzFimo hat den Server betreten
+[17:34:51] [Server thread/INFO]: itzzFimo[/77.56.152.130:50924] logged in with entity id 619470 at ([world_crystalblock_stone]1.2317208714882477, 64.0, -24.78681037253497)
+[17:34:51] [Server thread/INFO]: [voicechat] Received secret request of itzzFimo (20)
+[17:34:51] [Server thread/INFO]: [voicechat] Sent secret to itzzFimo
+[17:34:51] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 38d6185b-6f96-484f-8396-b1f4d08fe389
+[17:34:52] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 38d6185b-6f96-484f-8396-b1f4d08fe389
+[17:34:52] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player itzzFimo (38d6185b-6f96-484f-8396-b1f4d08fe389) successfully connected to voice chat
+[17:36:27] [Server thread/INFO]: [S] Korbi77 fell from a high place
+[17:37:11] [Region Ticking-1/INFO]: [V] itzzFimo was slain by Enderman
+[17:38:34] [Server thread/INFO]: itzzFimo lost connection: Disconnected
+[17:38:34] [Server thread/INFO]: [voicechat] Disconnecting client itzzFimo
+[17:38:34] [Server thread/INFO]: [-] itzzFimo hat den Server verlassen
+[17:38:43] [Async Chat Thread - #33/INFO]: [O] <KabeljauNation> kann ich ein bisschen hier stehen für Monsteressenz?
+[17:39:00] [Async Chat Thread - #33/INFO]: [O] <Ello1818_GHG> ich tuhe das gleiche bre
+[17:39:05] [Async Chat Thread - #33/INFO]: [O] <Enni_Craft> . _ .w
+[17:40:17] [Server thread/INFO]: [S] Korbi77 burned to death
+[17:40:27] [Async Chat Thread - #35/INFO]: [O] <Enni_Craft> he she it das S muss mit :D
+[17:40:35] [Async Chat Thread - #35/INFO]: [O] <Enni_Craft> 5
+[17:40:38] [Async Chat Thread - #35/INFO]: [S] <Korbi77> Das is jannes´ dc titel
+[17:40:44] [Server thread/INFO]: [S] General_1_18 fell from a high place
+[17:40:45] [Async Chat Thread - #35/INFO]: [S] <Korbi77> zQ1rv
+[17:40:46] [Async Chat Thread - #35/INFO]: [O] <Ello1818_GHG> nice
+[17:40:49] [Async Chat Thread - #36/INFO]: [O] <Enni_Craft> war auch damals mal das von Gizmo
+[17:41:41] [User Authenticator #14/INFO]: UUID of player JaguarDaz is 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:41:52] [Server thread/INFO]: 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:41:52] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[17:41:52] [Server thread/INFO]: [+] JaguarDaz hat den Server betreten
+[17:41:52] [Server thread/INFO]: JaguarDaz[/92.105.158.42:63000] logged in with entity id 670723 at ([world]5.5, 150.0, -1.5)
+[17:41:53] [Server thread/INFO]: [voicechat] Received secret request of JaguarDaz (20)
+[17:41:53] [Server thread/INFO]: [voicechat] Sent secret to JaguarDaz
+[17:41:54] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:41:55] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:41:55] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player JaguarDaz (20ab7c42-dcb7-447d-aa27-c9ce932fd048) successfully connected to voice chat
+[17:42:40] [Server thread/INFO]: JaguarDaz lost connection: Disconnected
+[17:42:40] [Server thread/INFO]: [voicechat] Disconnecting client JaguarDaz
+[17:42:40] [Server thread/INFO]: [-] JaguarDaz hat den Server verlassen
+[17:43:19] [User Authenticator #15/INFO]: UUID of player JaguarDaz is 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:43:20] [Server thread/INFO]: 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:43:20] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[17:43:20] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for JaguarDaz: Given attachment is not part of Permissible object CraftPlayer{name=JaguarDaz, uuid=20ab7c42-dcb7-447d-aa27-c9ce932fd048}
+[17:43:20] [Server thread/INFO]: [+] JaguarDaz hat den Server betreten
+[17:43:20] [Server thread/INFO]: JaguarDaz[/92.105.158.42:63972] logged in with entity id 682142 at ([world]0.5665869283917642, 128.0, 19.515550886720746)
+[17:43:21] [Server thread/INFO]: [voicechat] Received secret request of JaguarDaz (20)
+[17:43:21] [Server thread/INFO]: [voicechat] Sent secret to JaguarDaz
+[17:43:22] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:43:23] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:43:23] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player JaguarDaz (20ab7c42-dcb7-447d-aa27-c9ce932fd048) successfully connected to voice chat
+[17:43:54] [Async Chat Thread - #38/INFO]: [O] <Enni_Craft> Hey jakomi in grün ^^
+[17:44:22] [Async Chat Thread - #38/INFO]: [S] <HalloJost> aber jakomi wählt doch die grünen?#
+[17:44:26] [Async Chat Thread - #38/INFO]: [O] <Enni_Craft> WASSS
+[17:44:28] [Async Chat Thread - #38/INFO]: <JaguarDaz> ja, bin am einrichten
+[17:44:35] [Async Chat Thread - #38/INFO]: [O] <Enni_Craft> kk
+[17:47:24] [Server thread/INFO]: [Crystalblock2] JaguarDaz lebt ab jetzt in Oceanblock!
+[17:47:31] [Server thread/INFO]: [O] JaguarDaz has made the advancement [Hot Stuff]
+[17:48:20] [Server thread/INFO]: [S] Jxel126 fell from a high place
+[17:48:32] [Async Chat Thread - #40/INFO]: [O] <Enni_Craft> brd ist vom wickeltisch gefallen.,
+[17:52:00] [Server thread/INFO]: JaguarDaz lost connection: Disconnected
+[17:52:00] [Server thread/INFO]: [voicechat] Disconnecting client JaguarDaz
+[17:52:00] [Server thread/INFO]: [-] JaguarDaz hat den Server verlassen
+[17:52:03] [User Authenticator #16/INFO]: UUID of player JaguarDaz is 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:52:03] [Server thread/INFO]: 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:52:03] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[17:52:03] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for JaguarDaz: Given attachment is not part of Permissible object CraftPlayer{name=JaguarDaz, uuid=20ab7c42-dcb7-447d-aa27-c9ce932fd048}
+[17:52:03] [Server thread/INFO]: [+] JaguarDaz hat den Server betreten
+[17:52:03] [Server thread/INFO]: JaguarDaz[/92.105.158.42:58820] logged in with entity id 742236 at ([world_crystalblock_ocean]5.563790794520769, -62.0, -21.50891247227353)
+[17:52:03] [Server thread/INFO]: [voicechat] Received secret request of JaguarDaz (20)
+[17:52:03] [Server thread/INFO]: [voicechat] Sent secret to JaguarDaz
+[17:52:03] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:52:04] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:52:04] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player JaguarDaz (20ab7c42-dcb7-447d-aa27-c9ce932fd048) successfully connected to voice chat
+[17:52:41] [Server thread/INFO]: [S] Korbi77 fell from a high place
+[17:52:46] [Server thread/INFO]: [S] Redstone_Craft__ fell from a high place
+[17:52:57] [Async Chat Thread - #42/INFO]: [S] <Korbi77> I beleave i can flyyyy
+[17:53:02] [Async Chat Thread - #42/INFO]: [S] <Korbi77> *Believed
+[17:53:04] [Server thread/INFO]: BlockTOB lost connection: Disconnected
+[17:53:04] [Server thread/INFO]: [voicechat] Disconnecting client BlockTOB
+[17:53:04] [Server thread/INFO]: [-] BlockTOB hat den Server verlassen
+[17:53:08] [Server thread/INFO]: JaguarDaz lost connection: Disconnected
+[17:53:08] [Server thread/INFO]: [voicechat] Disconnecting client JaguarDaz
+[17:53:08] [Server thread/INFO]: [-] JaguarDaz hat den Server verlassen
+[17:53:09] [Async Chat Thread - #42/INFO]: [S] <General_1_18> i cann touch the sky
+[17:53:10] [User Authenticator #17/INFO]: UUID of player JaguarDaz is 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:53:10] [Server thread/INFO]: 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:53:10] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[17:53:10] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for JaguarDaz: Given attachment is not part of Permissible object CraftPlayer{name=JaguarDaz, uuid=20ab7c42-dcb7-447d-aa27-c9ce932fd048}
+[17:53:10] [Server thread/INFO]: [+] JaguarDaz hat den Server betreten
+[17:53:10] [Server thread/INFO]: JaguarDaz[/92.105.158.42:58828] logged in with entity id 749856 at ([world_crystalblock_ocean]-11.082137330123786, -43.0, -23.701892383768854)
+[17:53:11] [Server thread/INFO]: [voicechat] Received secret request of JaguarDaz (20)
+[17:53:11] [Server thread/INFO]: [voicechat] Sent secret to JaguarDaz
+[17:53:11] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:53:11] [Async Chat Thread - #42/INFO]: [O] <Enni_Craft> i can tuch the sky
+[17:53:12] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:53:12] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player JaguarDaz (20ab7c42-dcb7-447d-aa27-c9ce932fd048) successfully connected to voice chat
+[17:53:15] [Async Chat Thread - #42/INFO]: [O] <Enni_Craft> YEAHH
+[17:53:41] [Region Ticking-4/INFO]: [S] General_1_18 was blown up by Creeper
+[17:53:54] [Server thread/INFO]: [S] Korbi77 was doomed to fall by Creeper
+[17:54:08] [Server thread/INFO]: JaguarDaz lost connection: Disconnected
+[17:54:08] [Server thread/INFO]: [voicechat] Disconnecting client JaguarDaz
+[17:54:08] [Server thread/INFO]: [-] JaguarDaz hat den Server verlassen
+[17:54:10] [User Authenticator #17/INFO]: UUID of player JaguarDaz is 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:54:10] [Server thread/INFO]: 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:54:10] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[17:54:10] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for JaguarDaz: Given attachment is not part of Permissible object CraftPlayer{name=JaguarDaz, uuid=20ab7c42-dcb7-447d-aa27-c9ce932fd048}
+[17:54:10] [Server thread/INFO]: [+] JaguarDaz hat den Server betreten
+[17:54:10] [Server thread/INFO]: JaguarDaz[/92.105.158.42:58834] logged in with entity id 756846 at ([world_crystalblock_ocean]22.71193978741701, -56.20921780370315, -64.88851581698917)
+[17:54:11] [Server thread/INFO]: [voicechat] Received secret request of JaguarDaz (20)
+[17:54:11] [Server thread/INFO]: [voicechat] Sent secret to JaguarDaz
+[17:54:11] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:54:12] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:54:12] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player JaguarDaz (20ab7c42-dcb7-447d-aa27-c9ce932fd048) successfully connected to voice chat
+[17:54:21] [Server thread/INFO]: [S] HalloJost fell from a high place
+[17:55:17] [Region Ticking-2/INFO]: [O] JaguarDaz was slain by Zombie Villager
+[17:55:32] [Server thread/INFO]: JaguarDaz lost connection: Disconnected
+[17:55:32] [Server thread/INFO]: [voicechat] Disconnecting client JaguarDaz
+[17:55:32] [Server thread/INFO]: [-] JaguarDaz hat den Server verlassen
+[17:55:35] [User Authenticator #18/INFO]: UUID of player JaguarDaz is 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:55:35] [Server thread/INFO]: 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:55:35] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[17:55:35] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for JaguarDaz: Given attachment is not part of Permissible object CraftPlayer{name=JaguarDaz, uuid=20ab7c42-dcb7-447d-aa27-c9ce932fd048}
+[17:55:35] [Server thread/INFO]: [+] JaguarDaz hat den Server betreten
+[17:55:35] [Server thread/INFO]: JaguarDaz[/92.105.158.42:58840] logged in with entity id 766368 at ([world_crystalblock_ocean]1.3478550799780165, 63.875, 0.6733014659216033)
+[17:55:35] [Server thread/INFO]: [voicechat] Received secret request of JaguarDaz (20)
+[17:55:35] [Server thread/INFO]: [voicechat] Sent secret to JaguarDaz
+[17:55:36] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:55:37] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 20ab7c42-dcb7-447d-aa27-c9ce932fd048
+[17:55:37] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player JaguarDaz (20ab7c42-dcb7-447d-aa27-c9ce932fd048) successfully connected to voice chat
+[17:56:31] [User Authenticator #18/INFO]: UUID of player BlockTOB is 56aa6573-e4c9-4886-ba0b-066708842d5a
+[17:56:31] [Server thread/INFO]: 56aa6573-e4c9-4886-ba0b-066708842d5a
+[17:56:31] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[17:56:31] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for BlockTOB: Given attachment is not part of Permissible object CraftPlayer{name=BlockTOB, uuid=56aa6573-e4c9-4886-ba0b-066708842d5a}
+[17:56:31] [Server thread/INFO]: [+] BlockTOB hat den Server betreten
+[17:56:31] [Server thread/INFO]: BlockTOB[/217.88.74.254:53329] logged in with entity id 772775 at ([world_crystalblock_stone]-107.80881873470379, 53.0, -9.040481729970304)
+[17:56:31] [Server thread/INFO]: [voicechat] Received secret request of BlockTOB (20)
+[17:56:31] [Server thread/INFO]: [voicechat] Sent secret to BlockTOB
+[17:56:32] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 56aa6573-e4c9-4886-ba0b-066708842d5a
+[17:56:33] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 56aa6573-e4c9-4886-ba0b-066708842d5a
+[17:56:33] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player BlockTOB (56aa6573-e4c9-4886-ba0b-066708842d5a) successfully connected to voice chat
+[17:58:18] [Region Ticking-1/INFO]: [O] JaguarDaz was shot by Skeleton
+[17:58:50] [Server thread/INFO]: [S] Korbi77 fell from a high place
+[17:59:01] [Server thread/INFO]: General_1_18 lost connection: Disconnected
+[17:59:01] [Server thread/INFO]: [voicechat] Disconnecting client General_1_18
+[17:59:01] [Server thread/INFO]: [-] General_1_18 hat den Server verlassen
+[17:59:42] [Server thread/INFO]: [O] JaguarDaz has made the advancement [Stone Age]
+[17:59:47] [User Authenticator #19/INFO]: UUID of player General_1_18 is b340f679-df6f-49bf-950c-63043c56ab2f
+[17:59:48] [Server thread/INFO]: b340f679-df6f-49bf-950c-63043c56ab2f
+[17:59:48] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[17:59:48] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for General_1_18: Given attachment is not part of Permissible object CraftPlayer{name=General_1_18, uuid=b340f679-df6f-49bf-950c-63043c56ab2f}
+[17:59:48] [Server thread/INFO]: [+] General_1_18 hat den Server betreten
+[17:59:48] [Server thread/INFO]: General_1_18[/194.140.114.213:46300] logged in with entity id 795887 at ([world_crystalblock_stone]-129.07808082152474, 19.0, -6.143849691642112)
+[17:59:48] [Server thread/INFO]: [voicechat] Received secret request of General_1_18 (20)
+[17:59:48] [Server thread/INFO]: [voicechat] Sent secret to General_1_18
+[17:59:48] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player b340f679-df6f-49bf-950c-63043c56ab2f
+[17:59:49] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player b340f679-df6f-49bf-950c-63043c56ab2f
+[17:59:49] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player General_1_18 (b340f679-df6f-49bf-950c-63043c56ab2f) successfully connected to voice chat
+[18:00:01] [Region Ticking-2/INFO]: [S] General_1_18 was blown up by Creeper
+[18:00:11] [Server thread/INFO]: Redstone_Craft__ lost connection: Disconnected
+[18:00:11] [Server thread/INFO]: [voicechat] Disconnecting client Redstone_Craft__
+[18:00:11] [Server thread/INFO]: [-] Redstone_Craft__ hat den Server verlassen
+[18:01:46] [Region Ticking-1/INFO]: [O] JaguarDaz was shot by Skeleton
+[18:01:59] [Server thread/INFO]: JaguarDaz lost connection: Disconnected
+[18:01:59] [Server thread/INFO]: [voicechat] Disconnecting client JaguarDaz
+[18:01:59] [Server thread/INFO]: [-] JaguarDaz hat den Server verlassen
+[18:02:27] [User Authenticator #20/INFO]: UUID of player Redstone_Craft__ is ddb05115-9ecd-4489-92b6-a9589f0e5074
+[18:02:28] [Server thread/INFO]: ddb05115-9ecd-4489-92b6-a9589f0e5074
+[18:02:28] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[18:02:28] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Redstone_Craft__: Given attachment is not part of Permissible object CraftPlayer{name=Redstone_Craft__, uuid=ddb05115-9ecd-4489-92b6-a9589f0e5074}
+[18:02:28] [Server thread/INFO]: [+] Redstone_Craft__ hat den Server betreten
+[18:02:28] [Server thread/INFO]: Redstone_Craft__[/31.220.65.56:63312] logged in with entity id 813861 at ([world_crystalblock_stone]-140.577640400815, 19.0, -20.96423962324504)
+[18:02:28] [Server thread/INFO]: [voicechat] Received secret request of Redstone_Craft__ (20)
+[18:02:28] [Server thread/INFO]: [voicechat] Sent secret to Redstone_Craft__
+[18:02:28] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player ddb05115-9ecd-4489-92b6-a9589f0e5074
+[18:02:29] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player ddb05115-9ecd-4489-92b6-a9589f0e5074
+[18:02:29] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Redstone_Craft__ (ddb05115-9ecd-4489-92b6-a9589f0e5074) successfully connected to voice chat
+[18:02:59] [Server thread/INFO]: [S] Nailimixam07 fell out of the world
+[18:04:33] [Async Chat Thread - #48/INFO]: [S] <General_1_18> verkauft wer 22 redstone?
+[18:04:50] [Server thread/INFO]: [S] Nailimixam07 fell out of the world
+[18:05:28] [Server thread/INFO]: [S] Korbi77 fell from a high place
+[18:06:49] [Server thread/INFO]: [O] Enni_Craft fell from a high place
+[18:10:59] [Server thread/INFO]: [S] Korbi77 fell from a high place
+[18:12:14] [Server thread/INFO]: [S] General_1_18 fell from a high place
+[18:12:22] [Server thread/INFO]: [O] KabeljauNation fell from a high place
+[18:12:47] [Server thread/INFO]: [O] KabeljauNation fell from a high place
+[18:13:02] [Server thread/INFO]: [S] Redstone_Craft__ fell from a high place
+[18:13:07] [Server thread/INFO]: [O] KabeljauNation fell from a high place
+[18:13:25] [Server thread/INFO]: Korbi77 lost connection: Disconnected
+[18:13:25] [Server thread/INFO]: [voicechat] Disconnecting client Korbi77
+[18:13:25] [Server thread/INFO]: [-] Korbi77 hat den Server verlassen
+[18:13:28] [User Authenticator #21/INFO]: UUID of player Fate_Karma is c4c21728-8f36-4612-a0ad-928eb894660b
+[18:13:29] [Server thread/INFO]: c4c21728-8f36-4612-a0ad-928eb894660b
+[18:13:29] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[18:13:29] [Server thread/INFO]: [+] Fate_Karma hat den Server betreten
+[18:13:29] [Server thread/INFO]: Fate_Karma[/209.198.153.42:12875] logged in with entity id 896247 at ([world]-0.6186154217763661, 129.0, 0.7475666583727371)
+[18:13:29] [Server thread/INFO]: [voicechat] Received secret request of Fate_Karma (20)
+[18:13:29] [Server thread/INFO]: [voicechat] Sent secret to Fate_Karma
+[18:13:29] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player c4c21728-8f36-4612-a0ad-928eb894660b
+[18:13:30] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player c4c21728-8f36-4612-a0ad-928eb894660b
+[18:13:30] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Fate_Karma (c4c21728-8f36-4612-a0ad-928eb894660b) successfully connected to voice chat
+[18:13:38] [Server thread/INFO]: Fate_Karma lost connection: Disconnected
+[18:13:38] [Server thread/INFO]: [voicechat] Disconnecting client Fate_Karma
+[18:13:38] [Server thread/INFO]: [-] Fate_Karma hat den Server verlassen
+[18:13:41] [Server thread/INFO]: General_1_18 lost connection: Disconnected
+[18:13:41] [Server thread/INFO]: [voicechat] Disconnecting client General_1_18
+[18:13:41] [Server thread/INFO]: [-] General_1_18 hat den Server verlassen
+[18:15:04] [Server thread/INFO]: BlockTOB lost connection: Disconnected
+[18:15:04] [Server thread/INFO]: [voicechat] Disconnecting client BlockTOB
+[18:15:04] [Server thread/INFO]: [-] BlockTOB hat den Server verlassen
+[18:16:20] [Server thread/INFO]: Nailimixam07 lost connection: Disconnected
+[18:16:20] [Server thread/INFO]: [voicechat] Disconnecting client Nailimixam07
+[18:16:20] [Server thread/INFO]: [-] Nailimixam07 hat den Server verlassen
+[18:22:02] [User Authenticator #22/INFO]: UUID of player BlockTOB is 56aa6573-e4c9-4886-ba0b-066708842d5a
+[18:22:02] [Server thread/INFO]: 56aa6573-e4c9-4886-ba0b-066708842d5a
+[18:22:02] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[18:22:02] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for BlockTOB: Given attachment is not part of Permissible object CraftPlayer{name=BlockTOB, uuid=56aa6573-e4c9-4886-ba0b-066708842d5a}
+[18:22:02] [Server thread/INFO]: [+] BlockTOB hat den Server betreten
+[18:22:02] [Server thread/INFO]: BlockTOB[/217.88.74.254:52512] logged in with entity id 957562 at ([world_crystalblock_stone]-136.39970893946463, 56.0, -5.306716133535304)
+[18:22:03] [Server thread/INFO]: [voicechat] Received secret request of BlockTOB (20)
+[18:22:03] [Server thread/INFO]: [voicechat] Sent secret to BlockTOB
+[18:22:04] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 56aa6573-e4c9-4886-ba0b-066708842d5a
+[18:22:05] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 56aa6573-e4c9-4886-ba0b-066708842d5a
+[18:22:05] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player BlockTOB (56aa6573-e4c9-4886-ba0b-066708842d5a) successfully connected to voice chat
+[18:22:53] [User Authenticator #22/INFO]: UUID of player Nailimixam07 is 510f65d0-dea7-4f96-8c34-9f86d0d4a852
+[18:22:53] [Server thread/INFO]: 510f65d0-dea7-4f96-8c34-9f86d0d4a852
+[18:22:53] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[18:22:53] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Nailimixam07: Given attachment is not part of Permissible object CraftPlayer{name=Nailimixam07, uuid=510f65d0-dea7-4f96-8c34-9f86d0d4a852}
+[18:22:53] [Server thread/INFO]: [+] Nailimixam07 hat den Server betreten
+[18:22:53] [Server thread/INFO]: Nailimixam07[/93.232.222.46:64387] logged in with entity id 963831 at ([world_crystalblock_aetheria]-53.45066787679824, 114.0, -77.0376742626446)
+[18:22:53] [Server thread/INFO]: [voicechat] Received secret request of Nailimixam07 (20)
+[18:22:53] [Server thread/INFO]: [voicechat] Sent secret to Nailimixam07
+[18:22:53] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 510f65d0-dea7-4f96-8c34-9f86d0d4a852
+[18:22:54] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 510f65d0-dea7-4f96-8c34-9f86d0d4a852
+[18:22:54] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Nailimixam07 (510f65d0-dea7-4f96-8c34-9f86d0d4a852) successfully connected to voice chat
+[18:25:29] [Server thread/INFO]: [O] KabeljauNation has made the advancement [Cover Me with Diamonds]
+[18:29:00] [Region Ticking-3/INFO]: [S] BlockTOB was blown up by Creeper
+[18:33:49] [Region Ticking-2/INFO]: [S] BlockTOB was slain by Spider
+[18:39:54] [Region Ticking-4/INFO]: [S] BlockTOB was blown up by Creeper
+[18:45:14] [Server thread/INFO]: [O] FahrradShulker has made the advancement [Isn't It Iron Pick]
+[18:46:50] [Region Ticking-3/INFO]: [O] KabeljauNation was slain by Zombified Piglin
+[18:56:30] [Server thread/INFO]: Redstone_Craft__ lost connection: Disconnected
+[18:56:30] [Server thread/INFO]: [voicechat] Disconnecting client Redstone_Craft__
+[18:56:30] [Server thread/INFO]: [-] Redstone_Craft__ hat den Server verlassen
+[18:58:01] [User Authenticator #23/INFO]: UUID of player Korbi77 is e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[18:58:01] [Server thread/INFO]: e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[18:58:01] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[18:58:01] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Korbi77: Given attachment is not part of Permissible object CraftPlayer{name=Korbi77, uuid=e1d809e4-5e84-426e-92a9-e58f0f15c5ca}
+[18:58:01] [Server thread/INFO]: [+] Korbi77 hat den Server betreten
+[18:58:01] [Server thread/INFO]: Korbi77[/87.188.29.136:63124] logged in with entity id 1220817 at ([world_crystalblock_stone]-104.14953213038977, 52.0, 6.711184016916502)
+[18:58:02] [Server thread/INFO]: [voicechat] Received secret request of Korbi77 (20)
+[18:58:02] [Server thread/INFO]: [voicechat] Sent secret to Korbi77
+[18:58:02] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[18:58:03] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[18:58:03] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Korbi77 (e1d809e4-5e84-426e-92a9-e58f0f15c5ca) successfully connected to voice chat
+[18:58:40] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player e1d809e4-5e84-426e-92a9-e58f0f15c5ca timed out
+[18:58:40] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Reconnecting player Korbi77
+[18:58:40] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Sent secret to Korbi77
+[18:58:40] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[18:58:41] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player e1d809e4-5e84-426e-92a9-e58f0f15c5ca
+[18:58:41] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Korbi77 (e1d809e4-5e84-426e-92a9-e58f0f15c5ca) successfully connected to voice chat
+[19:01:54] [Server thread/INFO]: Nailimixam07 lost connection: Disconnected
+[19:01:54] [Server thread/INFO]: [voicechat] Disconnecting client Nailimixam07
+[19:01:55] [Server thread/INFO]: [-] Nailimixam07 hat den Server verlassen
+[19:04:06] [Region Ticking-2/INFO]: [S] Korbi77 was blown up by Creeper
+[19:11:06] [User Authenticator #24/INFO]: UUID of player General_1_18 is b340f679-df6f-49bf-950c-63043c56ab2f
+[19:11:08] [Server thread/INFO]: b340f679-df6f-49bf-950c-63043c56ab2f
+[19:11:08] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[19:11:08] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for General_1_18: Given attachment is not part of Permissible object CraftPlayer{name=General_1_18, uuid=b340f679-df6f-49bf-950c-63043c56ab2f}
+[19:11:08] [Server thread/INFO]: [+] General_1_18 hat den Server betreten
+[19:11:08] [Server thread/INFO]: General_1_18[/194.140.114.213:1549] logged in with entity id 1320492 at ([world_crystalblock_stone]-109.4589219752297, 54.0, 11.379271543416456)
+[19:11:09] [Server thread/INFO]: [voicechat] Received secret request of General_1_18 (20)
+[19:11:09] [Server thread/INFO]: [voicechat] Sent secret to General_1_18
+[19:11:10] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player b340f679-df6f-49bf-950c-63043c56ab2f
+[19:11:11] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player b340f679-df6f-49bf-950c-63043c56ab2f
+[19:11:11] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player General_1_18 (b340f679-df6f-49bf-950c-63043c56ab2f) successfully connected to voice chat
+[19:13:20] [Server thread/INFO]: BlockTOB lost connection: Disconnected
+[19:13:20] [Server thread/INFO]: [voicechat] Disconnecting client BlockTOB
+[19:13:20] [Server thread/INFO]: [-] BlockTOB hat den Server verlassen
+[19:13:54] [world_crystalblock_sky - ServerLevel Tick Worker/WARN]: [ca.spottedleaf.moonrise.patches.chunk_system.level.entity.EntityLookup] Entity uuid already exists: 9c2d3d14-c436-444d-a918-fca638c56b47, mapped to ItemEntity['Cobblestone'/1342924, uuid='9c2d3d14-c436-444d-a918-fca638c56b47', l='ServerLevel[world_crystalblock_sky]', x=-14.50, y=74.68, z=2.50, cpos=[-1, 0], tl=0, v=true], can't add ItemEntity['Cobblestone'/1342925, uuid='9c2d3d14-c436-444d-a918-fca638c56b47', l='ServerLevel[world_crystalblock_sky]', x=-2.50, y=74.68, z=2.50, cpos=[-1, 0], tl=0, v=false]
+[19:14:04] [Server thread/INFO]: [S] General_1_18 hit the ground too hard
+[19:14:55] [Region Ticking-1/INFO]: [S] General_1_18 was slain by Zombie
+[19:16:50] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player e31223eb-eac8-434f-84ee-08407e49261d timed out
+[19:16:50] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Reconnecting player KabeljauNation
+[19:16:50] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Sent secret to KabeljauNation
+[19:17:12] [Server thread/INFO]: KabeljauNation was kicked due to keepalive timeout!
+[19:17:12] [Server thread/INFO]: KabeljauNation lost connection: Timed out
+[19:17:12] [Server thread/INFO]: [voicechat] Disconnecting client KabeljauNation
+[19:17:12] [Server thread/INFO]: [-] KabeljauNation hat den Server verlassen
+[19:21:08] [User Authenticator #25/INFO]: UUID of player Jo_h_ is d7195fa6-41cd-4f57-a7e0-11354129aef2
+[19:21:09] [Server thread/INFO]: d7195fa6-41cd-4f57-a7e0-11354129aef2
+[19:21:09] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[19:21:09] [Server thread/INFO]: [+] Jo_h_ hat den Server betreten
+[19:21:09] [Server thread/INFO]: Jo_h_[/83.135.9.97:10433] logged in with entity id 1397549 at ([world]54.86227763730035, 131.4375, 0.48231720668031414)
+[19:21:11] [Server thread/INFO]: [voicechat] Received secret request of Jo_h_ (20)
+[19:21:11] [Server thread/INFO]: [voicechat] Sent secret to Jo_h_
+[19:21:11] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player d7195fa6-41cd-4f57-a7e0-11354129aef2
+[19:21:12] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player d7195fa6-41cd-4f57-a7e0-11354129aef2
+[19:21:12] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Jo_h_ (d7195fa6-41cd-4f57-a7e0-11354129aef2) successfully connected to voice chat
+[19:22:58] [User Authenticator #26/INFO]: UUID of player Fate_Karma is c4c21728-8f36-4612-a0ad-928eb894660b
+[19:22:58] [Server thread/INFO]: Fate_Karma (c4c21728-8f36-4612-a0ad-928eb894660b) lost connection: Disconnected
+[19:29:58] [Server thread/INFO]: [O] Enni_Craft fell from a high place
+[19:30:24] [Server thread/INFO]: [O] Enni_Craft fell out of the world
+[19:30:50] [Server thread/INFO]: [O] Enni_Craft fell from a high place
+[19:37:04] [User Authenticator #27/INFO]: UUID of player Nailimixam07 is 510f65d0-dea7-4f96-8c34-9f86d0d4a852
+[19:37:04] [Server thread/INFO]: 510f65d0-dea7-4f96-8c34-9f86d0d4a852
+[19:37:04] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[19:37:04] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Nailimixam07: Given attachment is not part of Permissible object CraftPlayer{name=Nailimixam07, uuid=510f65d0-dea7-4f96-8c34-9f86d0d4a852}
+[19:37:04] [Server thread/INFO]: [+] Nailimixam07 hat den Server betreten
+[19:37:04] [Server thread/INFO]: Nailimixam07[/93.232.222.46:63375] logged in with entity id 1507651 at ([world_crystalblock_aetheria]67.91860053573754, 81.5, -61.09598033128717)
+[19:37:04] [Server thread/INFO]: [voicechat] Received secret request of Nailimixam07 (20)
+[19:37:04] [Server thread/INFO]: [voicechat] Sent secret to Nailimixam07
+[19:37:04] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 510f65d0-dea7-4f96-8c34-9f86d0d4a852
+[19:37:05] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 510f65d0-dea7-4f96-8c34-9f86d0d4a852
+[19:37:05] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Nailimixam07 (510f65d0-dea7-4f96-8c34-9f86d0d4a852) successfully connected to voice chat
+[19:38:56] [Server thread/INFO]: Jo_h_ lost connection: Disconnected
+[19:38:56] [Server thread/INFO]: [voicechat] Disconnecting client Jo_h_
+[19:38:56] [Server thread/INFO]: [-] Jo_h_ hat den Server verlassen
+[19:41:19] [Region Ticking-4/INFO]: [S] General_1_18 was shot by Skeleton
+[19:41:47] [User Authenticator #28/INFO]: UUID of player Jo_h_ is d7195fa6-41cd-4f57-a7e0-11354129aef2
+[19:41:47] [Server thread/INFO]: d7195fa6-41cd-4f57-a7e0-11354129aef2
+[19:41:47] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[19:41:47] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Jo_h_: Given attachment is not part of Permissible object CraftPlayer{name=Jo_h_, uuid=d7195fa6-41cd-4f57-a7e0-11354129aef2}
+[19:41:47] [Server thread/INFO]: [+] Jo_h_ hat den Server betreten
+[19:41:47] [Server thread/INFO]: Jo_h_[/83.135.9.97:10381] logged in with entity id 1540021 at ([world_crystalblock_ocean]-12.594638928237886, -62.0, -21.30000001192093)
+[19:41:48] [Server thread/INFO]: [voicechat] Received secret request of Jo_h_ (20)
+[19:41:48] [Server thread/INFO]: [voicechat] Sent secret to Jo_h_
+[19:41:49] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player d7195fa6-41cd-4f57-a7e0-11354129aef2
+[19:41:50] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player d7195fa6-41cd-4f57-a7e0-11354129aef2
+[19:41:50] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Jo_h_ (d7195fa6-41cd-4f57-a7e0-11354129aef2) successfully connected to voice chat
+[19:43:25] [Server thread/INFO]: Ello1818_GHG lost connection: Disconnected
+[19:43:25] [Server thread/INFO]: [voicechat] Disconnecting client Ello1818_GHG
+[19:43:25] [Server thread/INFO]: [-] Ello1818_GHG hat den Server verlassen
+[19:43:29] [User Authenticator #29/INFO]: UUID of player Ello1818_GHG is 7f7fe2bf-0fb7-4fc3-be43-be2e07691a15
+[19:43:29] [Server thread/INFO]: 7f7fe2bf-0fb7-4fc3-be43-be2e07691a15
+[19:43:29] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[19:43:29] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Ello1818_GHG: Given attachment is not part of Permissible object CraftPlayer{name=Ello1818_GHG, uuid=7f7fe2bf-0fb7-4fc3-be43-be2e07691a15}
+[19:43:29] [Server thread/INFO]: [+] Ello1818_GHG hat den Server betreten
+[19:43:29] [Server thread/INFO]: Ello1818_GHG[/91.64.4.251:51008] logged in with entity id 1549782 at ([world_crystalblock_aetheria]-229.17287607038168, 114.0, -58.879667171635454)
+[19:43:30] [Server thread/INFO]: [voicechat] Received secret request of Ello1818_GHG (20)
+[19:43:30] [Server thread/INFO]: [voicechat] Sent secret to Ello1818_GHG
+[19:43:30] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 7f7fe2bf-0fb7-4fc3-be43-be2e07691a15
+[19:43:31] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 7f7fe2bf-0fb7-4fc3-be43-be2e07691a15
+[19:43:31] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Ello1818_GHG (7f7fe2bf-0fb7-4fc3-be43-be2e07691a15) successfully connected to voice chat
+[19:46:55] [User Authenticator #30/INFO]: UUID of player KabeljauNation is e31223eb-eac8-434f-84ee-08407e49261d
+[19:46:56] [Server thread/INFO]: e31223eb-eac8-434f-84ee-08407e49261d
+[19:46:56] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[19:46:56] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for KabeljauNation: Given attachment is not part of Permissible object CraftPlayer{name=KabeljauNation, uuid=e31223eb-eac8-434f-84ee-08407e49261d}
+[19:46:56] [Server thread/INFO]: [+] KabeljauNation hat den Server betreten
+[19:46:56] [Server thread/INFO]: KabeljauNation[/155.133.215.210:62080] logged in with entity id 1569366 at ([world_crystalblock_ocean]-23.320296561984087, -62.0, -13.509157523058853)
+[19:46:56] [Server thread/INFO]: [voicechat] Received secret request of KabeljauNation (20)
+[19:46:56] [Server thread/INFO]: [voicechat] Sent secret to KabeljauNation
+[19:46:57] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player e31223eb-eac8-434f-84ee-08407e49261d
+[19:46:58] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player e31223eb-eac8-434f-84ee-08407e49261d
+[19:46:58] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player KabeljauNation (e31223eb-eac8-434f-84ee-08407e49261d) successfully connected to voice chat
+[19:47:13] [User Authenticator #30/INFO]: UUID of player Louixch is f4af1633-7110-48af-97ec-f5d84e3cd142
+[19:47:15] [Server thread/INFO]: f4af1633-7110-48af-97ec-f5d84e3cd142
+[19:47:15] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[19:47:15] [Server thread/INFO]: [+] Louixch hat den Server betreten
+[19:47:15] [Server thread/INFO]: Louixch[/93.243.84.228:57693] logged in with entity id 1571179 at ([world_crystalblock_nether]1.2560033498803398, 64.5, 14.07306689174029)
+[19:47:16] [Server thread/INFO]: [voicechat] Received secret request of Louixch (20)
+[19:47:16] [Server thread/INFO]: [voicechat] Sent secret to Louixch
+[19:47:19] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player f4af1633-7110-48af-97ec-f5d84e3cd142
+[19:47:20] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player f4af1633-7110-48af-97ec-f5d84e3cd142
+[19:47:20] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Louixch (f4af1633-7110-48af-97ec-f5d84e3cd142) successfully connected to voice chat
+[19:47:27] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> ATZEEE
+[19:47:31] [Async Chat Thread - #86/INFO]: [S] <Louixch> Atzeee
+[19:47:31] [Async Chat Thread - #86/INFO]: [S] <HalloJost> atze
+[19:47:34] [Async Chat Thread - #86/INFO]: [S] <Louixch> was machen sachen ?
+[19:47:47] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> ka Keule
+[19:47:52] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> bei dir so alta ?
+[19:47:53] [Async Chat Thread - #86/INFO]: [S] <HalloJost> hast ne menge verpasst
+[19:48:00] [Async Chat Thread - #86/INFO]: [S] <Louixch> sag valahi
+[19:48:11] [Async Chat Thread - #87/INFO]: [S] <Korbi77> Is Glücksmünze rare?
+[19:48:17] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> er schwört auf Wlan louis
+[19:48:18] [Async Chat Thread - #86/INFO]: [S] <Louixch> Glücksmünze !?
+[19:48:29] [Region Ticking-1/INFO]: [S] General_1_18 was shot by Skeleton
+[19:48:31] [Async Chat Thread - #86/INFO]: [S] <Korbi77> ItzzGizmo?
+[19:48:33] [Async Chat Thread - #86/INFO]: [S] <Korbi77> Is Glücksmünze rare?
+[19:48:35] [Async Chat Thread - #86/INFO]: [S] <HalloJost> ja
+[19:48:39] [Async Chat Thread - #86/INFO]: [S] <Louixch> Is gizmo auch item jz !?
+[19:48:41] [Async Chat Thread - #86/INFO]: [S] <Louixch> krass
+[19:48:42] [Async Chat Thread - #86/INFO]: [S] <Korbi77> ok
+[19:48:44] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> brd msg doch digga
+[19:48:55] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> bro leakt einf...
+[19:48:57] [Async Chat Thread - #86/INFO]: [S] <Nailimixam07> er will flexen
+[19:49:09] [Async Chat Thread - #86/INFO]: [S] <HalloJost> was leakt wer
+[19:49:17] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> ja ig will er
+[19:49:19] [Async Chat Thread - #86/INFO]: [S] <Louixch> Korbi, wie viele Glücksmünzen für eine Nacht mit deiner Oma ?
+[19:49:21] [Async Chat Thread - #86/INFO]: [S] <Korbi77> Ich?
+[19:49:30] [Async Chat Thread - #86/INFO]: [S] <Louixch> Nein, deine Oma
+[19:49:31] [Async Chat Thread - #86/INFO]: [S] <Korbi77> 2967
+[19:49:37] [Async Chat Thread - #86/INFO]: [S] <Louixch> Ez Money
+[19:49:38] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> aber bre hat keine 6 herzen
+[19:49:40] [Async Chat Thread - #86/INFO]: [S] <Louixch> sag ich ich dipp morgen
+[19:49:45] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> der kann net flexen
+[19:49:59] [Async Chat Thread - #86/INFO]: [S] <HalloJost> was wer hatte keine 9 herzen
+[19:50:26] [Async Chat Thread - #87/INFO]: * [S] Louixch versteigert Korbi77 für 2 Glücksmünzen auf Ebay.
+[19:50:29] [Async Chat Thread - #87/INFO]: [O] <Ello1818_GHG> farm gerade auf die 9
+[19:50:41] [Async Chat Thread - #87/INFO]: [S] <Korbi77> 3 zum ersten...
+[19:50:42] [Async Chat Thread - #87/INFO]: [O] <Ello1818_GHG> hab 50 mobs gerade gekillt und 2 schon bekommen
+[19:50:46] [Async Chat Thread - #87/INFO]: [S] <Korbi77> zweiten...
+[19:52:10] [Server thread/INFO]: [S] Louixch drowned
+[19:52:19] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> nah
+[19:52:24] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> errinert mich an sein TT
+[19:52:28] [Async Chat Thread - #86/INFO]: [S] <Louixch> Hatte kein Taucheranzug
+[19:52:32] [Async Chat Thread - #86/INFO]: [S] <Louixch> TT ?
+[19:52:40] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> TikTok
+[19:52:45] [Async Chat Thread - #86/INFO]: [S] <Louixch> Oh fuck
+[19:52:50] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> dein tiktok xD
+[19:52:54] [Async Chat Thread - #86/INFO]: [S] <Louixch> Da war ich auch fett am drownen
+[19:52:59] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> fand das geil
+[19:53:03] [Async Chat Thread - #86/INFO]: [S] <Louixch> tamam
+[19:53:15] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> ich schwöre auf Lan
+[19:53:15] [Async Chat Thread - #86/INFO]: [S] <Louixch> wo bist du eig keule ?
+[19:53:24] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> Im wald
+[19:53:50] [Async Chat Thread - #86/INFO]: [S] <Louixch> 99 Nächte im Wald ?
+[19:53:56] [Async Chat Thread - #86/INFO]: [S] <ItzzGizmo> Nein.
+[19:53:56] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> NAAAH OIDA
+[19:54:00] [Server thread/INFO]: [O] FahrradShulker was doomed to fall
+[19:54:18] [Async Chat Thread - #86/INFO]: [S] <Louixch> Gizzmo Rizzmo Schgibidy Schizzmo
+[19:54:22] [Async Chat Thread - #86/INFO]: [S] <Louixch> Was geht bei dir ?
+[19:54:25] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> 3tes Herz heute JUNGSS
+[19:54:38] [Async Chat Thread - #86/INFO]: [S] <HalloJost> l
+[19:54:39] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> ich mach die 9 voll heude
+[19:54:40] [Async Chat Thread - #86/INFO]: [S] <ItzzGizmo> Nicht viel Louis Lutschi
+[19:54:41] [Async Chat Thread - #86/INFO]: [S] <HalloJost> äh w
+[19:54:52] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> nah Atze Jost am haten
+[19:54:54] [Async Chat Thread - #87/INFO]: [S] <Louixch> Reimt sich ja nicht mal ... voll unkreativ
+[19:55:03] [Server thread/INFO]: [O] FahrradShulker tried to swim in lava
+[19:55:31] [Async Chat Thread - #87/INFO]: [S] <Louixch> Atze, wie komm ich in den Wald ?
+[19:55:45] [Async Chat Thread - #87/INFO]: [O] <Ello1818_GHG> frag jost
+[19:55:50] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> ich muss Gatekeepen
+[19:55:58] [Async Chat Thread - #86/INFO]: [S] <Louixch> Jost (Atze), wie komm ich in den Wald ?
+[19:56:09] [Async Chat Thread - #86/INFO]: [S] <HalloJost> frag korbi
+[19:56:12] [Async Chat Thread - #86/INFO]: [S] <Louixch> Ne
+[19:56:13] [Async Chat Thread - #86/INFO]: [S] <Korbi77> Ja
+[19:56:13] [Async Chat Thread - #86/INFO]: [S] <Louixch> Der stinkt
+[19:56:20] [Async Chat Thread - #86/INFO]: [S] <Louixch> Den will ich nicht fragen
+[19:56:22] [Async Chat Thread - #86/INFO]: [S] <Korbi77> Das sign is cap
+[19:56:27] [Async Chat Thread - #86/INFO]: [S] <Korbi77> Fate stinkt
+[19:56:29] [Async Chat Thread - #86/INFO]: [S] <Korbi77> nd ich
+[19:56:37] [Async Chat Thread - #86/INFO]: [S] <Louixch> Das würde ich auch sagen, würde ich jz stinken
+[19:57:05] [Async Chat Thread - #86/INFO]: [S] <Louixch> Ich will bissl hangen im Wald broskie
+[19:57:10] [Async Chat Thread - #86/INFO]: [S] <HalloJost> ich mach
+[19:57:17] [Async Chat Thread - #86/INFO]: [S] <HalloJost> wo stekst
+[19:57:22] [Region Ticking-2/INFO]: [S] General_1_18 was blown up by Creeper
+[19:57:24] [Async Chat Thread - #86/INFO]: [S] <Louixch> Spown
+[19:57:34] [Async Chat Thread - #86/INFO]: [S] <Louixch> Schpahn
+[19:57:52] [Async Chat Thread - #86/INFO]: [O] <Ello1818_GHG> Auwra
+[19:58:51] [Server thread/INFO]: [O] FahrradShulker fell from a high place
+[20:00:53] [Server thread/INFO]: [O] FahrradShulker fell from a high place
+[20:01:24] [Async Chat Thread - #88/INFO]: [S] <ItzzGizmo> Hat wer noch ein Trident spare?
+[20:01:39] [User Authenticator #31/INFO]: UUID of player FLEIPE1 is 5e136a7d-ed17-49bd-bedc-c707c661f7f0
+[20:01:40] [Server thread/INFO]: 5e136a7d-ed17-49bd-bedc-c707c661f7f0
+[20:01:40] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[20:01:40] [Server thread/INFO]: [+] FLEIPE1 hat den Server betreten
+[20:01:40] [Server thread/INFO]: FLEIPE1[/178.19.228.21:35063] logged in with entity id 1656513 at ([world]46.07948790500077, 128.0, 2.0518890593740324)
+[20:01:40] [Server thread/INFO]: [voicechat] Received secret request of FLEIPE1 (20)
+[20:01:40] [Server thread/INFO]: [voicechat] Sent secret to FLEIPE1
+[20:01:40] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 5e136a7d-ed17-49bd-bedc-c707c661f7f0
+[20:01:41] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 5e136a7d-ed17-49bd-bedc-c707c661f7f0
+[20:01:41] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player FLEIPE1 (5e136a7d-ed17-49bd-bedc-c707c661f7f0) successfully connected to voice chat
+[20:03:16] [Async Chat Thread - #90/INFO]: [O] <FahrradShulker> es gibt vc-gruppen....
+[20:03:22] [Async Chat Thread - #91/INFO]: [S] <Louixch> jucke
+[20:05:00] [Server thread/INFO]: Jakomi1 (/87.188.29.136:59065) lost connection: Disconnected
+[20:05:28] [Server thread/INFO]: [O] FLEIPE1 has made the advancement [What a Deal!]
+[20:06:11] [User Authenticator #32/INFO]: UUID of player Jakomi1 is d6fa4a1b-6e3c-4e3e-a8f8-f7dd4c9ba290
+[20:06:12] [Server thread/INFO]: d6fa4a1b-6e3c-4e3e-a8f8-f7dd4c9ba290
+[20:06:12] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[20:06:12] [Server thread/INFO]: [+] Jakomi1 hat den Server betreten
+[20:06:12] [Server thread/INFO]: Jakomi1[/87.188.29.136:61074] logged in with entity id 1686122 at ([world]1.251945124853815, 128.0, -10.181385362853813)
+[20:06:13] [Server thread/INFO]: [voicechat] Received secret request of Jakomi1 (20)
+[20:06:13] [Server thread/INFO]: [voicechat] Sent secret to Jakomi1
+[20:06:13] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player d6fa4a1b-6e3c-4e3e-a8f8-f7dd4c9ba290
+[20:06:14] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player d6fa4a1b-6e3c-4e3e-a8f8-f7dd4c9ba290
+[20:06:14] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Jakomi1 (d6fa4a1b-6e3c-4e3e-a8f8-f7dd4c9ba290) successfully connected to voice chat
+[20:07:08] [Region Ticking-4/INFO]: [S] Nailimixam07 was slain by Düsterer Soldat
+[20:07:36] [Region Ticking-1/INFO]: [S] HalloJost was slain by Düsterer Soldat
+[20:09:34] [Server thread/INFO]: [O] FLEIPE1 tried to swim in lava
+[20:10:17] [Server thread/INFO]: [O] Enni_Craft tried to swim in lava
+[20:11:19] [Server thread/INFO]: [O] FLEIPE1 tried to swim in lava
+[20:11:22] [Server thread/INFO]: FLEIPE1 lost connection: Disconnected
+[20:11:22] [Server thread/INFO]: [voicechat] Disconnecting client FLEIPE1
+[20:11:22] [Server thread/INFO]: [-] FLEIPE1 hat den Server verlassen
+[20:12:33] [Server thread/INFO]: [O] Jakomi1 fell from a high place
+[20:12:33] [Server thread/INFO]: [O] FahrradShulker fell from a high place
+[20:13:46] [Region Ticking-3/INFO]: [S] Korbi77 was speared by Antiker Wächter
+[20:13:52] [Async Chat Thread - #96/INFO]: [S] <Nailimixam07> W
+[20:13:57] [Async Chat Thread - #96/INFO]: [S] <Korbi77> ...
+[20:14:05] [Server thread/INFO]: [[O] Jakomi1: Set display slot sidebar to show objective Kampf XP]
+[20:14:11] [Server thread/INFO]: [[O] Jakomi1: Cleared any objectives in display slot sidebar]
+[20:14:28] [Server thread/INFO]: [[O] Jakomi1: Set display slot sidebar to show objective Kampf XP]
+[20:14:30] [Server thread/INFO]: [[O] Jakomi1: Cleared any objectives in display slot sidebar]
+[20:14:44] [Region Ticking-3/INFO]: [S] General_1_18 was shot by Skeleton
+[20:15:10] [Server thread/INFO]: [O] FahrradShulker fell from a high place
+[20:16:08] [Server thread/INFO]: Ello1818_GHG lost connection: Timed out
+[20:16:08] [Server thread/INFO]: [voicechat] Disconnecting client Ello1818_GHG
+[20:16:08] [Server thread/INFO]: [-] Ello1818_GHG hat den Server verlassen
+[20:16:26] [Server thread/INFO]: [O] Jakomi1 fell from a high place
+[20:16:32] [User Authenticator #33/INFO]: UUID of player Ello1818_GHG is 7f7fe2bf-0fb7-4fc3-be43-be2e07691a15
+[20:16:32] [Server thread/INFO]: 7f7fe2bf-0fb7-4fc3-be43-be2e07691a15
+[20:16:32] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[20:16:32] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Ello1818_GHG: Given attachment is not part of Permissible object CraftPlayer{name=Ello1818_GHG, uuid=7f7fe2bf-0fb7-4fc3-be43-be2e07691a15}
+[20:16:32] [Server thread/INFO]: [+] Ello1818_GHG hat den Server betreten
+[20:16:32] [Server thread/INFO]: Ello1818_GHG[/91.64.4.251:64587] logged in with entity id 1752349 at ([world_crystalblock_aetheria]-192.2299253690977, 114.0, -4.414982242072677)
+[20:16:32] [Server thread/INFO]: [voicechat] Received secret request of Ello1818_GHG (20)
+[20:16:32] [Server thread/INFO]: [voicechat] Sent secret to Ello1818_GHG
+[20:16:33] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 7f7fe2bf-0fb7-4fc3-be43-be2e07691a15
+[20:16:34] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 7f7fe2bf-0fb7-4fc3-be43-be2e07691a15
+[20:16:34] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Ello1818_GHG (7f7fe2bf-0fb7-4fc3-be43-be2e07691a15) successfully connected to voice chat
+[20:19:13] [Server thread/INFO]: [[O] Jakomi1: Changed the block at -111, 115, 77]
+[20:21:00] [Server thread/INFO]: [O] KabeljauNation fell from a high place
+[20:25:54] [Async Chat Thread - #100/INFO]: [S] <ItzzGizmo> Hat wer noch ein Trident spare?
+[20:26:01] [Async Chat Thread - #100/INFO]: [S] <ItzzGizmo> (bezahle auch)
+[20:26:04] [Async Chat Thread - #100/INFO]: [O] <Jakomi1> so halb
+[20:26:12] [Server thread/INFO]: [S] Nailimixam07 fell out of the world
+[20:26:16] [Async Chat Thread - #100/INFO]: [O] <Jakomi1> was is die bezahlungg?
+[20:26:21] [Async Chat Thread - #100/INFO]: [S] <Jxel126> ass
+[20:26:25] [Async Chat Thread - #100/INFO]: [S] <ItzzGizmo> idk was brauchst du?
+[20:26:30] [Async Chat Thread - #100/INFO]: [O] <Jakomi1> joel
+[20:26:35] [Async Chat Thread - #100/INFO]: [O] <Jakomi1> fick dich
+[20:26:37] [Async Chat Thread - #100/INFO]: [O] <Jakomi1> ^^
+[20:27:16] [Async Chat Thread - #100/INFO]: [S] <ItzzGizmo> jakomi was heißt überhaupt so halb?
+[20:27:42] [Async Chat Thread - #100/INFO]: [O] <Enni_Craft> so mäßig gizmo
+[20:27:47] [Async Chat Thread - #100/INFO]: [O] <Jakomi1> ja
+[20:27:49] [Async Chat Thread - #100/INFO]: [O] <Jakomi1> also ich use den
+[20:27:50] [Async Chat Thread - #100/INFO]: [O] <Jakomi1> aber
+[20:28:03] [Async Chat Thread - #100/INFO]: [O] <Jakomi1> iwie auch nd
+[20:28:14] [Async Chat Thread - #100/INFO]: [S] <ItzzGizmo> okay?
+[20:28:51] [Region Ticking-3/INFO]: [S] General_1_18 was blown up by Creeper
+[20:29:25] [Server thread/INFO]: [S] General_1_18 fell from a high place
+[20:34:04] [Server thread/INFO]: [O] FahrradShulker fell from a high place
+[20:35:14] [Region Ticking-1/INFO]: [S] General_1_18 was blown up by Creeper
+[20:37:31] [Server thread/INFO]: Louixch lost connection: Disconnected
+[20:37:31] [Server thread/INFO]: [voicechat] Disconnecting client Louixch
+[20:37:31] [Server thread/INFO]: [-] Louixch hat den Server verlassen
+[20:39:00] [Server thread/INFO]: General_1_18 lost connection: Disconnected
+[20:39:00] [Server thread/INFO]: [voicechat] Disconnecting client General_1_18
+[20:39:00] [Server thread/INFO]: [-] General_1_18 hat den Server verlassen
+[20:41:09] [Server thread/INFO]: [S] Korbi77 fell from a high place
+[20:42:23] [Server thread/INFO]: [O] KabeljauNation fell from a high place
+[20:42:35] [Server thread/INFO]: [O] Jo_h_ fell from a high place
+[20:43:32] [Server thread/INFO]: [O] FahrradShulker fell from a high place
+[20:45:27] [Async Chat Thread - #104/INFO]: [O] <Jakomi1> sorryy
+[20:46:59] [Server thread/INFO]: [O] Jakomi1 fell from a high place
+[20:48:47] [Server thread/INFO]: [O] Jo_h_ fell from a high place
+[20:49:57] [Server thread/INFO]: [S] Nailimixam07 fell out of the world
+[20:51:41] [Server thread/INFO]: [O] Jakomi1 fell from a high place
+[20:52:18] [Server thread/INFO]: [O] Jo_h_ fell from a high place
+[20:52:26] [User Authenticator #34/INFO]: UUID of player General_1_18 is b340f679-df6f-49bf-950c-63043c56ab2f
+[20:52:26] [Server thread/INFO]: b340f679-df6f-49bf-950c-63043c56ab2f
+[20:52:26] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[20:52:26] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for General_1_18: Given attachment is not part of Permissible object CraftPlayer{name=General_1_18, uuid=b340f679-df6f-49bf-950c-63043c56ab2f}
+[20:52:26] [Server thread/INFO]: [+] General_1_18 hat den Server betreten
+[20:52:26] [Server thread/INFO]: General_1_18[/194.140.114.213:46173] logged in with entity id 1977933 at ([world_crystalblock_stone]-116.51377272918538, 19.0, -16.498675517965953)
+[20:52:26] [Server thread/INFO]: [voicechat] Received secret request of General_1_18 (20)
+[20:52:26] [Server thread/INFO]: [voicechat] Sent secret to General_1_18
+[20:52:27] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player b340f679-df6f-49bf-950c-63043c56ab2f
+[20:52:28] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player b340f679-df6f-49bf-950c-63043c56ab2f
+[20:52:28] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player General_1_18 (b340f679-df6f-49bf-950c-63043c56ab2f) successfully connected to voice chat
+[20:53:52] [Region Ticking-1/INFO]: [S] Korbi77 was speared by Antiker Wächter
+[20:54:07] [Async Chat Thread - #109/INFO]: [S] <Nailimixam07> Du brauchst ein höheres lvl dafür :)
+[20:54:16] [Server thread/INFO]: [O] Jo_h_ fell from a high place
+[20:54:22] [Async Chat Thread - #110/INFO]: [S] <Korbi77> Ich?
+[20:54:27] [Async Chat Thread - #110/INFO]: [S] <Nailimixam07> ja
+[20:54:44] [Async Chat Thread - #109/INFO]: [S] <Korbi77> kann die schon killen . _ .
+[20:55:42] [world_crystalblock_sky - ServerLevel Tick Worker/WARN]: [ca.spottedleaf.moonrise.patches.chunk_system.level.entity.EntityLookup] Entity uuid already exists: 2694a7e1-487a-4299-825c-725219590055, mapped to ItemEntity['Cobblestone'/1997490, uuid='2694a7e1-487a-4299-825c-725219590055', l='ServerLevel[world_crystalblock_sky]', x=-14.50, y=74.68, z=18.50, cpos=[-1, 1], tl=0, v=true], can't add ItemEntity['Cobblestone'/1997491, uuid='2694a7e1-487a-4299-825c-725219590055', l='ServerLevel[world_crystalblock_sky]', x=-15.50, y=74.68, z=18.50, cpos=[-1, 1], tl=0, v=false]
+[20:58:00] [Region Ticking-1/INFO]: [S] General_1_18 was shot by Skeleton
+[20:58:51] [Server thread/INFO]: [S] Korbi77 fell from a high place
+[20:58:59] [Server thread/INFO]: [O] FahrradShulker fell from a high place
+[21:00:10] [Server thread/INFO]: KabeljauNation lost connection: Disconnected
+[21:00:10] [Server thread/INFO]: [voicechat] Disconnecting client KabeljauNation
+[21:00:10] [Server thread/INFO]: [-] KabeljauNation hat den Server verlassen
+[21:00:42] [User Authenticator #35/INFO]: UUID of player KabeljauNation is e31223eb-eac8-434f-84ee-08407e49261d
+[21:00:43] [Server thread/INFO]: e31223eb-eac8-434f-84ee-08407e49261d
+[21:00:43] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[21:00:43] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for KabeljauNation: Given attachment is not part of Permissible object CraftPlayer{name=KabeljauNation, uuid=e31223eb-eac8-434f-84ee-08407e49261d}
+[21:00:43] [Server thread/INFO]: [+] KabeljauNation hat den Server betreten
+[21:00:43] [Server thread/INFO]: KabeljauNation[/155.133.215.210:63663] logged in with entity id 2027548 at ([world_crystalblock_ocean]1.1848449402622259, 64.0, -23.561232061793497)
+[21:00:43] [Server thread/INFO]: [voicechat] Received secret request of KabeljauNation (20)
+[21:00:43] [Server thread/INFO]: [voicechat] Sent secret to KabeljauNation
+[21:00:44] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player e31223eb-eac8-434f-84ee-08407e49261d
+[21:00:45] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player e31223eb-eac8-434f-84ee-08407e49261d
+[21:00:45] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player KabeljauNation (e31223eb-eac8-434f-84ee-08407e49261d) successfully connected to voice chat
+[21:01:05] [Async Chat Thread - #112/INFO]: [O] <Enni_Craft> Nachti Leuteeee
+[21:01:12] [Async Chat Thread - #112/INFO]: [S] <Korbi77> Guna
+[21:01:29] [Server thread/INFO]: Enni_Craft lost connection: Disconnected
+[21:01:29] [Server thread/INFO]: [voicechat] Disconnecting client Enni_Craft
+[21:01:29] [Server thread/INFO]: [-] Enni_Craft hat den Server verlassen
+[21:01:34] [Server thread/INFO]: [S] Korbi77 fell out of the world
+[21:02:59] [Server thread/INFO]: [S] Korbi77 fell from a high place
+[21:03:55] [Region Ticking-3/INFO]: [O] Ello1818_GHG was speared by Antiker Wächter
+[21:05:24] [Server thread/INFO]: [S] Korbi77 fell from a high place
+[21:05:45] [Server thread/INFO]: [O] KabeljauNation fell from a high place
+[21:07:01] [Server thread/INFO]: Jakomi1 lost connection: Disconnected
+[21:07:01] [Server thread/INFO]: [voicechat] Disconnecting client Jakomi1
+[21:07:01] [Server thread/INFO]: [-] Jakomi1 hat den Server verlassen
+[21:07:01] [Server thread/INFO]: [O] Jo_h_ fell from a high place
+[21:07:02] [User Authenticator #36/INFO]: UUID of player Jakomi1 is d6fa4a1b-6e3c-4e3e-a8f8-f7dd4c9ba290
+[21:07:03] [Server thread/INFO]: d6fa4a1b-6e3c-4e3e-a8f8-f7dd4c9ba290
+[21:07:03] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[21:07:03] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Jakomi1: Given attachment is not part of Permissible object CraftPlayer{name=Jakomi1, uuid=d6fa4a1b-6e3c-4e3e-a8f8-f7dd4c9ba290}
+[21:07:03] [Server thread/INFO]: [+] Jakomi1 hat den Server betreten
+[21:07:03] [Server thread/INFO]: Jakomi1[/87.188.29.136:63370] logged in with entity id 2066092 at ([world]4.030630560853129, 128.0, -5.864467442360391)
+[21:07:03] [Server thread/INFO]: [voicechat] Received secret request of Jakomi1 (20)
+[21:07:03] [Server thread/INFO]: [voicechat] Sent secret to Jakomi1
+[21:07:04] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player d6fa4a1b-6e3c-4e3e-a8f8-f7dd4c9ba290
+[21:07:05] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player d6fa4a1b-6e3c-4e3e-a8f8-f7dd4c9ba290
+[21:07:05] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Jakomi1 (d6fa4a1b-6e3c-4e3e-a8f8-f7dd4c9ba290) successfully connected to voice chat
+[21:07:39] [Region Ticking-1/INFO]: [O] Ello1818_GHG was speared by Antiker Wächter
+[21:10:52] [Server thread/INFO]: [O] Jo_h_ fell from a high place
+[21:11:44] [Region Ticking-4/INFO]: [S] Korbi77 was slain by Tiefen Krieger
+[21:11:55] [Async Chat Thread - #116/INFO]: [S] <Nailimixam07> die sind zu stark
+[21:11:57] [Async Chat Thread - #116/INFO]: [S] <Korbi77> Ja
+[21:12:02] [Async Chat Thread - #116/INFO]: [S] <Korbi77> Jumpscare
+[21:12:04] [Async Chat Thread - #117/INFO]: [S] <Nailimixam07> ja dann kill Schweine
+[21:14:31] [Server thread/INFO]: [O] Jakomi1 fell from a high place
+[21:15:22] [Server thread/INFO]: [O] Jo_h_ fell from a high place
+[21:15:26] [Server thread/INFO]: [O] Jakomi1 fell from a high place
+[21:17:17] [Server thread/INFO]: [O] Jakomi1 fell from a high place
+[21:20:39] [User Authenticator #37/INFO]: UUID of player Fate_Karma is c4c21728-8f36-4612-a0ad-928eb894660b
+[21:20:39] [Server thread/INFO]: c4c21728-8f36-4612-a0ad-928eb894660b
+[21:20:39] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[21:20:39] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Fate_Karma: Given attachment is not part of Permissible object CraftPlayer{name=Fate_Karma, uuid=c4c21728-8f36-4612-a0ad-928eb894660b}
+[21:20:39] [Server thread/INFO]: [+] Fate_Karma hat den Server betreten
+[21:20:39] [Server thread/INFO]: Fate_Karma[/209.198.153.42:10097] logged in with entity id 2151406 at ([world]-0.6186154217763661, 129.0, 0.7475666583727371)
+[21:20:39] [Server thread/INFO]: [voicechat] Received secret request of Fate_Karma (20)
+[21:20:39] [Server thread/INFO]: [voicechat] Sent secret to Fate_Karma
+[21:20:39] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player c4c21728-8f36-4612-a0ad-928eb894660b
+[21:20:40] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player c4c21728-8f36-4612-a0ad-928eb894660b
+[21:20:40] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Fate_Karma (c4c21728-8f36-4612-a0ad-928eb894660b) successfully connected to voice chat
+[21:21:30] [Server thread/INFO]: KabeljauNation lost connection: Disconnected
+[21:21:30] [Server thread/INFO]: [voicechat] Disconnecting client KabeljauNation
+[21:21:30] [Server thread/INFO]: [-] KabeljauNation hat den Server verlassen
+[21:23:26] [Server thread/INFO]: [S] Fate_Karma fell out of the world
+[21:23:33] [Server thread/INFO]: [S] HalloJost has made the advancement [Ice Bucket Challenge]
+[21:25:35] [Server thread/INFO]: [S] Fate_Karma fell out of the world
+[21:27:30] [Server thread/INFO]: [S] Korbi77 fell from a high place
+[21:28:13] [Server thread/INFO]: [S] Fate_Karma fell from a high place
+[21:29:06] [User Authenticator #38/INFO]: UUID of player Theelorious is 1e73b110-e591-4612-a3bb-809d2c72fb04
+[21:29:06] [Server thread/INFO]: [Crystalblock2] Validate: Spieler Theelorious wurde gekickt.
+[21:29:06] [Server thread/INFO]: Disconnecting Theelorious (/79.228.195.60:60365): [CB] Lasse dich erst auf unserem Discord whitelisten!
+Link: https://discord.gg/FXtQUgHZ6u
+[21:29:06] [Server thread/INFO]: Theelorious (/79.228.195.60:60365) lost connection: [CB] Lasse dich erst auf unserem Discord whitelisten!
+Link: https://discord.gg/FXtQUgHZ6u
+[21:29:54] [Region Ticking-3/INFO]: [O] Ello1818_GHG was speared by Antiker Wächter
+[21:31:48] [Server thread/INFO]: [S] Fate_Karma fell from a high place
+[21:31:50] [Server thread/INFO]: Fate_Karma lost connection: Disconnected
+[21:31:50] [Server thread/INFO]: [voicechat] Disconnecting client Fate_Karma
+[21:31:50] [Server thread/INFO]: [-] Fate_Karma hat den Server verlassen
+[21:34:48] [Server thread/INFO]: [O] FahrradShulker fell from a high place
+[21:35:01] [Server thread/INFO]: [O] Jo_h_ fell from a high place
+[21:35:18] [Server thread/INFO]: [S] Nailimixam07 fell out of the world
+[21:36:25] [Server thread/INFO]: [O] Jakomi1 fell from a high place
+[21:37:17] [User Authenticator #39/INFO]: UUID of player Fuchsboy_jgb is c0a448a9-4704-4d3f-a174-89c7798b748d
+[21:37:18] [Server thread/INFO]: c0a448a9-4704-4d3f-a174-89c7798b748d
+[21:37:18] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[21:37:18] [Server thread/INFO]: [+] Fuchsboy_jgb hat den Server betreten
+[21:37:18] [Server thread/INFO]: Fuchsboy_jgb[/217.252.163.38:56853] logged in with entity id 2253582 at ([world_crystalblock_stone]-2.094730184746462, 64.0, 11.563867723051139)
+[21:37:18] [Server thread/INFO]: [voicechat] Received secret request of Fuchsboy_jgb (20)
+[21:37:18] [Server thread/INFO]: [voicechat] Sent secret to Fuchsboy_jgb
+[21:37:19] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player c0a448a9-4704-4d3f-a174-89c7798b748d
+[21:37:20] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player c0a448a9-4704-4d3f-a174-89c7798b748d
+[21:37:20] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Fuchsboy_jgb (c0a448a9-4704-4d3f-a174-89c7798b748d) successfully connected to voice chat
+[21:37:56] [Server thread/INFO]: [S] Korbi77 fell from a high place
+[21:38:13] [Server thread/INFO]: [S] Korbi77 fell from a high place
+[21:40:13] [Server thread/INFO]: Fuchsboy_jgb lost connection: Disconnected
+[21:40:13] [Server thread/INFO]: [voicechat] Disconnecting client Fuchsboy_jgb
+[21:40:13] [Server thread/INFO]: [-] Fuchsboy_jgb hat den Server verlassen
+[21:41:35] [Server thread/INFO]: [O] Jakomi1 fell from a high place
+[21:46:55] [Async Chat Thread - #126/INFO]: [O] <Ello1818_GHG> Julius
+[21:47:06] [Async Chat Thread - #126/INFO]: [O] <Ello1818_GHG> klaust du meine Craftingtable ?
+[21:47:28] [Async Chat Thread - #126/INFO]: [O] <FahrradShulker> ähm...
+[21:47:35] [Async Chat Thread - #126/INFO]: [O] <Ello1818_GHG> du bastard
+[21:47:37] [Async Chat Thread - #126/INFO]: [O] <FahrradShulker> hab 21...
+[21:47:46] [Async Chat Thread - #126/INFO]: [S] <Korbi77> er ist aufgeflogen...
+[21:47:53] [Async Chat Thread - #126/INFO]: [O] <Ello1818_GHG> ich geb dir gleich 21 bomben ja
+[21:47:56] [Server thread/INFO]: [O] FahrradShulker fell from a high place
+[21:48:00] [Async Chat Thread - #126/INFO]: [S] <Nailimixam07> ban julius für diebstahl
+[21:48:04] [Async Chat Thread - #126/INFO]: [O] <Ello1818_GHG> Holy Karma
+[21:48:05] [Async Chat Thread - #126/INFO]: [O] <Ello1818_GHG> xD
+[21:48:06] [Async Chat Thread - #126/INFO]: [S] <HalloJost> fr
+[21:48:16] [Async Chat Thread - #126/INFO]: [O] <FahrradShulker> hab nur die aus den chests genommen
+[21:48:22] [Async Chat Thread - #126/INFO]: [O] <Ello1818_GHG> kannst aber bei mir einen stehen lassen ja ?
+[21:48:30] [Async Chat Thread - #126/INFO]: [O] <Ello1818_GHG> digga bei mir standen 3 stück....
+[21:48:33] [Async Chat Thread - #126/INFO]: [O] <FahrradShulker> mach ich eigetlich immer
+[21:48:34] [Async Chat Thread - #126/INFO]: [O] <Ello1818_GHG> alle wech...
+[21:49:08] [Async Chat Thread - #126/INFO]: [O] <Ello1818_GHG> danke
+[21:54:00] [Server thread/INFO]: [O] Jo_h_ fell from a high place
+[21:54:39] [Server thread/INFO]: [O] FahrradShulker fell from a high place
+[21:55:46] [Server thread/INFO]: Ello1818_GHG lost connection: Disconnected
+[21:55:46] [Server thread/INFO]: [voicechat] Disconnecting client Ello1818_GHG
+[21:55:47] [Server thread/INFO]: [-] Ello1818_GHG hat den Server verlassen
+[21:57:05] [Server thread/INFO]: [O] Jo_h_ fell from a high place
+[21:58:01] [Server thread/INFO]: Korbi77 lost connection: Disconnected
+[21:58:01] [Server thread/INFO]: [voicechat] Disconnecting client Korbi77
+[21:58:01] [Server thread/INFO]: [-] Korbi77 hat den Server verlassen
+[21:59:09] [Server thread/INFO]: FahrradShulker lost connection: Disconnected
+[21:59:09] [Server thread/INFO]: [voicechat] Disconnecting client FahrradShulker
+[21:59:09] [Server thread/INFO]: [-] FahrradShulker hat den Server verlassen
+[22:06:07] [User Authenticator #40/INFO]: UUID of player Theelorious is 1e73b110-e591-4612-a3bb-809d2c72fb04
+[22:06:07] [Server thread/INFO]: [Crystalblock2] Validate: Spieler Theelorious wurde gekickt.
+[22:06:07] [Server thread/INFO]: Disconnecting Theelorious (/79.228.195.60:60605): [CB] Lasse dich erst auf unserem Discord whitelisten!
+Link: https://discord.gg/FXtQUgHZ6u
+[22:06:07] [Server thread/INFO]: Theelorious (/79.228.195.60:60605) lost connection: [CB] Lasse dich erst auf unserem Discord whitelisten!
+Link: https://discord.gg/FXtQUgHZ6u
+[22:08:20] [Server thread/INFO]: Jakomi1 lost connection: Disconnected
+[22:08:20] [Server thread/INFO]: [voicechat] Disconnecting client Jakomi1
+[22:08:20] [Server thread/INFO]: [-] Jakomi1 hat den Server verlassen
+[22:12:10] [Server thread/INFO]: ItzzGizmo lost connection: Disconnected
+[22:12:10] [Server thread/INFO]: [voicechat] Disconnecting client ItzzGizmo
+[22:12:10] [Server thread/INFO]: [-] ItzzGizmo hat den Server verlassen
+[22:16:53] [Server thread/INFO]: [O] Jo_h_ was doomed to fall by Enderman
+[22:17:47] [Server thread/INFO]: [S] HalloJost fell out of the world
+[22:27:48] [Server thread/INFO]: [S] Jxel126 fell out of the world
+[22:29:55] [Server thread/INFO]: Jxel126 lost connection: Disconnected
+[22:29:55] [Server thread/INFO]: [voicechat] Disconnecting client Jxel126
+[22:29:55] [Server thread/INFO]: [-] Jxel126 hat den Server verlassen
+[22:30:05] [User Authenticator #41/INFO]: UUID of player Jxel126 is c4c849dc-d3db-4038-9830-7bd6456c15e0
+[22:30:06] [Server thread/INFO]: c4c849dc-d3db-4038-9830-7bd6456c15e0
+[22:30:06] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[22:30:06] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Jxel126: Given attachment is not part of Permissible object CraftPlayer{name=Jxel126, uuid=c4c849dc-d3db-4038-9830-7bd6456c15e0}
+[22:30:06] [Server thread/INFO]: [+] Jxel126 hat den Server betreten
+[22:30:06] [Server thread/INFO]: Jxel126[/94.31.108.233:48133] logged in with entity id 2558535 at ([world_crystalblock_sky]33.556354261818306, 73.0, 0.3338235426929223)
+[22:30:06] [Server thread/INFO]: [voicechat] Received secret request of Jxel126 (20)
+[22:30:06] [Server thread/INFO]: [voicechat] Sent secret to Jxel126
+[22:30:06] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player c4c849dc-d3db-4038-9830-7bd6456c15e0
+[22:30:07] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player c4c849dc-d3db-4038-9830-7bd6456c15e0
+[22:30:07] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Jxel126 (c4c849dc-d3db-4038-9830-7bd6456c15e0) successfully connected to voice chat
+[22:32:14] [Server thread/INFO]: [S] Jxel126 has made the advancement [Into Fire]
+[22:33:14] [Server thread/INFO]: [S] HalloJost has made the advancement [Glow and Behold!]
+[22:35:52] [Region Ticking-1/INFO]: [S] Jxel126 was slain by Zombified Piglin
+[22:36:19] [Server thread/INFO]: [S] Nailimixam07 fell out of the world
+[22:37:03] [Region Ticking-2/INFO]: [S] General_1_18 was slain by Zombie
+[22:41:50] [Server thread/INFO]: [S] HalloJost has made the advancement [Into Fire]
+[22:51:34] [Region Ticking-1/INFO]: [S] HalloJost was slain by Enderman
+[22:56:20] [Server thread/INFO]: Nailimixam07 lost connection: Disconnected
+[22:56:20] [Server thread/INFO]: [voicechat] Disconnecting client Nailimixam07
+[22:56:20] [Server thread/INFO]: [-] Nailimixam07 hat den Server verlassen
+[22:58:25] [Region Ticking-3/INFO]: [S] HalloJost was slain by Zombified Piglin
+[23:00:57] [Server thread/INFO]: [S] HalloJost fell out of the world
+[23:11:32] [Region Ticking-3/INFO]: [S] HalloJost was slain by Zombified Piglin
+[23:13:16] [User Authenticator #42/INFO]: UUID of player DerMubbl is 584a42eb-e651-4d47-9bf4-a3186dd95851
+[23:13:17] [Server thread/INFO]: 584a42eb-e651-4d47-9bf4-a3186dd95851
+[23:13:17] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[23:13:17] [Server thread/INFO]: [+] DerMubbl hat den Server betreten
+[23:13:17] [Server thread/INFO]: DerMubbl[/84.160.115.198:52134] logged in with entity id 2808439 at ([world_crystalblock_void]7.0838003947324015, 100.0, -0.08537006750136489)
+[23:13:19] [Server thread/INFO]: [voicechat] Received secret request of DerMubbl (20)
+[23:13:19] [Server thread/INFO]: [voicechat] Sent secret to DerMubbl
+[23:13:20] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player 584a42eb-e651-4d47-9bf4-a3186dd95851
+[23:13:21] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player 584a42eb-e651-4d47-9bf4-a3186dd95851
+[23:13:21] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player DerMubbl (584a42eb-e651-4d47-9bf4-a3186dd95851) successfully connected to voice chat
+[23:17:37] [Region Ticking-3/INFO]: [V] DerMubbl was slain by Enderman
+[23:18:33] [User Authenticator #43/INFO]: UUID of player Fate_Karma is c4c21728-8f36-4612-a0ad-928eb894660b
+[23:18:33] [Server thread/INFO]: c4c21728-8f36-4612-a0ad-928eb894660b
+[23:18:33] [Server thread/INFO]: [VoiceServer] Permissions were successfully reloaded from config.yml.
+[23:18:33] [Server thread/WARN]: [VoiceServer] Failed to remove permission attachment for Fate_Karma: Given attachment is not part of Permissible object CraftPlayer{name=Fate_Karma, uuid=c4c21728-8f36-4612-a0ad-928eb894660b}
+[23:18:33] [Server thread/INFO]: [+] Fate_Karma hat den Server betreten
+[23:18:33] [Server thread/INFO]: Fate_Karma[/209.198.153.42:26075] logged in with entity id 2838740 at ([world]0.5, 129.0, 0.5)
+[23:18:33] [Server thread/INFO]: [voicechat] Received secret request of Fate_Karma (20)
+[23:18:33] [Server thread/INFO]: [voicechat] Sent secret to Fate_Karma
+[23:18:34] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player c4c21728-8f36-4612-a0ad-928eb894660b
+[23:18:35] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player c4c21728-8f36-4612-a0ad-928eb894660b
+[23:18:35] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Fate_Karma (c4c21728-8f36-4612-a0ad-928eb894660b) successfully connected to voice chat
+[23:18:36] [Server thread/INFO]: Fate_Karma lost connection: Disconnected
+[23:18:36] [Server thread/INFO]: [voicechat] Disconnecting client Fate_Karma
+[23:18:36] [Server thread/INFO]: [-] Fate_Karma hat den Server verlassen
+[23:23:12] [Region Ticking-4/INFO]: [S] HalloJost was slain by Zombified Piglin
+[23:23:53] [Region Ticking-3/INFO]: [V] DerMubbl was slain by Enderman
+[23:26:10] [Region Ticking-3/INFO]: [S] HalloJost was slain by Zombified Piglin
+[23:34:01] [Async Chat Thread - #137/INFO]: [V] <DerMubbl> was ist bei sky passiert
+[23:35:30] [Async Chat Thread - #139/INFO]: [S] <HalloJost> kleines upgrade
+[23:36:58] [Region Ticking-4/INFO]: [O] Jo_h_ was slain by Steinratte
+[23:41:14] [Region Ticking-3/INFO]: [S] General_1_18 was blown up by Creeper
+[23:41:46] [Server thread/INFO]: [S] General_1_18 fell from a high place
+[23:42:34] [Region Ticking-3/INFO]: [S] General_1_18 was shot by Skeleton
+[23:53:19] [Region Ticking-3/INFO]: [O] Jo_h_ was blown up by Creeper
+[23:55:59] [Async Chat Thread - #141/INFO]: [V] <DerMubbl> wo her hast du einen mace bitte
+[23:56:07] [Async Chat Thread - #141/INFO]: [S] <HalloJost> dungeon
+[23:56:18] [Async Chat Thread - #141/INFO]: [V] <DerMubbl> welcher dungeon
+[23:56:35] [Async Chat Thread - #141/INFO]: [S] <HalloJost> spawn
+[23:56:40] [Async Chat Thread - #141/INFO]: [S] <HalloJost> die pyramide
+[23:56:41] [Async Chat Thread - #141/INFO]: [V] <DerMubbl> ok
+[23:57:05] [Async Chat Thread - #141/INFO]: [V] <DerMubbl> wie ist das ein dungeon
+[23:57:45] [Async Chat Thread - #141/INFO]: [S] <HalloJost> mystisches portal
+[23:58:03] [Region Ticking-3/WARN]: Entity Zombie['Zombie'/2842990, uuid='15508854-72f7-411e-8bd1-0ca3941ae909', l='ServerLevel[world_crystalblock_ocean]', x=-36.85, y=-60.86, z=12.13, cpos=[-3, 0], tl=2720, v=true] is currently prevented from being removed from the world since it is processing section status updates
+java.lang.Throwable
+	at net.minecraft.world.entity.Entity.setRemoved(Entity.java:5276) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.world.entity.Entity.remove(Entity.java:758) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.world.entity.LivingEntity.remove(LivingEntity.java:781) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.world.entity.LivingEntity.tickDeath(LivingEntity.java:627) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.world.entity.LivingEntity.baseTick(LivingEntity.java:519) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.world.entity.Mob.baseTick(Mob.java:331) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.world.entity.Entity.tick(Entity.java:877) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.world.entity.LivingEntity.tick(LivingEntity.java:3482) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.world.entity.Mob.tick(Mob.java:413) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.world.entity.monster.zombie.Zombie.tick(Zombie.java:307) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.server.level.ServerLevel.tickNonPassenger(ServerLevel.java:1514) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at net.minecraft.world.level.Level.guardEntityTick(Level.java:1495) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at org.bxteam.divinemc.async.rct.RegionizedChunkTicking.tickEntity(RegionizedChunkTicking.java:297) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at org.bxteam.divinemc.async.rct.RegionizedChunkTicking.lambda$tick$1(RegionizedChunkTicking.java:102) ~[divinemc-1.21.11.jar:1.21.11-24-d7f0821]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) ~[?:?]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+[23:58:04] [Async Chat Thread - #141/INFO]: [V] <DerMubbl> war das bis jetzt nur einmal da oder wie
+[23:58:11] [Async Chat Thread - #141/INFO]: [S] <HalloJost> ne
+[23:58:15] [Async Chat Thread - #141/INFO]: [S] <HalloJost> das ist das portal
+[23:58:26] [Async Chat Thread - #141/INFO]: [S] <HalloJost> musst mit einem item rechts clicken
+[23:58:26] [Async Chat Thread - #141/INFO]: [V] <DerMubbl> hier ist nichts
+[23:58:53] [Async Chat Thread - #141/INFO]: [S] <Jxel126> dieses item verkaufe ich zufällig haha
+[23:59:03] [Async Chat Thread - #141/INFO]: [S] <Jxel126> würde holz dafür nehmen
+[23:59:10] [Async Chat Thread - #141/INFO]: [V] <DerMubbl> welches
+[23:59:20] [Async Chat Thread - #141/INFO]: [V] <DerMubbl> und wie viel
+[23:59:25] [Async Chat Thread - #141/INFO]: [S] <Jxel126> monster essenz
