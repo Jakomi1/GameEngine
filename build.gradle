@@ -12,12 +12,12 @@ repositories {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(26) // ⚠️ besser als 26
+        languageVersion = JavaLanguageVersion.of(26)
     }
 }
 
 def javafxVersion = "26"
-def platform = "linux" // important for JitPack!
+def platform = "linux"
 
 dependencies {
     implementation "org.openjfx:javafx-base:$javafxVersion:$platform"
@@ -28,6 +28,7 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
+
 javafx {
     version = "21"
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.media' ]

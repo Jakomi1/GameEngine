@@ -23,7 +23,7 @@ import java.util.Map;
 public class GraphicUserInterface {
 
     public static final double TOP_BAR_HEIGHT = 30.0;
-
+    private static final double EXTRA_SIZE = 5.0;
     private final GraphicWindow window;
     private final Pane content;
 
@@ -74,6 +74,14 @@ public class GraphicUserInterface {
                 .add(action);
 
         return this;
+    }
+
+    private double getOuterWidth() {
+        return width + EXTRA_SIZE;
+    }
+
+    private double getOuterHeight() {
+        return height + EXTRA_SIZE;
     }
 
     protected boolean fire(Key incoming, ActionType type) {
@@ -264,8 +272,9 @@ public class GraphicUserInterface {
         }
 
         container = new Pane();
-        container.setPrefSize(width, height);
+        container.setPrefSize(getOuterWidth(), getOuterHeight());
         container.setManaged(false);
+        container.setPickOnBounds(false);
         container.setUserData(this);
 
         BorderPane frame = new BorderPane();
@@ -280,6 +289,8 @@ public class GraphicUserInterface {
 
         topBar = new Pane();
         topBar.setPrefSize(width, TOP_BAR_HEIGHT);
+
+        content.setPrefSize(width, Math.max(0, height - TOP_BAR_HEIGHT));
 
         Color resolvedTop = topBarColor != null
                 ? topBarColor
@@ -395,16 +406,15 @@ public class GraphicUserInterface {
         double viewportWidth = window.getViewportWidth();
         double viewportHeight = window.getViewportHeight();
 
-        double clampedX = clamp(point.getX(), 0, Math.max(0, viewportWidth - width));
-        double clampedY = clamp(point.getY(), 0, Math.max(0, viewportHeight - height));
+        double clampedX = clamp(point.getX(), 0, Math.max(0, viewportWidth - getOuterWidth()));
+        double clampedY = clamp(point.getY(), 0, Math.max(0, viewportHeight - getOuterHeight()));
 
         container.relocate(clampedX, clampedY);
     }
 
     private void moveContainer(double newX, double newY) {
-        double maxX = Math.max(0, window.getViewportWidth() - width);
-        double maxY = Math.max(0, window.getViewportHeight() - height);
-
+        double maxX = Math.max(0, window.getViewportWidth() - getOuterWidth());
+        double maxY = Math.max(0, window.getViewportHeight() - getOuterHeight());
         double clampedTargetX = clamp(newX, 0, maxX);
         double clampedTargetY = clamp(newY, 0, maxY);
 

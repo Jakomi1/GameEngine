@@ -1,4 +1,5 @@
 package de.jakob.game.gui.graphics;
+
 @SuppressWarnings("unchecked")
 public interface Moveable<T extends Moveable<T>> {
 
