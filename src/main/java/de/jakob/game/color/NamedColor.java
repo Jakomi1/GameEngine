@@ -1,45 +1,36 @@
 package de.jakob.game.color;
 
 public enum NamedColor implements Color {
-
-    // ===== BASICS =====
     WHITE(255, 255, 255),
     BLACK(0, 0, 0),
 
-    // ===== GRAYS =====
     LIGHTEST_GRAY(245, 245, 245),
     LIGHT_GRAY(200, 200, 200),
     GRAY(128, 128, 128),
     DARK_GRAY(64, 64, 64),
     DARKEST_GRAY(25, 25, 25),
 
-    // ===== RED =====
     RED(255, 0, 0),
     SOFT_RED(255, 120, 120),
     DARK_RED(150, 0, 0),
 
-    // ===== GREEN =====
     GREEN(0, 200, 0),
     SOFT_GREEN(120, 220, 140),
     DARK_GREEN(0, 120, 0),
 
-    // ===== BLUE =====
     BLUE(0, 120, 255),
     SOFT_BLUE(120, 170, 255),
     DARK_BLUE(0, 70, 160),
 
-    // ===== YELLOW / ORANGE =====
     YELLOW(255, 255, 0),
     GOLD(255, 215, 0),
     ORANGE(255, 165, 0),
     DARK_ORANGE(200, 120, 0),
 
-    // ===== PURPLE / PINK =====
     PURPLE(140, 0, 180),
     SOFT_PURPLE(190, 120, 255),
     PINK(255, 105, 180),
 
-    // ===== CYAN / TEAL =====
     CYAN(0, 255, 255),
     TEAL(0, 140, 140),
 
@@ -55,7 +46,6 @@ public enum NamedColor implements Color {
 
     SECONDARY(180, 180, 255),
 
-    // ===== STATUS =====
     SUCCESS(120, 200, 140),
     SUCCESS_DARK(80, 160, 100),
 
