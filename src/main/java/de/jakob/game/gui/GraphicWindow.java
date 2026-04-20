@@ -1,8 +1,10 @@
 package de.jakob.game.gui;
 
+import de.jakob.game.gui.generic.ExitGraphicUserInterface;
 import de.jakob.game.gui.generic.MainGraphicUserInterface;
 import de.jakob.game.input.ActionType;
 import de.jakob.game.input.Key;
+import de.jakob.game.input.KeyBinds;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -36,7 +38,8 @@ public class GraphicWindow {
     private double lastMouseSceneX = Double.NaN;
     private double lastMouseSceneY = Double.NaN;
     private Runnable onExit;
-
+    private final List<WindowKeyBinding> bindedKeyBindings = new ArrayList<>();
+    private final List<DirectKeyBinding> directKeyBindings = new ArrayList<>();
     public GraphicWindow(Stage stage) {
         this(stage, "Main Window", Size.of(800, 600));
     }
@@ -92,7 +95,7 @@ public class GraphicWindow {
                         lastFocusedInterface = target;
                     }
                     target.fire(key, ActionType.PRESS);
-                    e.consume();
+                    //e.consume();
                     return;
                 }
 
@@ -111,7 +114,7 @@ public class GraphicWindow {
 
                 if (target != null) {
                     target.fire(key, ActionType.RELEASE);
-                    e.consume();
+                    //e.consume();
                     return;
                 }
 
@@ -123,40 +126,14 @@ public class GraphicWindow {
 
             scene.setOnKeyPressed(e -> {
                 Key key = Key.from(e.getCode());
-
                 if (dispatchInput(key, ActionType.PRESS)) {
                     e.consume();
                     return;
                 }
-
-                if (e.getCode() == KeyCode.ESCAPE) {
-                    e.consume();
-
-                    if (exitInterface != null && exitInterface.isBuilt()) {
-
-                        boolean visible = exitInterface.getRoot() != null
-                                && exitInterface.getRoot().isVisible();
-
-                        if (visible) {
-
-                            exitInterface.hide();
-
-                            focus(Objects.requireNonNullElse(lastFocusedInterface, root));
-
-                        } else {
-                            exitInterface.show();
-                            focus(exitInterface);
-                        }
-                        return;
-                    }
-
-                    if (onExit != null) {
-                        onExit.run();
-                    }
-                }
             });
 
             scene.setOnKeyReleased(e -> {
+                Key key = Key.from(e.getCode());
                 if (dispatchInput(Key.from(e.getCode()), ActionType.RELEASE)) {
                     e.consume();
                 }
@@ -173,6 +150,73 @@ public class GraphicWindow {
 
         return this;
     }
+    public GraphicWindow addBindedKeyListener(String keyBind, ActionType type, Runnable runnable) {
+        if (keyBind != null && type != null && runnable != null) {
+            bindedKeyBindings.add(new WindowKeyBinding(keyBind, type, runnable));
+        }
+        return this;
+    }
+
+    public GraphicWindow addKeyListener(Key key, ActionType type, Runnable runnable) {
+        if (key != null && type != null && runnable != null) {
+            directKeyBindings.add(new DirectKeyBinding(key, type, runnable));
+        }
+        return this;
+    }
+
+    private void fireWindowKeyListeners(Key key, ActionType type) {
+
+        // 🔥 1. Direct (fixe Keys)
+        for (DirectKeyBinding binding : directKeyBindings) {
+            if (binding.key() == key && binding.type() == type) {
+                binding.actionRunnable().run();
+            }
+        }
+
+        // 🔥 2. Binded (dynamisch über KeyBinds)
+        for (WindowKeyBinding binding : bindedKeyBindings) {
+
+            Key expected = KeyBinds.get(binding.action());
+
+            if (expected == key && binding.type() == type) {
+                binding.actionRunnable().run();
+            }
+        }
+    }
+    public boolean dispatchInput(Key key, ActionType type) {
+        if (key == null || type == null) return false;
+
+
+        fireWindowKeyListeners(key, type);
+
+        boolean handled = false;
+
+        if (isMouseKey(key)) {
+            if (Double.isNaN(lastMouseSceneX) || Double.isNaN(lastMouseSceneY)) {
+                handled = root != null && root.hasListener(key, type) && root.fire(key, type);
+            } else {
+                GraphicUserInterface target =
+                        resolveMouseTarget(lastMouseSceneX, lastMouseSceneY, key, type);
+
+                if (target != null) {
+                    handled = target.fire(key, type);
+                } else if (root != null && root.hasListener(key, type)) {
+                    handled = root.fire(key, type);
+                }
+            }
+        } else {
+            GraphicUserInterface target = resolveKeyboardTarget(key, type);
+
+            if (target != null) {
+                handled = target.fire(key, type);
+            } else {
+                handled = root != null && root.hasListener(key, type) && root.fire(key, type);
+            }
+        }
+
+        return handled;
+    }
+
 
     public GraphicWindow onExit(Runnable action) {
         this.onExit = action;
@@ -198,33 +242,6 @@ public class GraphicWindow {
         return new GraphicUserInterface(this);
     }
 
-    public boolean dispatchInput(Key key, ActionType type) {
-        if (key == null || type == null) return false;
-
-        if (isMouseKey(key)) {
-            if (Double.isNaN(lastMouseSceneX) || Double.isNaN(lastMouseSceneY)) {
-                return root != null && root.hasListener(key, type) && root.fire(key, type);
-            }
-
-            GraphicUserInterface target = resolveMouseTarget(lastMouseSceneX, lastMouseSceneY, key, type);
-            if (target != null) {
-                return target.fire(key, type);
-            }
-
-            if (root != null && root.hasListener(key, type)) {
-                return root.fire(key, type);
-            }
-
-            return false;
-        }
-
-        GraphicUserInterface target = resolveKeyboardTarget(key, type);
-        if (target != null) {
-            return target.fire(key, type);
-        }
-
-        return root != null && root.hasListener(key, type) && root.fire(key, type);
-    }
 
     public boolean dispatchInput(Key key, ActionType type, double sceneX, double sceneY) {
         if (key == null || type == null) return false;
@@ -434,39 +451,49 @@ public class GraphicWindow {
         if (parent == null) return;
 
         List<Node> order = new ArrayList<>();
+        java.util.Set<Node> added = new java.util.HashSet<>();
 
-        if (root.getContent() != null) {
-            order.add(root.getContent());
-        }
+        java.util.function.Consumer<Node> addSafe = node -> {
+            if (node == null) return;
+
+            if (node == parent) return;
+
+            if (added.contains(node)) return;
+
+            added.add(node);
+            order.add(node);
+        };
+
+        addSafe.accept(root.getContent());
 
         for (GraphicUserInterface gui : interfaces) {
-            if (gui != null && gui != root && gui.isBuilt()
-                    && gui.isAlwaysInBack()
-                    && gui.getRoot() != null
-                    && gui.getRoot().isVisible()) {
-                order.add(gui.getRoot());
+            if (gui == null || gui == root || !gui.isBuilt()) continue;
+            if (!gui.isAlwaysInBack()) continue;
+
+            Pane n = gui.getRoot();
+            if (n != null && n.isVisible()) {
+                addSafe.accept(n);
+            }
+        }
+        for (GraphicUserInterface gui : interfaces) {
+            if (gui == null || gui == root || !gui.isBuilt()) continue;
+            if (gui.isAlwaysInBack() || gui.isAlwaysInFront()) continue;
+
+            Pane n = gui.getRoot();
+            if (n != null && n.isVisible()) {
+                addSafe.accept(n);
             }
         }
 
         for (GraphicUserInterface gui : interfaces) {
-            if (gui != null && gui != root && gui.isBuilt()
-                    && !gui.isAlwaysInBack()
-                    && !gui.isAlwaysInFront()
-                    && gui.getRoot() != null
-                    && gui.getRoot().isVisible()) {
-                order.add(gui.getRoot());
+            if (gui == null || gui == root || !gui.isBuilt()) continue;
+            if (!gui.isAlwaysInFront()) continue;
+
+            Pane n = gui.getRoot();
+            if (n != null && n.isVisible()) {
+                addSafe.accept(n);
             }
         }
-
-        for (GraphicUserInterface gui : interfaces) {
-            if (gui != null && gui != root && gui.isBuilt()
-                    && gui.isAlwaysInFront()
-                    && gui.getRoot() != null
-                    && gui.getRoot().isVisible()) {
-                order.add(gui.getRoot());
-            }
-        }
-
         parent.getChildren().setAll(order);
     }
 
@@ -600,6 +627,10 @@ public class GraphicWindow {
         return lastMouseSceneY;
     }
 
+    public GraphicUserInterface getExitInterface() {
+        return exitInterface;
+    }
+
     public record Size(int width, int height, Mode mode) {
         public static final Size FULLSCREEN = new Size(-1, -1, Mode.FULLSCREEN);
 
@@ -620,4 +651,7 @@ public class GraphicWindow {
             FULLSCREEN
         }
     }
+    public record WindowKeyBinding(String action, ActionType type, Runnable actionRunnable) {}
+
+    public record DirectKeyBinding(Key key, ActionType type, Runnable actionRunnable) {}
 }

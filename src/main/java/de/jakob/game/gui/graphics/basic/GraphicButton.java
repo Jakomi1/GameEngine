@@ -4,6 +4,7 @@ import de.jakob.game.color.Color;
 import de.jakob.game.color.NamedColor;
 import de.jakob.game.font.FontUsable;
 import de.jakob.game.gui.graphics.GraphicItem;
+import de.jakob.game.gui.util.Alignment;
 import de.jakob.game.scheduler.GameScheduler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -19,7 +20,7 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
 
     private String text = "";
     private GraphicText graphicText;
-    private Runnable action;
+
     private GameScheduler pressedRepeatScheduler;
     private Runnable pressedRepeatAction;
     private long pressedRepeatIntervalTicks = -1;
@@ -29,6 +30,7 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
     private Runnable notPressedRepeatAction;
     private long notPressedRepeatIntervalTicks = -1;
     private GameScheduler.ScheduledTask notPressedRepeatTask;
+
     private Color backgroundColor;
     private Color hoverColor;
     private Color clickColor;
@@ -54,6 +56,11 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
 
     private String lastStyle = "";
 
+    private Alignment alignment;
+    private boolean wrapText = false;
+    private Double minHeightValue = null;
+    private Double maxWidthValue = null;
+
     private GraphicButton() {
         this.button = new Button();
         setNode(button);
@@ -61,6 +68,11 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    @Override
+    protected boolean usesExternalClickHandling() {
+        return true;
     }
 
     @Override
@@ -154,7 +166,11 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
         button.setPrefSize(w, h);
         button.setMinSize(w, h);
         button.setMaxSize(w, h);
+
+        if (minHeightValue != null) button.setMinHeight(minHeightValue);
+        if (maxWidthValue != null) button.setMaxWidth(maxWidthValue);
     }
+
     public GraphicButton repeatingWhilePressed(GameScheduler scheduler, Runnable action, long intervalTicks) {
         if (scheduler == null) {
             throw new IllegalArgumentException("Scheduler darf nicht null sein!");
@@ -198,6 +214,7 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
 
         return this;
     }
+
     public GraphicButton roundedEdges(double percent) {
         double clamped = Math.max(0.0, Math.min(1.0, percent));
         if (Double.compare(this.roundingPercent, clamped) == 0) {
@@ -306,28 +323,6 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
         }
     }
 
-    public GraphicButton onClick(Runnable action) {
-        if (this.action == action) {
-            return this;
-        }
-
-        this.action = action;
-        return this;
-    }
-
-    @Override
-    protected Shape createCollisionShape() {
-        double w = getWidth();
-        double h = getHeight();
-
-        Rectangle rect = new Rectangle(Math.max(0, w), Math.max(0, h));
-        double arc = Math.min(w, h) * roundingPercent * 2.0;
-
-        rect.setArcWidth(arc);
-        rect.setArcHeight(arc);
-        return rect;
-    }
-
     @Override
     public void build() {
         if (!handlersInstalled) {
@@ -361,9 +356,7 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
             });
 
             button.setOnAction(e -> {
-                if (action != null) {
-                    action.run();
-                }
+                fireOnClick();
                 if (button.getParent() != null) {
                     button.getParent().requestFocus();
                 }
@@ -371,6 +364,9 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
 
             handlersInstalled = true;
         }
+
+        button.setWrapText(wrapText);
+        applyAlignment();
 
         built = true;
         refresh();
@@ -427,7 +423,6 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
             style.append("-fx-text-fill: ").append(textColor.toCSS()).append(';');
         }
 
-        style.append("-fx-alignment: center;");
         style.append("-fx-focus-color: transparent;");
         style.append("-fx-faint-focus-color: transparent;");
 
@@ -442,14 +437,53 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
         return font != null ? font : FontUsable.DEFAULT_FONT;
     }
 
+    public GraphicButton alignment(Alignment alignment) {
+        this.alignment = alignment;
+        if (built) applyAlignment();
+        return this;
+    }
 
+    private void applyAlignment() {
+        if (alignment == null) return;
+        Pos fxPos = Pos.CENTER;
+        if (alignment.percentX() <= 0.1) {
+            if (alignment.percentY() <= 0.1) fxPos = Pos.TOP_LEFT;
+            else if (alignment.percentY() >= 0.9) fxPos = Pos.BOTTOM_LEFT;
+            else fxPos = Pos.CENTER_LEFT;
+        } else if (alignment.percentX() >= 0.9) {
+            if (alignment.percentY() <= 0.1) fxPos = Pos.TOP_RIGHT;
+            else if (alignment.percentY() >= 0.9) fxPos = Pos.BOTTOM_RIGHT;
+            else fxPos = Pos.CENTER_RIGHT;
+        } else {
+            if (alignment.percentY() <= 0.1) fxPos = Pos.TOP_CENTER;
+            else if (alignment.percentY() >= 0.9) fxPos = Pos.BOTTOM_CENTER;
+            else fxPos = Pos.CENTER;
+        }
+        this.button.setAlignment(fxPos);
+    }
+
+    public GraphicButton wrapText(boolean wrap) {
+        this.wrapText = wrap;
+        if (button != null) this.button.setWrapText(wrap);
+        return this;
+    }
+
+    public GraphicButton minHeight(double height) {
+        this.minHeightValue = height;
+        if (button != null) this.button.setMinHeight(height);
+        return this;
+    }
+
+    public GraphicButton maxWidth(double width) {
+        this.maxWidthValue = width;
+        if (button != null) this.button.setMaxWidth(width);
+        return this;
+    }
 
     public static class Builder extends GraphicItemBuilder<GraphicButton, Builder> {
 
         private String text = "";
         private GraphicText graphicText;
-        private Runnable action;
-
         private Color backgroundColor = NamedColor.LIGHT;
         private Color hoverColor;
         private Color clickColor;
@@ -458,11 +492,14 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
         private GameScheduler pressedRepeatScheduler;
         private Runnable pressedRepeatAction;
         private long pressedRepeatIntervalTicks = -1;
-
         private GameScheduler notPressedRepeatScheduler;
         private Runnable notPressedRepeatAction;
         private long notPressedRepeatIntervalTicks = -1;
         private double roundingPercent = 0.05;
+        private Alignment alignment;
+        private boolean wrapText = false;
+        private Double minHeight;
+        private Double maxWidth;
 
         public Builder text(String text) {
             this.text = text != null ? text : "";
@@ -520,8 +557,23 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
             return this;
         }
 
-        public Builder onClick(Runnable action) {
-            this.action = action;
+        public Builder alignment(Alignment alignment) {
+            this.alignment = alignment;
+            return this;
+        }
+
+        public Builder wrapText(boolean wrapText) {
+            this.wrapText = wrapText;
+            return this;
+        }
+
+        public Builder minHeight(double minHeight) {
+            this.minHeight = minHeight;
+            return this;
+        }
+
+        public Builder maxWidth(double maxWidth) {
+            this.maxWidth = maxWidth;
             return this;
         }
 
@@ -530,7 +582,6 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
             GraphicButton button = new GraphicButton();
             button.text = text;
             button.graphicText = graphicText;
-            button.action = action;
             button.backgroundColor = backgroundColor;
             button.hoverColor = hoverColor;
             button.clickColor = clickColor;
@@ -540,13 +591,17 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
             button.pressedRepeatScheduler = pressedRepeatScheduler;
             button.pressedRepeatAction = pressedRepeatAction;
             button.pressedRepeatIntervalTicks = pressedRepeatIntervalTicks;
-
             button.notPressedRepeatScheduler = notPressedRepeatScheduler;
             button.notPressedRepeatAction = notPressedRepeatAction;
             button.notPressedRepeatIntervalTicks = notPressedRepeatIntervalTicks;
+            button.alignment = alignment;
+            button.wrapText = wrapText;
+            button.minHeightValue = minHeight;
+            button.maxWidthValue = maxWidth;
             return button;
         }
     }
+
     private void updateRepeatTasks() {
         if (pressed) {
             stopNotPressedRepeatTask();
@@ -559,31 +614,22 @@ public class GraphicButton extends GraphicItem implements FontUsable<GraphicButt
 
     private void startPressedRepeatTask() {
         stopPressedRepeatTask();
-
         if (pressedRepeatScheduler == null || pressedRepeatAction == null || pressedRepeatIntervalTicks <= 0) {
             return;
         }
-
         pressedRepeatTask = pressedRepeatScheduler.runRepeating(() -> {
-            if (!pressed) {
-                return;
-            }
+            if (!pressed) return;
             pressedRepeatAction.run();
         }, 0, pressedRepeatIntervalTicks);
     }
 
-
     private void startNotPressedRepeatTask() {
         stopNotPressedRepeatTask();
-
         if (notPressedRepeatScheduler == null || notPressedRepeatAction == null || notPressedRepeatIntervalTicks <= 0) {
             return;
         }
-
         notPressedRepeatTask = notPressedRepeatScheduler.runRepeating(() -> {
-            if (pressed) {
-                return;
-            }
+            if (pressed) return;
             notPressedRepeatAction.run();
         }, 0, notPressedRepeatIntervalTicks);
     }

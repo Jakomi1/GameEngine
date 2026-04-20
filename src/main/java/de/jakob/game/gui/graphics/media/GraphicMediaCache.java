@@ -1,6 +1,6 @@
 package de.jakob.game.gui.graphics.media;
 
-import de.jakob.game.path.Directories;
+import de.jakob.game.file.Directories;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.media.Media;
@@ -19,7 +19,7 @@ final class GraphicMediaCache {
     }
 
     static CachedImage texture(String relativePath) {
-        File file = Directories.texture(relativePath);
+        File file = Directories.texture(relativePath).asFile();
         if (!file.exists()) {
             throw new IllegalStateException("Texture nicht gefunden: " + file.getAbsolutePath());
         }
@@ -29,7 +29,7 @@ final class GraphicMediaCache {
     }
 
     static CachedImage mediaImage(String relativePath) {
-        File file = Directories.media(relativePath);
+        File file = Directories.media(relativePath).asFile();
         if (!file.exists()) {
             throw new IllegalStateException("Media nicht gefunden: " + file.getAbsolutePath());
         }
@@ -39,7 +39,7 @@ final class GraphicMediaCache {
     }
 
     static Media media(String relativePath) {
-        File file = Directories.media(relativePath);
+        File file = Directories.media(relativePath).asFile();
         if (!file.exists()) {
             throw new IllegalStateException("Media nicht gefunden: " + file.getAbsolutePath());
         }

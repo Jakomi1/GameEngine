@@ -6,10 +6,21 @@ import de.jakob.game.gui.graphics.GraphicItem;
 
 import java.util.function.Consumer;
 
+@SuppressWarnings("unchecked")
 public abstract class GraphicInput<T> extends GraphicItem {
 
+    @FunctionalInterface
+    public interface ChangeListener<I extends GraphicInput<V>, V> {
+        void onChange(I input, V value);
+
+        static <I extends GraphicInput<V>, V> ChangeListener<I, V> of(Consumer<V> consumer) {
+            return (input, v) -> consumer.accept(v);
+        }
+    }
+
     protected T value;
-    protected Consumer<T> onChange;
+
+    protected ChangeListener<? extends GraphicInput<T>, T> onChange;
 
     protected boolean enabled = true;
     protected int maxCharacters = 16;
@@ -20,7 +31,6 @@ public abstract class GraphicInput<T> extends GraphicItem {
 
     protected double borderRadius = 4;
     protected boolean transparentBackground = false;
-
 
     public T getValue() {
         return value;
@@ -33,13 +43,21 @@ public abstract class GraphicInput<T> extends GraphicItem {
     }
 
     public GraphicInput<T> onChange(Consumer<T> consumer) {
-        this.onChange = consumer;
+        this.onChange = ChangeListener.of(consumer);
         return this;
+    }
+
+    public <I extends GraphicInput<T>> I onChange(ChangeListener<I, T> listener) {
+        this.onChange = listener;
+        return (I) this;
     }
 
     protected void notifyChange(T newValue) {
         this.value = newValue;
-        if (onChange != null) onChange.accept(newValue);
+
+        if (onChange != null) {
+            ((ChangeListener<GraphicInput<T>, T>) onChange).onChange(this, newValue);
+        }
     }
 
     public GraphicInput<T> enable() {
@@ -108,7 +126,6 @@ public abstract class GraphicInput<T> extends GraphicItem {
         );
     }
 
-
     public GraphicInput<T> maxCharacters(int max) {
         this.maxCharacters = Math.max(1, max);
         return this;
@@ -120,12 +137,14 @@ public abstract class GraphicInput<T> extends GraphicItem {
 
     protected abstract void applyValueToNode();
 
-    @SuppressWarnings("unchecked")
-    public abstract static class GraphicInputBuilder<T extends GraphicInput<V>, B extends GraphicInputBuilder<T, B, V>, V>
-            extends GraphicItemBuilder<T, B> {
+    public abstract static class GraphicInputBuilder<
+            T extends GraphicInput<V>,
+            B extends GraphicInputBuilder<T, B, V>,
+            V> extends GraphicItemBuilder<T, B> {
 
         protected V value;
-        protected Consumer<V> onChange;
+        protected ChangeListener<T, V> onChange;
+
         protected Integer maxCharacters;
         protected Boolean enabled;
 
@@ -137,10 +156,20 @@ public abstract class GraphicInput<T> extends GraphicItem {
 
         public B value(V value) { this.value = value; return (B) this; }
 
-        public B onChange(Consumer<V> onChange) { this.onChange = onChange; return (B) this; }
+        public B onChange(ChangeListener<T, V> onChange) {
+            this.onChange = onChange;
+            return (B) this;
+        }
+
+        public B onChange(Consumer<V> consumer) {
+            this.onChange = ChangeListener.of(consumer);
+            return (B) this;
+        }
+
         public B maxCharacters(int max) { this.maxCharacters = max; return (B) this; }
         public B enable() { this.enabled = true; return (B) this; }
         public B disable() { this.enabled = false; return (B) this; }
+
         public B backgroundColor(Color c) { this.backgroundColor = c; return (B) this; }
         public B textColor(Color c) { this.textColor = c; return (B) this; }
         public B borderColor(Color c) { this.borderColor = c; return (B) this; }

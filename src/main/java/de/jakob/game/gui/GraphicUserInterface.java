@@ -23,7 +23,7 @@ import java.util.Map;
 public class GraphicUserInterface {
 
     public static final double TOP_BAR_HEIGHT = 30.0;
-    private static final double EXTRA_SIZE = 5.0;
+    public static final double EXTRA_SIZE = 2;
     private final GraphicWindow window;
     private final Pane content;
 
@@ -374,7 +374,12 @@ public class GraphicUserInterface {
 
         return this;
     }
-
+    public boolean isShown() {
+        return built
+                && container != null
+                && container.isVisible()
+                && window.getRoot().getChildren().contains(container);
+    }
     public GraphicUserInterface show() {
         if (!built) throw new IllegalStateException("Erst create()!");
 
@@ -516,4 +521,6 @@ public class GraphicUserInterface {
         if (background == null) return NamedColor.WHITE;
         return background.isLight() ? NamedColor.BLACK : NamedColor.WHITE;
     }
+
+
 }

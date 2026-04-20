@@ -9,8 +9,8 @@ import de.jakob.game.gui.util.Position;
 import de.jakob.game.scheduler.GameScheduler;
 
 public class ExitGraphicUserInterface extends GraphicUserInterface {
-
-    public ExitGraphicUserInterface(GraphicWindow window) {
+    protected GraphicUserInterface settingsInterface;
+    private ExitGraphicUserInterface(GraphicWindow window) {
         super(window);
     }
 
@@ -19,10 +19,9 @@ public class ExitGraphicUserInterface extends GraphicUserInterface {
         if (scheduler == null) throw new IllegalArgumentException("scheduler must not be null");
 
         ExitGraphicUserInterface gui = new ExitGraphicUserInterface(window);
-
+        gui.settingsInterface =  SettingsGraphicUserInterface.create(window, scheduler);
         gui.size(320, 220)
                 .title("Spielmenü")
-                .interactiveAlways()
                 .alwaysInFront()
                 .align(Alignment.CENTER);
 
@@ -42,13 +41,15 @@ public class ExitGraphicUserInterface extends GraphicUserInterface {
                         .size(160, 30)
                         .backgroundColor(NamedColor.BLUE)
                         .textColor(NamedColor.WHITE)
-                        .onClick(gui::hide),
+                        .onClick(() -> {
+                            gui.settingsInterface.show();
+                        }),
                 Position.of(Alignment.CENTER)
         );
 
         gui.addItem(
                 GraphicButton.builder()
-                        .text("Beenden")
+                        .text("Verlassen")
                         .size(160, 30)
                         .backgroundColor(NamedColor.RED)
                         .textColor(NamedColor.WHITE)

@@ -13,10 +13,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 @SuppressWarnings({"UnusedReturnValue", "BooleanMethodIsAlwaysInverted", "SameParameterValue"})
 public abstract class GraphicItem {
 
-    private static final double MAX_STEP = 1.0;
+    private static final double MAX_STEP = 2.0;
+
+    private Runnable onClick = null;
+    private boolean clickHandlerInstalled = false;
 
     protected Node node;
     protected GraphicUserInterface gui;
@@ -24,7 +31,7 @@ public abstract class GraphicItem {
     protected Position.Builder position;
     protected Point2D resolvedPosition = new Point2D(0, 0);
 
-    protected boolean visible = true; 
+    protected boolean visible = true;
 
     protected double width;
     protected double height;
@@ -37,6 +44,10 @@ public abstract class GraphicItem {
     private double dragOffsetX;
     private double dragOffsetY;
 
+    private String fxBaseStyle = "";
+    private final List<String> fxExtraStyles = new ArrayList<>();
+    private String lastAppliedFxStyle = "";
+
     public void init(GraphicUserInterface gui) {
         if (gui == null) {
             throw new IllegalArgumentException("GUI darf nicht null sein!");
@@ -46,9 +57,36 @@ public abstract class GraphicItem {
 
     public abstract void build();
 
-    
-    
-    
+    public List<GraphicItem> getTouchingItems() {
+        List<GraphicItem> touching = new ArrayList<>();
+
+        if (node == null || node.getParent() == null) {
+            return touching;
+        }
+
+        for (Node sibling : node.getParent().getChildrenUnmodifiable()) {
+            if (sibling == node) {
+                continue;
+            }
+
+            if (!sibling.isVisible()) {
+                continue;
+            }
+
+            if (!(sibling.getUserData() instanceof GraphicItem other)) {
+                continue;
+            }
+
+            if (intersects(
+                    this.getX(), this.getY(), this.getEffectiveWidth(), this.getEffectiveHeight(),
+                    other.getX(), other.getY(), other.getEffectiveWidth(), other.getEffectiveHeight()
+            )) {
+                touching.add(other);
+            }
+        }
+
+        return touching;
+    }
 
     public void show() {
         visible = true;
@@ -77,13 +115,108 @@ public abstract class GraphicItem {
         node.setManaged(visible);
     }
 
-    
+    public GraphicItem onClick(Runnable action) {
+        this.onClick = action;
+        installClickHandlerIfPossible();
+        return this;
+    }
+
+    protected void fireOnClick() {
+        if (onClick != null) {
+            onClick.run();
+        }
+    }
+
+    protected boolean usesExternalClickHandling() {
+        return false;
+    }
+
+    public GraphicItem setFXStyle(String style) {
+        fxBaseStyle = normalizeFxStyle(style);
+        fxExtraStyles.clear();
+        applyFXStyle();
+        return this;
+    }
+
+    public GraphicItem addFXStyle(String style) {
+        String normalized = normalizeFxStyle(style);
+        if (normalized.isBlank()) {
+            return this;
+        }
+
+        if (!fxExtraStyles.contains(normalized)) {
+            fxExtraStyles.add(normalized);
+            applyFXStyle();
+        }
+
+        return this;
+    }
+
+    public GraphicItem clearFXStyle() {
+        fxBaseStyle = "";
+        fxExtraStyles.clear();
+        applyFXStyle();
+        return this;
+    }
+
+    protected void applyFXStyle() {
+        if (node == null) {
+            return;
+        }
+
+        StringBuilder style = new StringBuilder();
+
+        if (!fxBaseStyle.isBlank()) {
+            style.append(fxBaseStyle);
+        }
+
+        for (String extra : fxExtraStyles) {
+            if (extra == null || extra.isBlank()) {
+                continue;
+            }
+
+            if (style.length() > 0 && style.charAt(style.length() - 1) != ';') {
+                style.append(';');
+            }
+
+            style.append(extra);
+        }
+
+        String newStyle = style.toString();
+
+        if (!Objects.equals(lastAppliedFxStyle, newStyle)) {
+            node.setStyle(newStyle);
+            lastAppliedFxStyle = newStyle;
+        }
+    }
+
+    protected void refreshFXStyle() {
+        applyFXStyle();
+    }
+
+    private String normalizeFxStyle(String style) {
+        if (style == null) {
+            return "";
+        }
+
+        String trimmed = style.trim();
+        if (trimmed.isEmpty()) {
+            return "";
+        }
+
+        if (!trimmed.endsWith(";")) {
+            trimmed = trimmed + ";";
+        }
+
+        return trimmed;
+    }
 
     public Node getNode() {
         if (node != null && node.getUserData() != this) {
             node.setUserData(this);
         }
         installMoveHandlersIfPossible();
+        installClickHandlerIfPossible();
         return node;
     }
 
@@ -94,9 +227,12 @@ public abstract class GraphicItem {
             this.node.setUserData(this);
         }
 
+        clickHandlerInstalled = false;
         installMoveHandlersIfPossible();
+        installClickHandlerIfPossible();
+        applyFXStyle();
         recalcPosition();
-        applyVisibility(); 
+        applyVisibility();
     }
 
     public GraphicItem position(Position.Builder builder) {
@@ -173,6 +309,18 @@ public abstract class GraphicItem {
         return 0;
     }
 
+    private void installClickHandlerIfPossible() {
+        if (node == null || clickHandlerInstalled || usesExternalClickHandling()) return;
+
+        node.setOnMouseClicked(e -> {
+            if (onClick == null) return;
+            if (e.getButton() != MouseButton.PRIMARY) return;
+            fireOnClick();
+        });
+
+        clickHandlerInstalled = true;
+    }
+
     protected void setInternalMoveable(boolean value) {
         this.moveable = value;
         installMoveHandlersIfPossible();
@@ -187,12 +335,10 @@ public abstract class GraphicItem {
         return this;
     }
 
-
     public GraphicItem allowOverlap() {
         this.blockOthers = false;
         return this;
     }
-
 
     public boolean blocksOthers() {
         return blockOthers;
@@ -364,18 +510,16 @@ public abstract class GraphicItem {
                 other.getEffectiveWidth(), other.getEffectiveHeight());
     }
 
-    
-    
-    
-
     public abstract static class GraphicItemBuilder<T extends GraphicItem, B extends GraphicItemBuilder<T, B>> {
 
         protected double width = 100;
         protected double height = 36;
         protected boolean moveable = false;
         protected boolean blockOthers = true;
-        protected boolean visible = true; 
+        protected boolean visible = true;
         protected Position.Builder position;
+        protected Runnable onClick;
+        protected final List<String> fxStyles = new ArrayList<>();
 
         protected void setInternalMoveable(boolean value) {
             this.moveable = value;
@@ -401,6 +545,12 @@ public abstract class GraphicItem {
         }
 
         @SuppressWarnings("unchecked")
+        public B onClick(Runnable action) {
+            this.onClick = action;
+            return (B) this;
+        }
+
+        @SuppressWarnings("unchecked")
         public B visible(boolean visible) {
             this.visible = visible;
             return (B) this;
@@ -413,7 +563,15 @@ public abstract class GraphicItem {
         }
 
         @SuppressWarnings("unchecked")
-        public B position(Position.Builder position) {
+        public B addFXStyle(String style) {
+            if (style != null && !style.isBlank()) {
+                this.fxStyles.add(style);
+            }
+            return (B) this;
+        }
+
+        @SuppressWarnings("unchecked")
+        private B position(Position.Builder position) {
             this.position = position;
             return (B) this;
         }
@@ -436,12 +594,19 @@ public abstract class GraphicItem {
             if (blockOthers) item.blockOthers();
             else item.allowOverlap();
 
-            item.visible = this.visible; 
+            item.visible = this.visible;
+            if (this.onClick != null) {
+                item.onClick(this.onClick);
+            }
+
+            for (String style : fxStyles) {
+                item.addFXStyle(style);
+            }
 
             item.position = positionBuilder;
             item.build();
             item.recalcPosition();
-            item.applyVisibility(); 
+            item.applyVisibility();
 
             return item;
         }

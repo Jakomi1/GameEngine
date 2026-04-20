@@ -1,6 +1,6 @@
 package de.jakob.game.gui.graphics.input;
 
-public class GraphicNumberField extends GraphicInputField<Double> {
+public class GraphicNumberInputField extends GraphicInputField<Double> {
 
     @Override
     protected void handleTextChange(String oldVal, String newVal) {
@@ -29,16 +29,16 @@ public class GraphicNumberField extends GraphicInputField<Double> {
         return new Builder();
     }
 
-    public static class Builder extends GraphicInputBuilder<GraphicNumberField, Builder, Double> {
+    public static class Builder extends GraphicInputBuilder<GraphicNumberInputField, Builder, Double> {
 
         @Override
-        protected void configure(GraphicNumberField item) {
+        protected void configure(GraphicNumberInputField item) {
             applyBase(item);
         }
 
         @Override
-        protected GraphicNumberField create() {
-            return new GraphicNumberField();
+        protected GraphicNumberInputField create() {
+            return new GraphicNumberInputField();
         }
     }
 }

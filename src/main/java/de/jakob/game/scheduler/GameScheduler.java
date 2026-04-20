@@ -19,10 +19,17 @@ public class GameScheduler {
     public static volatile long debugIntervalTicks = 50L;
     public static volatile long lagThresholdMillis = 25L;
     public static volatile int maxCatchUpTicksPerFrame = 5;
-    private volatile long lastDebugTick = 0;
-    private volatile long lastDebugNanos = 0;
+
     public static final long targetedTPS = 50;
     private static final long tickDurationNanos = 1_000_000_000L / targetedTPS;
+
+    private final long startTimeMillis = System.currentTimeMillis();
+    private final long startTimeNanos = System.nanoTime();
+
+    private volatile double currentTPS = 0;
+
+    private volatile long lastDebugTick = 0;
+    private volatile long lastDebugNanos = 0;
 
     private static final Comparator<ScheduledTask> TASK_ORDER =
             Comparator.comparingLong((ScheduledTask t) -> t.nextRun)
@@ -54,8 +61,18 @@ public class GameScheduler {
 
     private AnimationTimer timer;
 
-    public GameScheduler() {
+    public GameScheduler() {}
 
+    public long getStartTimeMillis() {
+        return startTimeMillis;
+    }
+
+    public long getStartTimeNanos() {
+        return startTimeNanos;
+    }
+
+    public double getTPS() {
+        return currentTPS;
     }
 
     public void start() {
@@ -64,9 +81,7 @@ public class GameScheduler {
             return;
         }
 
-        if (!running.get() || !started.compareAndSet(false, true)) {
-            return;
-        }
+        if (!running.get() || !started.compareAndSet(false, true)) return;
 
         timer = new AnimationTimer() {
             @Override
@@ -94,6 +109,8 @@ public class GameScheduler {
                     processTick();
                 }
 
+                updateTPS(now);
+
                 if (debug) {
                     boolean lagging =
                             TimeUnit.NANOSECONDS.toMillis(now - lastNanos) >= lagThresholdMillis;
@@ -110,6 +127,15 @@ public class GameScheduler {
         };
 
         timer.start();
+    }
+
+    private void updateTPS(long now) {
+        long deltaTicks = tick - lastDebugTick;
+        long deltaNanos = now - lastDebugNanos;
+
+        if (deltaNanos > 0) {
+            currentTPS = (deltaTicks * 1_000_000_000.0) / deltaNanos;
+        }
     }
 
     private void processTick() {
@@ -148,13 +174,13 @@ public class GameScheduler {
 
             if (async) {
                 try {
-                    asyncPool.execute(() -> runAsyncSafe(task.runnable));
+                    asyncPool.execute(task.runnable);
                 } catch (RejectedExecutionException ignored) {}
             } else {
-                runSync(task.runnable); // 🔥 DIREKT (kein runLater!)
+                task.runnable.run();
             }
 
-            if (task.period > 0 && !task.cancelled.get() && running.get()) {
+            if (task.period > 0 && !task.cancelled.get()) {
                 task.nextRun += task.period;
                 synchronized (lock) {
                     queue.offer(task);
@@ -162,24 +188,6 @@ public class GameScheduler {
             }
         }
     }
-
-    private void runSync(Runnable runnable) {
-        try {
-            runnable.run(); // läuft bereits im JavaFX Thread!
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
-
-    private void runAsyncSafe(Runnable runnable) {
-        try {
-            runnable.run();
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
-
-    // ================= API =================
 
     public void runLater(Runnable runnable, long delayTicks) {
         Objects.requireNonNull(runnable);
@@ -204,44 +212,12 @@ public class GameScheduler {
         return task;
     }
 
-    public ScheduledTask runAsyncRepeating(Runnable runnable, long delay, long period) {
-        ScheduledTask task = new ScheduledTask(
-                runnable,
-                tick + Math.max(0, delay),
-                Math.max(1, period),
-                true,
-                sequence.getAndIncrement()
-        );
-        enqueueAsync(task);
-        return task;
+    public void runAsync(Runnable runnable) {
+        asyncPool.execute(runnable);
     }
 
     public void runNextTick(Runnable runnable) {
         runLater(runnable, 1);
-    }
-
-    public void runAsync(Runnable runnable) {
-        try {
-            asyncPool.execute(() -> runAsyncSafe(runnable));
-        } catch (RejectedExecutionException ignored) {}
-    }
-
-    public void runAsyncLater(Runnable runnable, long delayMillis) {
-        asyncScheduler.schedule(
-                () -> runAsync(runnable),
-                Math.max(0, delayMillis),
-                TimeUnit.MILLISECONDS
-        );
-    }
-
-    public void runAsyncThenSync(Runnable async, Runnable sync) {
-        runAsync(() -> {
-            try {
-                async.run();
-            } finally {
-                runNextTick(sync);
-            }
-        });
     }
 
     public void shutdown() {
@@ -267,22 +243,9 @@ public class GameScheduler {
         pendingAsyncTasks.add(task);
     }
 
-    // ================= Debug =================
-
     private void printPeriodicDebug(long now) {
-        long tickDiff = tick - lastDebugTick;
-        long nanosDiff = now - lastDebugNanos;
-
-        double tps = nanosDiff > 0
-                ? (tickDiff * 1_000_000_000.0) / nanosDiff
-                : 0.0;
-
         Logger.info("[Scheduler] Tick=" + tick +
-                " | DeltaTicks=" + tickDiff +
-                " | TPS=" + String.format("%.2f", tps) +
-                " | Sync=" + syncTasks.size() +
-                " | Async=" + asyncTasks.size());
-
+                " TPS=" + String.format("%.2f", currentTPS));
         lastDebugTick = tick;
         lastDebugNanos = now;
     }
@@ -291,10 +254,8 @@ public class GameScheduler {
         long lagMs = TimeUnit.NANOSECONDS.toMillis(now - lastNanos);
 
         Logger.warn("[Scheduler Lag] Tick=" + tick +
-                " | Advanced=" + advancedTicks +
-                " | Lag=" + lagMs + "ms" +
-                " | Sync=" + syncTasks.size() +
-                " | Async=" + asyncTasks.size());
+                " Advanced=" + advancedTicks +
+                " Lag=" + lagMs + "ms");
 
         lastDebugTick = tick;
         lastDebugNanos = now;
@@ -307,8 +268,6 @@ public class GameScheduler {
             return t;
         };
     }
-
-    // ================= Task =================
 
     public static class ScheduledTask {
         private final Runnable runnable;
@@ -329,10 +288,6 @@ public class GameScheduler {
 
         public void cancel() {
             cancelled.set(true);
-        }
-
-        public boolean isCancelled() {
-            return cancelled.get();
         }
     }
 }

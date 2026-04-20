@@ -47,7 +47,8 @@ public class Position {
 
         private Double minX, minY;
         private Double maxX, maxY;
-
+        private double offsetX = 0;
+        private double offsetY = 0;
         private double marginTop = 0;
         private double marginRight = 0;
         private double marginBottom = 0;
@@ -61,7 +62,21 @@ public class Position {
             this.y = y;
             return this;
         }
+        public Builder offset(double x, double y) {
+            this.offsetX = x;
+            this.offsetY = y;
+            return this;
+        }
 
+        public Builder offsetX(double x) {
+            this.offsetX = x;
+            return this;
+        }
+
+        public Builder offsetY(double y) {
+            this.offsetY = y;
+            return this;
+        }
         public Builder align(Alignment alignment) {
             this.alignment = alignment;
             return this;
@@ -208,10 +223,13 @@ public class Position {
                 resultY = resultY < minY ? minY : (resultY > maxY ? maxY : resultY);
             }
 
+
             if (this.minX != null && resultX < this.minX) resultX = this.minX;
             if (this.minY != null && resultY < this.minY) resultY = this.minY;
             if (this.maxX != null && resultX > this.maxX) resultX = this.maxX;
             if (this.maxY != null && resultY > this.maxY) resultY = this.maxY;
+            resultX += offsetX;
+            resultY += offsetY;
 
             return new Point2D(resultX, resultY);
         }

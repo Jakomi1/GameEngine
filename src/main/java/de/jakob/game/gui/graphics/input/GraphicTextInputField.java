@@ -1,5 +1,5 @@
 package de.jakob.game.gui.graphics.input;
-public class GraphicTextField extends GraphicInputField<String> {
+public class GraphicTextInputField extends GraphicInputField<String> {
 
     @Override
     protected void handleTextChange(String oldVal, String newVal) {
@@ -21,16 +21,16 @@ public class GraphicTextField extends GraphicInputField<String> {
         return new Builder();
     }
 
-    public static class Builder extends GraphicInputBuilder<GraphicTextField, Builder, String> {
+    public static class Builder extends GraphicInputBuilder<GraphicTextInputField, Builder, String> {
 
         @Override
-        protected void configure(GraphicTextField item) {
+        protected void configure(GraphicTextInputField item) {
             applyBase(item);
         }
 
         @Override
-        protected GraphicTextField create() {
-            return new GraphicTextField();
+        protected GraphicTextInputField create() {
+            return new GraphicTextInputField();
         }
     }
 }

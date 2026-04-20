@@ -1,9 +1,9 @@
 package de.jakob.game.gui.graphics.input;
-public class GraphicIntegerField extends GraphicInputField<Integer> {
+public class GraphicIntegerInputField extends GraphicInputField<Integer> {
 
     private Integer maxValue;
 
-    public GraphicIntegerField maxValue(int max) {
+    public GraphicIntegerInputField maxValue(int max) {
         this.maxValue = max;
         return this;
     }
@@ -39,7 +39,7 @@ public class GraphicIntegerField extends GraphicInputField<Integer> {
         return new Builder();
     }
 
-    public static class Builder extends GraphicInputBuilder<GraphicIntegerField, Builder, Integer> {
+    public static class Builder extends GraphicInputBuilder<GraphicIntegerInputField, Builder, Integer> {
 
         private Integer maxValue;
 
@@ -49,14 +49,14 @@ public class GraphicIntegerField extends GraphicInputField<Integer> {
         }
 
         @Override
-        protected void configure(GraphicIntegerField item) {
+        protected void configure(GraphicIntegerInputField item) {
             applyBase(item);
             if (maxValue != null) item.maxValue(maxValue);
         }
 
         @Override
-        protected GraphicIntegerField create() {
-            return new GraphicIntegerField();
+        protected GraphicIntegerInputField create() {
+            return new GraphicIntegerInputField();
         }
     }
 }

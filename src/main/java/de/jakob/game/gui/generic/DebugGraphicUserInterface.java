@@ -8,67 +8,60 @@ import de.jakob.game.scheduler.GameScheduler;
 
 public class DebugGraphicUserInterface extends GraphicUserInterface {
 
-    private final long startTime = System.nanoTime();
     private GraphicText debugText;
-    private long lastTime = System.nanoTime();
-    private int tickCounter = 0;
-    private double tps = 0;
+    private final GameScheduler scheduler;
 
-    public DebugGraphicUserInterface(GraphicWindow window) {
+    private double tps = 0;
+    private long lastTime = System.currentTimeMillis();
+
+    private DebugGraphicUserInterface(GraphicWindow window, GameScheduler scheduler) {
         super(window);
+        this.scheduler = scheduler;
     }
 
     public static DebugGraphicUserInterface create(GraphicWindow window, GameScheduler scheduler) {
-        if (window == null) throw new IllegalArgumentException("window must not be null");
-        if (scheduler == null) throw new IllegalArgumentException("scheduler must not be null");
-
-        DebugGraphicUserInterface gui = new DebugGraphicUserInterface(window);
+        DebugGraphicUserInterface gui = new DebugGraphicUserInterface(window, scheduler);
 
         gui.size(260, 140)
                 .position(10, 10)
-                .title("DEBUG")
+                .title("Informations - Menü")
                 .moveable()
                 .interactiveAlways();
 
         gui.debugText = gui.addItemAndGet(
                 GraphicText.builder()
-                        .text("Loading debug...")
+                        .text("Lade Daten...")
                         .color(NamedColor.GREEN)
                         .fontSize(12),
                 10, 10
         );
 
         gui.create();
-        gui.startUpdater(scheduler);
+        scheduler.runRepeating(gui::updateText, 1, 1);
 
         return gui;
     }
 
-    private void startUpdater(GameScheduler scheduler) {
-        scheduler.runRepeating(this::updateText, 1, 1);
-    }
-
     private void updateText() {
+        if(!isShown()) return;
         GraphicWindow window = getWindow();
 
         double mouseX = window.getMouseX();
         double mouseY = window.getMouseY();
 
-        tickCounter++;
-        long now = System.nanoTime();
+        long now = System.currentTimeMillis();
 
-        if (now - lastTime >= 1_000_000_000L) {
-            tps = tickCounter * (1_000_000_000.0 / (now - lastTime));
-            tickCounter = 0;
+        if (now - lastTime >= 1000) {
+            tps = scheduler.getTPS();
             lastTime = now;
         }
 
-        long elapsedNanos = now - startTime;
-        double seconds = elapsedNanos / 1_000_000_000.0;
+        double seconds = (System.currentTimeMillis() - scheduler.getStartTimeMillis()) / 1000.0;
 
-        String text = "Mouse: " + (int) mouseX + ", " + (int) mouseY + "\n" +
-                "Time: " + String.format("%.2f", seconds) + "s\n" +
-                "TPS: " + String.format("%.2f", tps);
+        String text =
+                "Maus: " + (int) mouseX + ", " + (int) mouseY + "\n" +
+                        "Zeit: " + String.format("%.2f", seconds) + "s\n" +
+                        ((tps != 0)?( "TPS: " + String.format("%.2f", tps)):(""));
 
         debugText.text(text);
     }

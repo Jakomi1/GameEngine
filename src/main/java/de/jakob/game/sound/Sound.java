@@ -1,7 +1,8 @@
 package de.jakob.game.sound;
 
 import de.jakob.game.logger.Logger;
-import de.jakob.game.path.Directories;
+import de.jakob.game.file.Directories;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 
 import java.io.File;
@@ -19,23 +20,34 @@ public final class Sound {
             Executors.newCachedThreadPool(daemonFactory("Sound-Loader"));
 
     private static final ConcurrentHashMap<String, CompletableFuture<Sound>> CACHE = new ConcurrentHashMap<>();
-
     private static final CompletableFuture<Sound> FALLBACK_FUTURE = loadFallbackAsync();
 
     private final String name;
+    private final String uri;
     private final Media media;
+    private final AudioClip clip;
 
-    private Sound(String name, Media media) {
+    private Sound(String name, String uri) {
         this.name = name;
-        this.media = media;
+        this.uri = uri;
+        this.media = new Media(uri);
+        this.clip = new AudioClip(uri);
     }
 
     public String name() {
         return name;
     }
 
+    public String uri() {
+        return uri;
+    }
+
     public Media media() {
         return media;
+    }
+
+    public AudioClip clip() {
+        return clip;
     }
 
     public static CompletableFuture<Sound> get(String name) {
@@ -66,12 +78,9 @@ public final class Sound {
 
     private static CompletableFuture<Sound> loadAsync(String name) {
         return CompletableFuture.supplyAsync(() -> loadOrNull(name), LOADER)
-                .thenCompose(sound -> {
-                    if (sound != null) {
-                        return CompletableFuture.completedFuture(sound);
-                    }
-                    return FALLBACK_FUTURE;
-                });
+                .thenCompose(sound -> sound != null
+                        ? CompletableFuture.completedFuture(sound)
+                        : FALLBACK_FUTURE);
     }
 
     private static CompletableFuture<Sound> loadFallbackAsync() {
@@ -79,24 +88,24 @@ public final class Sound {
     }
 
     private static Sound loadOrNull(String name) {
-        File file = Directories.sound(name);
+        File file = Directories.sound(name).asFile();
 
         if (!file.exists()) {
             Logger.warn("[Sound] Missing: " + name);
             return null;
         }
 
-        return new Sound(name, new Media(file.toURI().toString()));
+        return new Sound(name, file.toURI().toString());
     }
 
     private static Sound loadStrict(String name) {
-        File file = Directories.sound(name);
+        File file = Directories.sound(name).asFile();
 
         if (!file.exists()) {
             throw new RuntimeException("Fallback sound missing: " + FALLBACK);
         }
 
-        return new Sound(name, new Media(file.toURI().toString()));
+        return new Sound(name, file.toURI().toString());
     }
 
     private static ThreadFactory daemonFactory(String name) {

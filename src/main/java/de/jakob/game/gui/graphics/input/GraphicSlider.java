@@ -39,23 +39,25 @@ public class GraphicSlider extends GraphicInput<Double> {
         }
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static <T extends GraphicSlider> Builder<T, ?> builder() {
+        return new Builder<>();
     }
 
-    public static class Builder extends GraphicInputBuilder<GraphicSlider, Builder, Double> {
+
+    public static class Builder<T extends GraphicSlider, B extends Builder<T, B>>
+            extends GraphicInputBuilder<T, B, Double> {
 
         private Double min;
         private Double max;
 
-        public Builder range(double min, double max) {
+        public B range(double min, double max) {
             this.min = min;
             this.max = max;
-            return this;
+            return self();
         }
 
         @Override
-        protected void configure(GraphicSlider item) {
+        protected void configure(T item) {
             applyBase(item);
 
             if (min != null && max != null) {
@@ -64,8 +66,15 @@ public class GraphicSlider extends GraphicInput<Double> {
         }
 
         @Override
-        protected GraphicSlider create() {
-            return new GraphicSlider();
+        protected T create() {
+            return (T) new GraphicSlider(); // wird in Child überschrieben
         }
+
+        protected B self() {
+            return (B) this;
+        }
+    }
+    protected javafx.scene.control.Slider getSlider() {
+        return slider;
     }
 }
