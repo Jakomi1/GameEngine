@@ -53,10 +53,7 @@ public enum NamedColor implements Color {
     WARNING_DARK(200, 150, 60),
 
     ERROR(255, 100, 100),
-    ERROR_DARK(200, 60, 60),
-
-    INFO(100, 180, 255),
-    INFO_DARK(60, 140, 200);
+    ERROR_DARK(200, 60, 60);
 
     private final Color color;
 
