@@ -21,10 +21,33 @@ import java.util.Objects;
 public abstract class GraphicItem {
 
     private static final double MAX_STEP = 2.0;
-
+    private Runnable onPress = null;
+    private Runnable onRelease = null;
     private Runnable onClick = null;
     private boolean clickHandlerInstalled = false;
+    public GraphicItem onPress(Runnable action) {
+        this.onPress = action;
+        installClickHandlerIfPossible();
+        return this;
+    }
 
+    public GraphicItem onRelease(Runnable action) {
+        this.onRelease = action;
+        installClickHandlerIfPossible();
+        return this;
+    }
+    protected void fireOnPress() {
+        if (onPress != null) {
+            onPress.run();
+        }
+    }
+
+
+    protected void fireOnRelease() {
+        if (onRelease != null) {
+            onRelease.run();
+        }
+    }
     protected Node node;
     protected GraphicUserInterface gui;
 
@@ -312,6 +335,20 @@ public abstract class GraphicItem {
     private void installClickHandlerIfPossible() {
         if (node == null || clickHandlerInstalled || usesExternalClickHandling()) return;
 
+        node.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+            if (e.getButton() != MouseButton.PRIMARY) return;
+            if (onPress != null) {
+                fireOnPress();
+            }
+        });
+
+        node.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
+            if (e.getButton() != MouseButton.PRIMARY) return;
+            if (onRelease != null) {
+                fireOnRelease();
+            }
+        });
+
         node.setOnMouseClicked(e -> {
             if (onClick == null) return;
             if (e.getButton() != MouseButton.PRIMARY) return;
@@ -520,11 +557,22 @@ public abstract class GraphicItem {
         protected Position.Builder position;
         protected Runnable onClick;
         protected final List<String> fxStyles = new ArrayList<>();
-
+        protected Runnable onPress;
+        protected Runnable onRelease;
         protected void setInternalMoveable(boolean value) {
             this.moveable = value;
         }
+        @SuppressWarnings("unchecked")
+        public B onPress(Runnable action) {
+            this.onPress = action;
+            return (B) this;
+        }
 
+        @SuppressWarnings("unchecked")
+        public B onRelease(Runnable action) {
+            this.onRelease = action;
+            return (B) this;
+        }
         @SuppressWarnings("unchecked")
         public B size(double width, double height) {
             this.width = width;
@@ -602,7 +650,13 @@ public abstract class GraphicItem {
             for (String style : fxStyles) {
                 item.addFXStyle(style);
             }
+            if (this.onPress != null) {
+                item.onPress(this.onPress);
+            }
 
+            if (this.onRelease != null) {
+                item.onRelease(this.onRelease);
+            }
             item.position = positionBuilder;
             item.build();
             item.recalcPosition();
