@@ -20,7 +20,7 @@ public class GraphicLabeledSlider extends GraphicSlider {
     private Color borderColor = NamedColor.BLACK;
     private double borderWidth = 1;
 
-    public GraphicLabeledSlider label(String text) {
+    public GraphicLabeledSlider text(String text) {
         this.labelText = text != null ? text : "";
         if (label != null) {
             label.setText(this.labelText);
@@ -76,10 +76,6 @@ public class GraphicLabeledSlider extends GraphicSlider {
         label.setFont(textFont);
         label.setPadding(Insets.EMPTY);
 
-        if (textColor != null) {
-            label.setTextFill(textColor.toFX());
-        }
-
         root = new VBox(label, getSlider());
         root.setSpacing(spacing);
         root.setPadding(Insets.EMPTY);
@@ -98,9 +94,14 @@ public class GraphicLabeledSlider extends GraphicSlider {
         if (root == null) return;
 
         if (label != null) {
-            if (textColor != null) {
-                label.setTextFill(textColor.toFX());
+            Color effectiveText = enabled
+                    ? textColor
+                    : textColor.darker(0.4);
+
+            if (effectiveText != null) {
+                label.setTextFill(effectiveText.toFX());
             }
+
             if (textFont != null) {
                 label.setFont(textFont);
             }
@@ -140,7 +141,7 @@ public class GraphicLabeledSlider extends GraphicSlider {
         private Color borderColor;
         private Double borderWidth;
 
-        public Builder label(String text) {
+        public Builder text(String text) {
             this.labelText = text;
             return this;
         }
@@ -178,7 +179,7 @@ public class GraphicLabeledSlider extends GraphicSlider {
         protected void configure(GraphicLabeledSlider item) {
             super.configure(item);
 
-            if (labelText != null) item.label(labelText);
+            if (labelText != null) item.text(labelText);
             if (textFont != null) item.textFont(textFont);
             if (spacing != null) item.spacing(spacing);
 

@@ -31,12 +31,12 @@ public class SettingsGraphicUserInterface extends GraphicUserInterface{
                 .align(Alignment.CENTER);
         gui.addItem(GraphicLabeledSlider.builder()
                         .size(150, 40)
-                        .label("Lautstärke: "+(int)(SoundPlayer.defaultVolume*100)+"%")
+                        .text("Lautstärke: "+(int)(SoundPlayer.defaultVolume*100)+"%")
                         .range(0, 1)
                         .value(SoundPlayer.defaultVolume)
                         .onChange((s, volume) -> {
                             SoundPlayer.defaultVolume = volume;
-                            s.label("Lautstärke: "+(int)(volume*100)+"%");
+                            s.text("Lautstärke: "+(int)(volume*100)+"%");
                         })
                         .noBorder()
                         .transparentBackground()
@@ -76,12 +76,12 @@ public class SettingsGraphicUserInterface extends GraphicUserInterface{
 
         gui.addItem(GraphicLabeledSlider.builder()
                         .size(150, 40)
-                        .label("Ziel-TPS: "+(int)(GameScheduler.targetedTPS))
+                        .text("Ziel-TPS: "+(int)(GameScheduler.targetedTPS))
                         .range(1, 200)
                         .value((double) GameScheduler.targetedTPS)
                         .onChange((s, v) -> {
                             //SoundPlayer.targetedTPS = v;
-                            s.label("Ziel-TPS: "+(int)(GameScheduler.targetedTPS));
+                            s.text("Ziel-TPS: "+(int)(GameScheduler.targetedTPS));
                         })
                         .transparentBackground()
                         .border(false)
@@ -92,7 +92,7 @@ public class SettingsGraphicUserInterface extends GraphicUserInterface{
 
         gui.addItem(GraphicLabeledSlider.builder()
                         .size(150, 40)
-                        .label("???")
+                        .text("???")
 
                         .range(0, 1)
                         .value(SoundPlayer.defaultVolume)
