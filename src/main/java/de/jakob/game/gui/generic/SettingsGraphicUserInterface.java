@@ -41,7 +41,7 @@ public class SettingsGraphicUserInterface extends GraphicUserInterface{
                         .noBorder()
                         .transparentBackground()
                         .border(false)
-                        .labelColor(NamedColor.WHITE),
+                        .textColor(NamedColor.WHITE),
                 Position.marginLeft(0.1).marginTop(0.15)
         );
 
@@ -85,7 +85,7 @@ public class SettingsGraphicUserInterface extends GraphicUserInterface{
                         })
                         .transparentBackground()
                         .border(false)
-                        .labelColor(NamedColor.WHITE)
+                        .textColor(NamedColor.WHITE)
                         .disable(),
                 Position.marginLeft(0.1).marginTop(0.35)
         );
@@ -101,7 +101,7 @@ public class SettingsGraphicUserInterface extends GraphicUserInterface{
                         })
                         .transparentBackground()
                         .border(false)
-                        .labelColor(NamedColor.WHITE)
+                        .textColor(NamedColor.WHITE)
                         .disable(),
                 Position.marginLeft(0.1).marginTop(0.55)
         );

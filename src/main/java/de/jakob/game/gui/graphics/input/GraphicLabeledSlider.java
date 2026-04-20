@@ -13,8 +13,7 @@ public class GraphicLabeledSlider extends GraphicSlider {
     private VBox root;
 
     private String labelText = "";
-    private Color labelColor;
-    private Font labelFont = Font.getDefault();
+    private Font textFont = Font.getDefault();
     private double spacing = 4;
 
     private boolean borderEnabled = false;
@@ -29,17 +28,9 @@ public class GraphicLabeledSlider extends GraphicSlider {
         return this;
     }
 
-    public GraphicLabeledSlider labelColor(Color color) {
-        this.labelColor = color;
-        if (label != null && color != null) {
-            label.setTextFill(color.toFX());
-        }
-        return this;
-    }
-
-    public GraphicLabeledSlider labelFont(Font font) {
+    public GraphicLabeledSlider textFont(Font font) {
         if (font != null) {
-            this.labelFont = font;
+            this.textFont = font;
             if (label != null) {
                 label.setFont(font);
             }
@@ -82,11 +73,11 @@ public class GraphicLabeledSlider extends GraphicSlider {
         super.build();
 
         label = new Label(labelText);
-        label.setFont(labelFont);
+        label.setFont(textFont);
         label.setPadding(Insets.EMPTY);
 
-        if (labelColor != null) {
-            label.setTextFill(labelColor.toFX());
+        if (textColor != null) {
+            label.setTextFill(textColor.toFX());
         }
 
         root = new VBox(label, getSlider());
@@ -104,8 +95,15 @@ public class GraphicLabeledSlider extends GraphicSlider {
     protected void applyStyle() {
         super.applyStyle();
 
-        if (root == null) {
-            return;
+        if (root == null) return;
+
+        if (label != null) {
+            if (textColor != null) {
+                label.setTextFill(textColor.toFX());
+            }
+            if (textFont != null) {
+                label.setFont(textFont);
+            }
         }
 
         if (borderEnabled && borderWidth > 0) {
@@ -135,8 +133,7 @@ public class GraphicLabeledSlider extends GraphicSlider {
     public static class Builder extends GraphicSlider.Builder<GraphicLabeledSlider, Builder> {
 
         private String labelText;
-        private Color labelColor;
-        private Font labelFont;
+        private Font textFont;
         private Double spacing;
 
         private Boolean borderEnabled;
@@ -148,13 +145,8 @@ public class GraphicLabeledSlider extends GraphicSlider {
             return this;
         }
 
-        public Builder labelColor(Color color) {
-            this.labelColor = color;
-            return this;
-        }
-
-        public Builder labelFont(Font font) {
-            this.labelFont = font;
+        public Builder textFont(Font font) {
+            this.textFont = font;
             return this;
         }
 
@@ -187,8 +179,7 @@ public class GraphicLabeledSlider extends GraphicSlider {
             super.configure(item);
 
             if (labelText != null) item.label(labelText);
-            if (labelColor != null) item.labelColor(labelColor);
-            if (labelFont != null) item.labelFont(labelFont);
+            if (textFont != null) item.textFont(textFont);
             if (spacing != null) item.spacing(spacing);
 
             if (borderEnabled != null) {
@@ -196,10 +187,6 @@ public class GraphicLabeledSlider extends GraphicSlider {
             }
 
             if (Boolean.TRUE.equals(borderEnabled) && borderColor != null && borderWidth != null) {
-                item.border(borderColor, borderWidth);
-            }
-
-            if (borderColor != null && borderWidth != null) {
                 item.border(borderColor, borderWidth);
             }
         }
