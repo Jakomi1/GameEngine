@@ -3,6 +3,7 @@ package de.jakob.game.gui;
 import de.jakob.game.gui.generic.MainGraphicUserInterface;
 import de.jakob.game.input.ActionType;
 import de.jakob.game.input.Key;
+import de.jakob.game.input.KeyBind;
 import de.jakob.game.input.KeyBinds;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
@@ -37,7 +38,6 @@ public class GraphicWindow {
     private double lastMouseSceneY = Double.NaN;
     private Runnable onExit;
     private final List<WindowKeyBinding> bindedKeyBindings = new ArrayList<>();
-    private final List<DirectKeyBinding> directKeyBindings = new ArrayList<>();
     public GraphicWindow(Stage stage) {
         this(stage, "Main Window", Size.of(800, 600));
     }
@@ -148,33 +148,22 @@ public class GraphicWindow {
 
         return this;
     }
-    public GraphicWindow addBindedKeyListener(String keyBind, ActionType type, Runnable runnable) {
-        if (keyBind != null && type != null && runnable != null) {
-            bindedKeyBindings.add(new WindowKeyBinding(keyBind, type, runnable));
+    public GraphicWindow addBindedKeyListener(KeyBind bind, ActionType type, Runnable runnable) {
+        if (bind != null && type != null && runnable != null) {
+            bindedKeyBindings.add(new WindowKeyBinding(bind, type, runnable));
         }
         return this;
     }
 
-    public GraphicWindow addKeyListener(Key key, ActionType type, Runnable runnable) {
-        if (key != null && type != null && runnable != null) {
-            directKeyBindings.add(new DirectKeyBinding(key, type, runnable));
-        }
-        return this;
-    }
 
     private void fireWindowKeyListeners(Key key, ActionType type) {
-
-        // 🔥 1. Direct (fixe Keys)
-        for (DirectKeyBinding binding : directKeyBindings) {
-            if (binding.key() == key && binding.type() == type) {
-                binding.actionRunnable().run();
-            }
-        }
-
-        // 🔥 2. Binded (dynamisch über KeyBinds)
         for (WindowKeyBinding binding : bindedKeyBindings) {
 
-            Key expected = KeyBinds.get(binding.action());
+            KeyBind bind = binding.bind();
+
+            if (bind == null) return;
+
+            Key expected = bind.getKey(); // oder bind.key()
 
             if (expected == key && binding.type() == type) {
                 binding.actionRunnable().run();
@@ -649,7 +638,5 @@ public class GraphicWindow {
             FULLSCREEN
         }
     }
-    public record WindowKeyBinding(String action, ActionType type, Runnable actionRunnable) {}
-
-    public record DirectKeyBinding(Key key, ActionType type, Runnable actionRunnable) {}
+    public record WindowKeyBinding(KeyBind bind, ActionType type, Runnable actionRunnable) {}
 }
