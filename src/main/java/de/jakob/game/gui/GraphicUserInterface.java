@@ -10,6 +10,7 @@ import de.jakob.game.gui.util.Alignment;
 import de.jakob.game.gui.util.Position;
 import de.jakob.game.input.ActionType;
 import de.jakob.game.input.Key;
+import de.jakob.game.input.KeyBind;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.BorderPane;
@@ -362,7 +363,7 @@ public class GraphicUserInterface {
         applyPositionToContainer();
     }
 
-    private void refreshStyles() {
+    protected void refreshStyles() {
         if (frame != null) {
             frame.setStyle(
                     "-fx-background-color: " + mainColor.toCSS() + ";" +
@@ -383,7 +384,7 @@ public class GraphicUserInterface {
         refreshTopBarContent();
     }
 
-    private void refreshTopBarContent() {
+    protected void refreshTopBarContent() {
         if (topBar == null) return;
 
         topBar.getChildren().clear();

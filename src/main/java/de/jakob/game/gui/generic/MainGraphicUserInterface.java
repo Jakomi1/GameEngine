@@ -2,9 +2,8 @@ package de.jakob.game.gui.generic;
 
 import de.jakob.game.gui.GraphicUserInterface;
 import de.jakob.game.gui.GraphicWindow;
+import de.jakob.game.gui.graphics.basic.GraphicText;
 import de.jakob.game.gui.util.Position;
-import de.jakob.game.input.ActionType;
-import de.jakob.game.input.KeyBinds;
 import javafx.scene.layout.Pane;
 
 public class MainGraphicUserInterface extends GraphicUserInterface {
@@ -18,14 +17,14 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
         super(window);
     }
 
-
     public MainGraphicUserInterface exitGUI(GraphicUserInterface gui) {
         this.exitGUI = gui;
 
         if (gui != null) {
             gui.hide();
         }
-        getWindow().addKeyBindListener(KeyBinds.DefaultBind.EXIT.getKeyBind(),ActionType.PRESS, this::showExit);
+
+        getWindow().addKeyBindListener(de.jakob.game.input.KeyBinds.DefaultBind.EXIT.getKeyBind(), de.jakob.game.input.ActionType.PRESS, this::showExit);
 
         return this;
     }
@@ -37,14 +36,14 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
             gui.hide();
         }
 
-        getWindow().addKeyBindListener(KeyBinds.DefaultBind.DEBUG_SCREEN.getKeyBind(),ActionType.PRESS, this::toggleDebug);
+        getWindow().addKeyBindListener(de.jakob.game.input.KeyBinds.DefaultBind.DEBUG_SCREEN.getKeyBind(), de.jakob.game.input.ActionType.PRESS, this::toggleDebug);
 
         return this;
     }
 
     public void showExit() {
         if (exitGUI == null) return;
-        if(exitGUI.isShown()) return;
+        if (exitGUI.isShown()) return;
         exitGUI.show();
         getWindow().focus(exitGUI);
     }
@@ -66,6 +65,21 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
         return debugVisible;
     }
 
+    @Override
+    public GraphicUserInterface backgroundColor(de.jakob.game.color.Color color) {
+        super.backgroundColor(color);
+        return this;
+    }
+
+    @Override
+    protected void refreshStyles() {
+        Pane container = getRoot();
+        if (container != null) {
+            container.setStyle(
+                    "-fx-background-color: " + getBackgroundColor().toCSS() + ";"
+            );
+        }
+    }
 
     @Override
     public GraphicUserInterface create() {
@@ -84,14 +98,11 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
 
         getContent().setPrefSize(width, height);
 
-        container.setStyle(
-                "-fx-background-color: " + getBackgroundColor().toCSS() + ";"
-        );
-
         container.getChildren().add(getContent());
 
         setContainer(container);
         setBuilt();
+        refreshStyles();
 
         return this;
     }
@@ -105,6 +116,5 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
 
     @Override
     public void hide() {
-
     }
 }
