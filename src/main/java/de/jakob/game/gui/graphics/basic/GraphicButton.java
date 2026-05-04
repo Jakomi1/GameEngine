@@ -8,8 +8,6 @@ import de.jakob.game.gui.util.Alignment;
 import de.jakob.game.scheduler.GameScheduler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 
 import java.util.Objects;

@@ -127,6 +127,7 @@ public class GraphicLabeledSlider extends GraphicSlider {
         );
     }
 
+    @SuppressWarnings("unchecked")
     public static Builder builder() {
         return new Builder();
     }

@@ -239,6 +239,7 @@ public class GameScheduler {
         pendingSyncTasks.add(task);
     }
 
+    @SuppressWarnings("unused")
     private void enqueueAsync(ScheduledTask task) {
         pendingAsyncTasks.add(task);
     }
@@ -273,6 +274,7 @@ public class GameScheduler {
         private final Runnable runnable;
         private volatile long nextRun;
         private final long period;
+        @SuppressWarnings("unused")
         private final boolean async;
         private final long sequence;
         private final AtomicBoolean cancelled = new AtomicBoolean(false);

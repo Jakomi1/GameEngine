@@ -4,8 +4,6 @@ import de.jakob.game.gui.GraphicUserInterface;
 import de.jakob.game.gui.GraphicWindow;
 import de.jakob.game.gui.util.Position;
 import de.jakob.game.input.ActionType;
-import de.jakob.game.input.Key;
-import de.jakob.game.input.KeyBinds;
 import javafx.scene.layout.Pane;
 
 public class MainGraphicUserInterface extends GraphicUserInterface {

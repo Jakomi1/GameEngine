@@ -5,12 +5,10 @@ import de.jakob.game.gui.GraphicUserInterface;
 import de.jakob.game.gui.GraphicWindow;
 import de.jakob.game.gui.graphics.basic.GraphicButton;
 import de.jakob.game.gui.graphics.input.GraphicLabeledSlider;
-import de.jakob.game.gui.graphics.polygon.GraphicRectangle;
 import de.jakob.game.gui.util.Alignment;
 import de.jakob.game.gui.util.Position;
 import de.jakob.game.scheduler.GameScheduler;
 import de.jakob.game.sound.SoundPlayer;
-import javafx.scene.layout.Pane;
 
 public class SettingsGraphicUserInterface extends GraphicUserInterface{
 

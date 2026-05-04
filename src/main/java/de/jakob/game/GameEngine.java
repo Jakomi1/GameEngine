@@ -1,14 +1,10 @@
 package de.jakob.game;
 
-import de.jakob.game.gui.GraphicUserInterface;
 import de.jakob.game.gui.GraphicWindow;
 import de.jakob.game.gui.generic.DebugGraphicUserInterface;
 import de.jakob.game.gui.generic.ExitGraphicUserInterface;
 import de.jakob.game.file.Directories;
-import de.jakob.game.input.ActionType;
-import de.jakob.game.input.Key;
 import de.jakob.game.input.KeyBinds;
-import de.jakob.game.logger.Logger;
 import de.jakob.game.scheduler.GameScheduler;
 import javafx.application.Application;
 import javafx.stage.Stage;

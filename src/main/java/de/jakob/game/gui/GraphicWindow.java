@@ -1,6 +1,5 @@
 package de.jakob.game.gui;
 
-import de.jakob.game.gui.generic.ExitGraphicUserInterface;
 import de.jakob.game.gui.generic.MainGraphicUserInterface;
 import de.jakob.game.input.ActionType;
 import de.jakob.game.input.Key;
@@ -9,7 +8,6 @@ import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -134,7 +132,7 @@ public class GraphicWindow {
 
             scene.setOnKeyReleased(e -> {
                 Key key = Key.from(e.getCode());
-                if (dispatchInput(Key.from(e.getCode()), ActionType.RELEASE)) {
+                if (dispatchInput(key, ActionType.RELEASE)) {
                     e.consume();
                 }
             });

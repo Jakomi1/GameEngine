@@ -1,5 +1,5 @@
 package de.jakob.game.gui.graphics.media;
-@SuppressWarnings({"FieldCanBeLocal"})
+@SuppressWarnings({"FieldCanBeLocal","unused"})
 public class GraphicAnimation extends GraphicTextureItem {
 
 

@@ -33,6 +33,7 @@ public class KeybindsGraphicUserInterface extends GraphicUserInterface {
         this.scheduler = scheduler;
     }
 
+    @SuppressWarnings("unused")
     public static KeybindsGraphicUserInterface create(GraphicWindow window, GameScheduler scheduler) {
         if (window == null) throw new IllegalArgumentException("window must not be null");
         KeyBinds.load();

@@ -618,7 +618,7 @@ public abstract class GraphicItem {
             return (B) this;
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({ "unchecked", "unused" })
         private B position(Position.Builder position) {
             this.position = position;
             return (B) this;

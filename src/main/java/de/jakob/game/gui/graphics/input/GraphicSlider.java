@@ -65,11 +65,13 @@ public class GraphicSlider extends GraphicInput<Double> {
             }
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         protected T create() {
             return (T) new GraphicSlider(); // wird in Child überschrieben
         }
 
+        @SuppressWarnings("unchecked")
         protected B self() {
             return (B) this;
         }
