@@ -8,6 +8,7 @@ import de.jakob.game.gui.graphics.input.GraphicLabeledSlider;
 import de.jakob.game.gui.util.Alignment;
 import de.jakob.game.gui.util.Position;
 import de.jakob.game.scheduler.GameScheduler;
+import de.jakob.game.sound.AudioConfig;
 import de.jakob.game.sound.SoundPlayer;
 
 public class SettingsGraphicUserInterface extends GraphicUserInterface{
@@ -29,11 +30,11 @@ public class SettingsGraphicUserInterface extends GraphicUserInterface{
                 .align(Alignment.CENTER);
         gui.addItem(GraphicLabeledSlider.builder()
                         .size(150, 40)
-                        .text("Lautstärke: "+(int)(SoundPlayer.defaultVolume*100)+"%")
+                        .text("Lautstärke: "+(int)(SoundPlayer.getDefaultVolume()*100)+"%")
                         .range(0, 1)
-                        .value(SoundPlayer.defaultVolume)
+                        .value(SoundPlayer.getDefaultVolume())
                         .onChange((s, volume) -> {
-                            SoundPlayer.defaultVolume = volume;
+                            AudioConfig.setDefaultVolume(volume);
                             s.text("Lautstärke: "+(int)(volume*100)+"%");
                         })
                         .noBorder()
@@ -93,7 +94,7 @@ public class SettingsGraphicUserInterface extends GraphicUserInterface{
                         .text("???")
 
                         .range(0, 1)
-                        .value(SoundPlayer.defaultVolume)
+                        .value(SoundPlayer.getDefaultVolume())
                         .onChange((s, volume) -> {
 
                         })

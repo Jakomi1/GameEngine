@@ -9,13 +9,14 @@ import java.util.concurrent.CompletableFuture;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public final class SoundPlayer {
-    public static double defaultVolume = 0.8;
-
+    public static double getDefaultVolume() {
+        return AudioConfig.getDefaultVolume();
+    }
     private SoundPlayer() {
     }
 
     public static void play(String name) {
-        play(name, defaultVolume);
+        play(name, getDefaultVolume());
     }
 
     public static void play(String name, double volume) {
@@ -70,7 +71,7 @@ public final class SoundPlayer {
     }
 
     public static SoundLoop loop(String name) {
-        return loop(name, defaultVolume);
+        return loop(name, getDefaultVolume());
     }
 
     public static SoundLoop loop(String name, double volume) {

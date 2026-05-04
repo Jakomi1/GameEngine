@@ -122,11 +122,11 @@ public final class KeyBinds {
 
     // ---------------- REGISTER / UPDATE ----------------
 
-    public static KeyBind register(String action, Key key) {
-        return register(action, fallback(action), key);
-    }
+    /*public static KeyBind registerOrGet(String action, Key key) {
+        return registerOrGet(action, fallback(action), key);
+    }*/
 
-    public static KeyBind register(String action, String display, Key key) {
+    public static KeyBind registerOrGet(String action, String displayName, Key key) {
         if (action == null || action.isBlank()) return null;
 
         if (CACHE.containsKey(action)) {
@@ -135,7 +135,7 @@ public final class KeyBinds {
 
         CACHE.put(action, new Bind(
                 action,
-                display,
+                displayName,
                 key,
                 true
         ));
