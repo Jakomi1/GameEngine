@@ -4,7 +4,6 @@ import de.jakob.game.gui.generic.MainGraphicUserInterface;
 import de.jakob.game.input.ActionType;
 import de.jakob.game.input.Key;
 import de.jakob.game.input.KeyBind;
-import de.jakob.game.input.KeyBinds;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -148,7 +147,7 @@ public class GraphicWindow {
 
         return this;
     }
-    public GraphicWindow addBindedKeyListener(KeyBind bind, ActionType type, Runnable runnable) {
+    public GraphicWindow addKeyBindListener(KeyBind bind, ActionType type, Runnable runnable) {
         if (bind != null && type != null && runnable != null) {
             bindedKeyBindings.add(new WindowKeyBinding(bind, type, runnable));
         }

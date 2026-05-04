@@ -4,6 +4,7 @@ import de.jakob.game.gui.GraphicUserInterface;
 import de.jakob.game.gui.GraphicWindow;
 import de.jakob.game.gui.util.Position;
 import de.jakob.game.input.ActionType;
+import de.jakob.game.input.KeyBinds;
 import javafx.scene.layout.Pane;
 
 public class MainGraphicUserInterface extends GraphicUserInterface {
@@ -24,7 +25,7 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
         if (gui != null) {
             gui.hide();
         }
-        getWindow().addBindedKeyListener("exit",ActionType.PRESS, this::showExit);
+        getWindow().addKeyBindListener(KeyBinds.DefaultBind.EXIT.getKeyBind(),ActionType.PRESS, this::showExit);
 
         return this;
     }
@@ -36,7 +37,7 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
             gui.hide();
         }
 
-        getWindow().addBindedKeyListener("debug",ActionType.PRESS, this::toggleDebug);
+        getWindow().addKeyBindListener(KeyBinds.DefaultBind.DEBUG_SCREEN.getKeyBind(),ActionType.PRESS, this::toggleDebug);
 
         return this;
     }

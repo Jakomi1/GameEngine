@@ -13,11 +13,9 @@ public final class KeyBinds {
 
     private KeyBinds() {}
 
-    // ---------------- INTERNAL DATA ----------------
-
     private record Bind(String action, String displayName, Key key, boolean changeable) {}
 
-    private enum DefaultBind {
+    public enum DefaultBind {
         EXIT("exit", "Beenden", Key.ESCAPE, false),
         DEBUG_SCREEN("debug", "Informationen", Key.F3, true),
         JUMP("jump", "Springen", Key.SPACE, true),
@@ -34,10 +32,19 @@ public final class KeyBinds {
             this.displayName = displayName;
             this.key = key;
             this.changeable = changeable;
+
+        }
+
+        public KeyBind getKeyBind() {
+            return KeyBinds.getKeyBind(action);
+        }
+        public Key getKey() {
+            return KeyBinds.getResolvedKey(action);
+        }
+        public void reset() {
+            KeyBinds.set(action, key);
         }
     }
-
-    // ---------------- LOAD ----------------
 
     public static void load() {
         CACHE.clear();
@@ -81,8 +88,7 @@ public final class KeyBinds {
     }
 
     private static void parseLine(String line) {
-        if (line == null || line.isBlank()) return;
-        if (line.startsWith("#")) return;
+        if (line == null || line.isBlank() || line.startsWith("#")) return;
 
         String[] split = line.split("\\|");
         if (split.length != 3) return;
@@ -98,15 +104,16 @@ public final class KeyBinds {
             key = Key.UNDEFINED;
         }
 
+        Bind existing = CACHE.get(action);
+        boolean changeable = existing != null ? existing.changeable : true;
+
         CACHE.put(action, new Bind(
                 action,
                 display.isBlank() ? fallback(action) : display,
                 key,
-                true
+                changeable
         ));
     }
-
-    // ---------------- SAVE ----------------
 
     public static void save() {
         StringBuilder sb = new StringBuilder();
@@ -119,12 +126,6 @@ public final class KeyBinds {
 
         FILE.writeString(sb.toString());
     }
-
-    // ---------------- REGISTER / UPDATE ----------------
-
-    /*public static KeyBind registerOrGet(String action, Key key) {
-        return registerOrGet(action, fallback(action), key);
-    }*/
 
     public static KeyBind registerOrGet(String action, String displayName, Key key) {
         if (action == null || action.isBlank()) return null;
@@ -152,13 +153,11 @@ public final class KeyBinds {
                 action,
                 b.displayName,
                 key,
-                true
+                b.changeable
         ));
 
         save();
     }
-
-    // ---------------- API ----------------
 
     public static KeyBind getKeyBind(String action) {
         if (action == null || action.isBlank()) return null;
@@ -172,10 +171,33 @@ public final class KeyBinds {
         return b != null ? b.key : Key.UNDEFINED;
     }
 
+    public static Key getDefaultKey(String action) {
+        for (DefaultBind b : DefaultBind.values()) {
+            if (b.action.equals(action)) {
+                return b.key;
+            }
+        }
+        return Key.UNDEFINED;
+    }
+
+    public static DefaultBind getDefault(String action) {
+        for (DefaultBind b : DefaultBind.values()) {
+            if (b.action.equals(action)) {
+                return b;
+            }
+        }
+        return null;
+    }
+
+    public static Key getResolvedKey(String action) {
+        Bind b = CACHE.get(action);
+        if (b != null) return b.key;
+        return getDefaultKey(action);
+    }
+
     public static String getDisplayName(String action) {
         Bind b = CACHE.get(action);
-        if (b != null) return b.displayName;
-        return fallback(action);
+        return b != null ? b.displayName : fallback(action);
     }
 
     public static boolean isChangeable(String action) {
@@ -195,10 +217,12 @@ public final class KeyBinds {
         return Collections.unmodifiableMap(out);
     }
 
-    // ---------------- UTILS ----------------
+    public static DefaultBind[] getDefaults() {
+        return DefaultBind.values();
+    }
 
     private static String fallback(String action) {
-        if (action == null) return "";
+        if (action == null || action.isEmpty()) return "";
         String p = action.replace('_', ' ');
         return Character.toUpperCase(p.charAt(0)) + p.substring(1);
     }
