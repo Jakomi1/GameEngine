@@ -29,6 +29,7 @@ public class GraphicUserInterface {
 
     private Pane container;
     private Pane topBar;
+    private BorderPane frame;
 
     private boolean alwaysInBack = false;
     private boolean alwaysInFront = false;
@@ -115,15 +116,15 @@ public class GraphicUserInterface {
     }
 
     public GraphicUserInterface size(int width, int height) {
-        checkNotBuilt();
         this.width = width;
         this.height = height;
+        applyLayoutChanges();
         return this;
     }
 
     public GraphicUserInterface position(Position.Builder builder) {
-        checkNotBuilt();
         this.position = builder != null ? builder : Position.of(0, 0);
+        applyPositionToContainer();
         return this;
     }
 
@@ -132,8 +133,8 @@ public class GraphicUserInterface {
     }
 
     public GraphicUserInterface titleColor(Color color) {
-        checkNotBuilt();
         this.titleColor = color;
+        refreshTopBarContent();
         return this;
     }
 
@@ -142,76 +143,78 @@ public class GraphicUserInterface {
     }
 
     public GraphicUserInterface moveable() {
-        checkNotBuilt();
         this.moveable = true;
+        installMoveHandlers();
         return this;
     }
 
     public GraphicUserInterface closeable() {
-        checkNotBuilt();
         this.closeButton = true;
+        refreshTopBarContent();
         return this;
     }
 
     public GraphicUserInterface title(String title) {
-        checkNotBuilt();
         this.title = title != null ? title : "";
+        refreshTopBarContent();
         return this;
     }
 
     public GraphicUserInterface backgroundColor(Color color) {
-        checkNotBuilt();
         this.mainColor = color != null ? color : Color.fromHex("#2b2b2b");
+        refreshStyles();
         return this;
     }
 
     public GraphicUserInterface topBar(Color color) {
-        checkNotBuilt();
         this.topBarColor = color;
+        refreshStyles();
         return this;
     }
 
     public GraphicUserInterface alwaysInBack() {
-        checkNotBuilt();
         this.alwaysInBack = true;
         this.alwaysInFront = false;
+        if (built) {
+            window.updateZOrder();
+        }
         return this;
     }
 
     public GraphicUserInterface alwaysInFront() {
-        checkNotBuilt();
         this.alwaysInFront = true;
         this.alwaysInBack = false;
+        if (built) {
+            window.updateZOrder();
+        }
         return this;
     }
 
     public GraphicUserInterface normalZOrder() {
-        checkNotBuilt();
         this.alwaysInBack = false;
         this.alwaysInFront = false;
+        if (built) {
+            window.updateZOrder();
+        }
         return this;
     }
 
     public GraphicUserInterface blockOthers() {
-        checkNotBuilt();
         this.blockOthers = true;
         return this;
     }
 
     public GraphicUserInterface onlyInteractiveWhenActive() {
-        checkNotBuilt();
         this.onlyInteractiveWhenActive = true;
         return this;
     }
 
     public GraphicUserInterface interactiveAlways() {
-        checkNotBuilt();
         this.onlyInteractiveWhenActive = false;
         return this;
     }
 
     public GraphicUserInterface interactiveWhenActive(boolean value) {
-        checkNotBuilt();
         this.onlyInteractiveWhenActive = value;
         return this;
     }
@@ -265,7 +268,9 @@ public class GraphicUserInterface {
     }
 
     public GraphicUserInterface create() {
-        if (built) return this;
+        if (built) {
+            return this;
+        }
 
         if (width <= 0 || height <= 0) {
             throw new IllegalStateException("Overlay GUI braucht size()");
@@ -277,14 +282,8 @@ public class GraphicUserInterface {
         container.setPickOnBounds(false);
         container.setUserData(this);
 
-        BorderPane frame = new BorderPane();
+        frame = new BorderPane();
         frame.setPrefSize(width, height);
-        frame.setStyle(
-                "-fx-background-color: " + mainColor.toCSS() + ";" +
-                        "-fx-background-radius: 10;" +
-                        "-fx-border-color: " + mainColor.darker(0.28).toCSS() + ";" +
-                        "-fx-border-radius: 10;"
-        );
         frame.setEffect(new DropShadow(20, javafx.scene.paint.Color.BLACK));
 
         topBar = new Pane();
@@ -292,96 +291,37 @@ public class GraphicUserInterface {
 
         content.setPrefSize(width, Math.max(0, height - TOP_BAR_HEIGHT));
 
-        Color resolvedTop = topBarColor != null
-                ? topBarColor
-                : mainColor.darker(0.12);
-
-        topBar.setStyle(
-                "-fx-background-color: " + resolvedTop.toCSS() + ";" +
-                        "-fx-background-radius: 10 10 0 0;"
-        );
-
-        if (!title.isEmpty()) {
-            Color textColor = titleColor != null
-                    ? titleColor
-                    : resolveTextColor(resolvedTop);
-            GraphicText text = GraphicText.builder()
-                    .text(title)
-                    .fontSize(14)
-
-                    .color(textColor)
-                    .build(this, Position.of(10, 7));
-            topBar.getChildren().add(text.getNode());
-        }
-
-        if (closeButton) {
-            GraphicText xText = GraphicText.builder()
-                    .text("X")
-                    .bold(true)
-                    .fontSize(14)
-                    .color(NamedColor.WHITE)
-                    .build(this, Position.of(0, 0));
-
-            GraphicButton close = GraphicButton.builder()
-                    .graphicText(xText)
-                    .backgroundColor(NamedColor.RED)
-                    .textColor(NamedColor.WHITE)
-                    .onClick(this::hide)
-                    .size(30, 20)
-                    .build(this, Position.of(width - 40, 5));
-
-            topBar.getChildren().add(close.getNode());
-        }
-
-        content.setPrefSize(width, Math.max(0, height - TOP_BAR_HEIGHT));
-        content.setUserData(this);
-
         frame.setTop(topBar);
         frame.setCenter(content);
         container.getChildren().add(frame);
 
+        content.setUserData(this);
+
+        applyLayoutChanges();
+        refreshStyles();
+        refreshTopBarContent();
         applyPositionToContainer();
+        installMoveHandlers();
 
         container.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_PRESSED, e -> window.focus(this));
-
-        if (moveable) {
-            topBar.setOnMousePressed(e -> {
-                window.focus(this);
-                dragging = true;
-                dragOffsetX = e.getSceneX() - container.getLayoutX();
-                dragOffsetY = e.getSceneY() - container.getLayoutY();
-                e.consume();
-            });
-
-            topBar.setOnMouseDragged(e -> {
-                if (!dragging) return;
-
-                double newX = e.getSceneX() - dragOffsetX;
-                double newY = e.getSceneY() - dragOffsetY;
-
-                moveContainer(newX, newY);
-                e.consume();
-            });
-
-            topBar.setOnMouseReleased(e -> {
-                dragging = false;
-                e.consume();
-            });
-        }
 
         built = true;
         applyPositionToContainer();
 
         return this;
     }
+
     public boolean isShown() {
         return built
                 && container != null
                 && container.isVisible()
                 && window.getRoot().getChildren().contains(container);
     }
+
     public GraphicUserInterface show() {
-        if (!built) throw new IllegalStateException("Erst create()!");
+        if (!built) {
+            create();
+        }
 
         applyPositionToContainer();
 
@@ -403,6 +343,121 @@ public class GraphicUserInterface {
         window.onInterfaceHidden(this);
     }
 
+    private void applyLayoutChanges() {
+        if (container != null) {
+            container.setPrefSize(getOuterWidth(), getOuterHeight());
+        }
+
+        if (frame != null) {
+            frame.setPrefSize(width, height);
+        }
+
+        if (topBar != null) {
+            topBar.setPrefSize(width, TOP_BAR_HEIGHT);
+        }
+
+        content.setPrefSize(width, Math.max(0, height - TOP_BAR_HEIGHT));
+        refreshTopBarContent();
+        refreshStyles();
+        applyPositionToContainer();
+    }
+
+    private void refreshStyles() {
+        if (frame != null) {
+            frame.setStyle(
+                    "-fx-background-color: " + mainColor.toCSS() + ";" +
+                            "-fx-background-radius: 10;" +
+                            "-fx-border-color: " + mainColor.darker(0.28).toCSS() + ";" +
+                            "-fx-border-radius: 10;"
+            );
+        }
+
+        if (topBar != null) {
+            Color resolvedTop = resolveTopBarColor();
+            topBar.setStyle(
+                    "-fx-background-color: " + resolvedTop.toCSS() + ";" +
+                            "-fx-background-radius: 10 10 0 0;"
+            );
+        }
+
+        refreshTopBarContent();
+    }
+
+    private void refreshTopBarContent() {
+        if (topBar == null) return;
+
+        topBar.getChildren().clear();
+
+        Color resolvedTop = resolveTopBarColor();
+
+        if (!title.isEmpty()) {
+            Color textColor = titleColor != null
+                    ? titleColor
+                    : resolveTextColor(resolvedTop);
+
+            GraphicText text = GraphicText.builder()
+                    .text(title)
+                    .fontSize(14)
+                    .color(textColor)
+                    .build(this, Position.of(10, 7));
+
+            topBar.getChildren().add(text.getNode());
+        }
+
+        if (closeButton) {
+            GraphicText xText = GraphicText.builder()
+                    .text("X")
+                    .bold(true)
+                    .fontSize(14)
+                    .color(NamedColor.WHITE)
+                    .build(this, Position.of(0, 0));
+
+            GraphicButton close = GraphicButton.builder()
+                    .graphicText(xText)
+                    .backgroundColor(NamedColor.RED)
+                    .textColor(NamedColor.WHITE)
+                    .onClick(this::hide)
+                    .size(30, 20)
+                    .build(this, Position.of(width - 40, 5));
+
+            topBar.getChildren().add(close.getNode());
+        }
+    }
+
+    private Color resolveTopBarColor() {
+        return topBarColor != null
+                ? topBarColor
+                : mainColor.darker(0.12);
+    }
+
+    private void installMoveHandlers() {
+        if (topBar == null) return;
+        if (!moveable) return;
+
+        topBar.setOnMousePressed(e -> {
+            window.focus(this);
+            dragging = true;
+            dragOffsetX = e.getSceneX() - container.getLayoutX();
+            dragOffsetY = e.getSceneY() - container.getLayoutY();
+            e.consume();
+        });
+
+        topBar.setOnMouseDragged(e -> {
+            if (!dragging) return;
+
+            double newX = e.getSceneX() - dragOffsetX;
+            double newY = e.getSceneY() - dragOffsetY;
+
+            moveContainer(newX, newY);
+            e.consume();
+        });
+
+        topBar.setOnMouseReleased(e -> {
+            dragging = false;
+            e.consume();
+        });
+    }
+
     private void applyPositionToContainer() {
         if (container == null) return;
 
@@ -418,6 +473,8 @@ public class GraphicUserInterface {
     }
 
     private void moveContainer(double newX, double newY) {
+        if (container == null) return;
+
         double maxX = Math.max(0, window.getViewportWidth() - getOuterWidth());
         double maxY = Math.max(0, window.getViewportHeight() - getOuterHeight());
         double clampedTargetX = clamp(newX, 0, maxX);
@@ -509,10 +566,6 @@ public class GraphicUserInterface {
         return Math.max(min, Math.min(max, value));
     }
 
-    private void checkNotBuilt() {
-        if (built) throw new IllegalStateException("GUI wurde bereits erstellt!");
-    }
-
     protected Color getBackgroundColor() {
         return mainColor;
     }
@@ -521,6 +574,4 @@ public class GraphicUserInterface {
         if (background == null) return NamedColor.WHITE;
         return background.isLight() ? NamedColor.BLACK : NamedColor.WHITE;
     }
-
-
 }

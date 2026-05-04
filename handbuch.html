@@ -1,0 +1,2968 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameEngine - Vollständiges Benutzerhandbuch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #8b5cf6;
+            --secondary-color: #7c3aed;
+            --accent-color: #a78bfa;
+            --background-color: #0f172a;
+            --card-background: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --code-background: #0f172a;
+            --code-color: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --info-color: #3b82f6;
+            --sidebar-width: 280px;
+            
+            /* Wichtigkeitsstufen */
+            --critical-color: #dc2626;
+            --high-color: #ea580c;
+            --medium-color: #d97706;
+            --low-color: #65a30d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--card-background);
+            min-height: 100vh;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header p {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section h3 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.7;
+            padding: 0 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.5rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--accent-color);
+        }
+
+        .nav-link.active {
+            background: rgba(139, 92, 246, 0.3);
+            color: var(--accent-color);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem 3rem;
+            overflow-y: auto;
+        }
+
+        .content-header {
+            margin-bottom: 3rem;
+        }
+
+        .content-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .content-header p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 2rem;
+        }
+
+        .section h3 {
+            font-size: 1.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: var(--code-background);
+            color: var(--code-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .code-block .comment {
+            color: #64748b;
+        }
+
+        .code-block .keyword {
+            color: #f472b6;
+        }
+
+        .code-block .string {
+            color: #86efac;
+        }
+
+        .code-block .number {
+            color: #fbbf24;
+        }
+
+        .code-block .type {
+            color: #60a5fa;
+        }
+
+        .code-block .pun {
+            color: #94a3b8;
+        }
+
+        .code-block .annotation {
+            color: #fbbf24;
+        }
+
+        /* Inline Code */
+        .inline-code {
+            background: #f1f5f9;
+            color: #e11d48;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875em;
+        }
+
+        /* Lists */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            color: var(--success-color);
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-top: 0.125rem;
+        }
+
+        /* Tables */
+        .method-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--card-background);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .method-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .method-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .method-table tr:hover {
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .method-table td:first-child {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .badge-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .badge-warning {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .badge-secondary {
+            background: var(--text-secondary);
+            color: white;
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .alert::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .alert:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert:hover::before {
+            opacity: 1;
+        }
+
+        .alert-info {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success-color);
+            color: var(--success-color);
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--warning-color);
+            color: var(--warning-color);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--error-color);
+            color: var(--error-color);
+        }
+
+        .alert-critical {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.15), rgba(239, 68, 68, 0.15));
+            border-color: var(--critical-color);
+            color: var(--critical-color);
+            border-width: 3px;
+            font-weight: 600;
+        }
+
+        .alert-high {
+            background: linear-gradient(135deg, rgba(234, 88, 12, 0.1), rgba(245, 158, 11, 0.1));
+            border-color: var(--high-color);
+            color: var(--high-color);
+        }
+
+        .alert-medium {
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.1), rgba(251, 191, 36, 0.1));
+            border-color: var(--medium-color);
+            color: var(--medium-color);
+        }
+
+        .alert-low {
+            background: linear-gradient(135deg, rgba(101, 163, 13, 0.1), rgba(163, 230, 53, 0.1));
+            border-color: var(--low-color);
+            color: var(--low-color);
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .content-header h2 {
+                font-size: 2rem;
+            }
+
+            .section h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Component Showcase */
+        .component-showcase {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            color: white;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(79, 70, 229, 0.2);
+        }
+
+        .component-showcase::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        .component-showcase h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .component-preview {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+        }
+    /* Tooltips */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            border-bottom: 1px dotted var(--primary-color);
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.875rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--primary-color) transparent transparent transparent;
+        }
+
+        /* Collapsible Sections */
+        .collapsible {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .collapsible-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .collapsible-header:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            transform: translateX(4px);
+        }
+
+        .collapsible-header::after {
+            content: '▼';
+            font-size: 0.875rem;
+            transition: transform 0.3s ease;
+        }
+
+        .collapsible.active .collapsible-header::after {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1.5rem;
+        }
+
+        .collapsible.active .collapsible-content {
+            max-height: 2000px;
+            padding: 1.5rem;
+        }
+
+        /* Priority Indicators */
+        .priority-critical {
+            border-left: 4px solid var(--critical-color);
+            background: linear-gradient(90deg, rgba(220, 38, 38, 0.05), transparent);
+        }
+
+        .priority-high {
+            border-left: 4px solid var(--high-color);
+            background: linear-gradient(90deg, rgba(234, 88, 12, 0.05), transparent);
+        }
+
+        .priority-medium {
+            border-left: 4px solid var(--medium-color);
+            background: linear-gradient(90deg, rgba(217, 119, 6, 0.05), transparent);
+        }
+
+        .priority-low {
+            border-left: 4px solid var(--low-color);
+            background: linear-gradient(90deg, rgba(101, 163, 13, 0.05), transparent);
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 0.5rem;
+        }
+
+        .priority-critical .priority-badge {
+            background: var(--critical-color);
+            color: white;
+        }
+
+        .priority-high .priority-badge {
+            background: var(--high-color);
+            color: white;
+        }
+
+        .priority-medium .priority-badge {
+            background: var(--medium-color);
+            color: white;
+        }
+
+        .priority-low .priority-badge {
+            background: var(--low-color);
+            color: white;
+        }
+
+        /* Interactive Elements */
+        .interactive-element {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-element::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(79, 70, 229, 0.1) 50%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .interactive-element:hover::before {
+            opacity: 1;
+        }
+
+        .interactive-element:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>🎮 GameEngine</h1>
+                <p>Vollständiges Benutzerhandbuch</p>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>🏗️ Grundlagen</h3>
+                    <a href="#architektur" class="nav-link">📐 Architektur & Aufbau</a>
+                    <a href="#kernkomponenten" class="nav-link">⚙️ Kernkomponenten</a>
+                    <a href="#getting-started" class="nav-link">🚀 Schnellstart</a>
+                </div>
+                <div class="nav-section">
+                    <h3>🖼️ Benutzeroberfläche</h3>
+                    <a href="#gui-system" class="nav-link">🎨 GUI-System</a>
+                    <a href="#grafikkomponenten" class="nav-link">🎮 Grafik-Elemente</a>
+                    <a href="#input-komponenten" class="nav-link">⌨️ Eingabefelder</a>
+                    <a href="#media-komponenten" class="nav-link">🖼️ Medien-Inhalte</a>
+                </div>
+                <div class="nav-section">
+                    <h3>🔧 System-Architektur</h3>
+                    <a href="#scheduler" class="nav-link">⏰ Zeitsteuerung</a>
+                    <a href="#input-system" class="nav-link">🎮 Eingabe-System</a>
+                    <a href="#farb-system" class="nav-link">🎨 Farb-Management</a>
+                    <a href="#dateisystem" class="nav-link">📁 Dateiverwaltung</a>
+                </div>
+                <div class="nav-section">
+                    <h3>💡 Entwickler-Guide</h3>
+                    <a href="#beispiel-anwendung" class="nav-link">🎮 Praxisbeispiel</a>
+                    <a href="#library-integration" class="nav-link">📦 Library Integration</a>
+                    <a href="#best-practices" class="nav-link">✨ Best Practices</a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header fade-in">
+                <h2>GameEngine Benutzerhandbuch</h2>
+                <p>Willkommen zur vollständigen Dokumentation der GameEngine - einer modernen, modularen Java-basierten Spiel-Engine auf Basis von JavaFX.</p>
+            </div>
+
+            <!-- Architektur-Übersicht -->
+            <section id="architektur" class="section fade-in">
+                <h3>🏗️ Architektur & Systemaufbau</h3>
+                
+                <div class="alert alert-info">
+                    <strong>Architektur-Prinzip:</strong> Die GameEngine folgt einer modularen, ereignisgesteuerten Architektur mit klaren Trennungen zwischen GUI, Logik und System-Management.
+                </div>
+
+                <div class="grid grid-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                                🎮
+                            </div>
+                            <div>
+                                <div class="card-title">Engine Core</div>
+                                <div class="card-description">Abstrakte Basisklasse für alle Spiele</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                                🖼️
+                            </div>
+                            <div>
+                                <div class="card-title">GUI System</div>
+                                <div class="card-description">Overlay-basierte Benutzeroberflächen</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                                ⏰
+                            </div>
+                            <div>
+                                <div class="card-title">Scheduler</div>
+                                <div class="card-description">Präzise Zeitsteuerung (50 TPS)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Modulare Komponenten</h4>
+                <ul class="feature-list">
+                    <li><strong>Engine Core:</strong> Abstrakte GameEngine-Klasse mit tickLoop() und secondLoop()</li>
+                    <li><strong>GUI System:</strong> Overlay-basierte GUIs mit Z-Order-Management</li>
+                    <li><strong>Scheduler:</strong> Zeitgesteuerte Aufgaben mit präziser Tick-Rate</li>
+                    <li><strong>Input System:</strong> Tastatur- und Mausereignisverarbeitung</li>
+                    <li><strong>File System:</strong> Ressourcen- und Konfigurationsverwaltung</li>
+                    <li><strong>Color System:</strong> Flexible Farbverwaltung mit NamedColor</li>
+                </ul>
+            </section>
+
+            <!-- Kernkomponenten -->
+            <section id="kernkomponenten" class="section fade-in">
+                <h3>⚙️ Kernkomponenten & Module</h3>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">
+                            🎮
+                        </div>
+                        <div>
+                            <div class="card-title">GameEngine (abstrakte Klasse)</div>
+                            <div class="card-description">Die Hauptklasse, von der alle Spiele erben müssen</div>
+                        </div>
+                    </div>
+                    
+                    <h4>Wichtige Methoden</h4>
+                    <table class="method-table">
+                        <thead>
+                            <tr>
+                                <th>Methode</th>
+                                <th>Beschreibung</th>
+                                <th>Typ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>start(Stage stage)</td>
+                                <td>Initialisiert die Engine und startet das Spiel</td>
+                                <td><span class="badge badge-primary">Final</span></td>
+                            </tr>
+                            <tr>
+                                <td>onStart(GraphicWindow, GameScheduler)</td>
+                                <td>Abstrakte Methode für Spielinitialisierung</td>
+                                <td><span class="badge badge-warning">Abstract</span></td>
+                            </tr>
+                            <tr>
+                                <td>tickLoop()</td>
+                                <td>Game-Logic (50x pro Sekunde)</td>
+                                <td><span class="badge badge-secondary">Override</span></td>
+                            </tr>
+                            <tr>
+                                <td>secondLoop()</td>
+                                <td>Langsame Updates (1x pro Sekunde)</td>
+                                <td><span class="badge badge-secondary">Override</span></td>
+                            </tr>
+                            <tr>
+                                <td>getName()</td>
+                                <td>Spielname (Standard: "Spiel")</td>
+                                <td><span class="badge badge-secondary">Override</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="code-block"><span class="keyword">public abstract class</span> <span class="type">MeinSpiel</span> <span class="keyword">extends</span> <span class="type">GameEngine</span> <span class="pun">{</span>
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> onStart<span class="pun">(</span><span class="type">GraphicWindow</span> window<span class="pun">,</span> <span class="type">GameScheduler</span> scheduler<span class="pun">)</span> <span class="pun">{</span>
+        <span class="comment">// Spielinitialisierung hier</span>
+    <span class="pun">}</span>
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> tickLoop<span class="pun">()</span> <span class="pun">{</span>
+        <span class="comment">// Game-Logic (50 TPS)</span>
+    <span class="pun">}</span>
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> secondLoop<span class="pun">()</span> <span class="pun">{</span>
+        <span class="comment">// Langsame Updates</span>
+    <span class="pun">}</span>
+<span class="pun">}</span></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #a8edea, #fed6e3);">
+                            ⏰
+                        </div>
+                        <div>
+                            <div class="card-title">GameScheduler</div>
+                            <div class="card-description">Verwaltet zeitgesteuerte Aufgaben mit präziser Tick-Rate</div>
+                        </div>
+                    </div>
+
+                    <h4>Konfiguration</h4>
+                    <div class="code-block"><span class="keyword">public static final long</span> targetedTPS = <span class="number">50</span><span class="pun">;</span>
+<span class="keyword">public static volatile int</span> maxCatchUpTicksPerFrame = <span class="number">5</span><span class="pun">;</span>
+<span class="keyword">public static volatile long</span> lagThresholdMillis = <span class="number">25</span><span class="pun">;</span>
+<span class="keyword">public static volatile boolean</span> debug = <span class="keyword">true</span><span class="pun">;</span></div>
+
+                    <h4>Wichtige Methoden</h4>
+                    <table class="method-table">
+                        <thead>
+                            <tr>
+                                <th>Methode</th>
+                                <th>Beschreibung</th>
+                                <th>Typ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>runRepeating(Runnable, delay, period)</td>
+                                <td>Wiederkehrende Aufgabe</td>
+                                <td><span class="badge badge-success">Sync</span></td>
+                            </tr>
+                            <tr>
+                                <td>runLater(Runnable, delayTicks)</td>
+                                <td>Verzögerte Aufgabe</td>
+                                <td><span class="badge badge-success">Sync</span></td>
+                            </tr>
+                            <tr>
+                                <td>runNextTick(Runnable)</td>
+                                <td>Aufgabe im nächsten Tick</td>
+                                <td><span class="badge badge-success">Sync</span></td>
+                            </tr>
+                            <tr>
+                                <td>runAsync(Runnable)</td>
+                                <td>Asynchrone Aufgabe</td>
+                                <td><span class="badge badge-warning">Async</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-success">
+                        <strong>Performance-Tipp:</strong> Verwende runAsync() für langlaufende Aufgaben, um die Game-Loop nicht zu blockieren!
+                    </div>
+                </div>
+            </section>
+
+            <!-- Getting Started -->
+            <section id="getting-started" class="section fade-in">
+                <h3>🚀 Schnellstart & Erste Schritte</h3>
+
+                <div class="component-showcase">
+                    <h4>Dein erstes Spiel in 5 Minuten</h4>
+                    <div class="component-preview">
+                        <div class="code-block"><span class="keyword">public class</span> <span class="type">MeinErstesSpiel</span> <span class="keyword">extends</span> <span class="type">GameEngine</span> <span class="pun">{</span>
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> onStart<span class="pun">(</span><span class="type">GraphicWindow</span> window<span class="pun">,</span> <span class="type">GameScheduler</span> scheduler<span class="pun">)</span> <span class="pun">{</span>
+        <span class="comment">// Haupt-GUI konfigurieren</span>
+        window<span class="pun">.</span>main<span class="pun">(</span>main -> <span class="pun">{</span>
+            <span class="comment">// Titel hinzufügen</span>
+            main<span class="pun">.</span>addItemAndGet<span class="pun">(</span>
+                <span class="type">GraphicText</span><span class="pun">.</span>builder<span class="pun">(</span><span class="pun">)</span>
+                    <span class="pun">.</span>text<span class="pun">(</span><span class="string">"Mein erstes Spiel!"</span><span class="pun">)</span>
+                    <span class="pun">.</span>fontSize<span class="pun">(</span><span class="number">24</span><span class="pun">)</span>
+                    <span class="pun">.</span>bold<span class="pun">(</span><span class="keyword">true</span><span class="pun">)</span>
+                    <span class="pun">.</span>color<span class="pun">(</span><span class="type">Color</span><span class="pun">.</span>fromRGB<span class="pun">(</span><span class="number">255</span><span class="pun">,</span> <span class="number">255</span><span class="pun">,</span> <span class="number">255</span><span class="pun">))</span><span class="pun">,</span>
+                <span class="type">Alignment</span><span class="pun">.</span>CENTER
+            <span class="pun">)</span><span class="pun">;</span>
+            
+            <span class="comment">// Start-Button</span>
+            main<span class="pun">.</span>addItemAndGet<span class="pun">(</span>
+                <span class="type">GraphicButton</span><span class="pun">.</span>builder<span class="pun">(</span><span class="pun">)</span>
+                    <span class="pun">.</span>text<span class="pun">(</span><span class="string">"Spiel starten"</span><span class="pun">)</span>
+                    <span class="pun">.</span>backgroundColor<span class="pun">(</span><span class="type">NamedColor</span><span class="pun">.</span>GREEN<span class="pun">)</span>
+                    <span class="pun">.</span>size<span class="pun">(</span><span class="number">200</span><span class="pun">,</span> <span class="number">50</span><span class="pun">)</span>
+                    <span class="pun">.</span>onClick<span class="pun">(</span>() -> System<span class="pun">.</span>out<span class="pun">.</span>println<span class="pun">(</span><span class="string">"Spiel gestartet!"</span><span class="pun">))</span>
+                    <span class="pun">.</span>roundedEdges<span class="pun">(</span><span class="number">0.2</span><span class="pun">)</span><span class="pun">,</span>
+                <span class="type">Alignment</span><span class="pun">.</span>of<span class="pun">(</span><span class="number">0.5</span><span class="pun">,</span> <span class="number">0.6</span><span class="pun">)</span>
+            <span class="pun">)</span><span class="pun">;</span>
+        <span class="pun">}</span><span class="pun">)</span><span class="pun">;</span>
+        
+        <span class="comment">// Scheduler für Game-Logic</span>
+        scheduler<span class="pun">.</span>runRepeating<span class="pun">(</span><span class="keyword">this</span><span class="pun">::</span>updateGame<span class="pun">,</span> <span class="number">0</span><span class="pun">,</span> <span class="number">1</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="pun">}</span>
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> tickLoop<span class="pun">()</span> <span class="pun">{</span>
+        <span class="comment">// Game-Logic läuft 50x pro Sekunde</span>
+    <span class="pun">}</span>
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> secondLoop<span class="pun">()</span> <span class="pun">{</span>
+        <span class="comment">// Langsame Updates laufen 1x pro Sekunde</span>
+    <span class="pun">}</span>
+    
+    <span class="keyword">private void</span> updateGame<span class="pun">()</span> <span class="pun">{</span>
+        <span class="comment">// Deine Spiel-Logic hier</span>
+    <span class="pun">}</span>
+<span class="pun">}</span></div>
+                    </div>
+                </div>
+
+                <h4>Projekt-Setup</h4>
+                <div class="card">
+                    <h5>1. Abhängigkeiten (build.gradle)</h5>
+                    <div class="code-block"><span class="keyword">dependencies</span> <span class="pun">{</span>
+    implementation <span class="string">'org.openjfx:javafx-controls:17.0.2'</span><span class="pun">;</span>
+    implementation <span class="string">'org.openjfx:javafx-fxml:17.0.2'</span><span class="pun">;</span>
+<span class="pun">}</span></div>
+
+                    <h5>2. Hauptklasse erstellen</h5>
+                    <p>Erstelle eine Klasse, die von <span class="inline-code">GameEngine</span> erbt und implementiere die abstrakten Methoden.</p>
+
+                    <h5>3. Anwendung starten</h5>
+                    <div class="code-block"><span class="keyword">public static void</span> main<span class="pun">(</span>String<span class="pun">[]</span> args<span class="pun">)</span> <span class="pun">{</span>
+    <span class="type">Application</span><span class="pun">.</span>launch<span class="pun">(</span><span class="type">MeinErstesSpiel</span><span class="pun">.</span><span class="keyword">class</span><span class="pun">,</span> args<span class="pun">)</span><span class="pun">;</span>
+<span class="pun">}</span></div>
+                </div>
+            </section>
+
+            <!-- GUI System -->
+            <section id="gui-system" class="section fade-in">
+                <h3>🖼️ Benutzeroberflächen-System</h3>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                            🪟
+                        </div>
+                        <div>
+                            <div class="card-title">GraphicWindow</div>
+                            <div class="card-description">Das Hauptfenster mit Overlay-Management</div>
+                        </div>
+                    </div>
+
+                    <h4>Wichtige Funktionen</h4>
+                    <table class="method-table">
+                        <thead>
+                            <tr>
+                                <th>Methode</th>
+                                <th>Beschreibung</th>
+                                <th>Parameter</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>main(Consumer&lt;MainGraphicUserInterface&gt;)</td>
+                                <td>Konfiguriert das Haupt-GUI</td>
+                                <td>Consumer</td>
+                            </tr>
+                            <tr>
+                                <td>addBindedKeyListener(String, ActionType, Runnable)</td>
+                                <td>Tastenbindung hinzufügen</td>
+                                <td>Action, Type, Callback</td>
+                            </tr>
+                            <tr>
+                                <td>dispatchInput(Key, ActionType)</td>
+                                <td>Eingabe weiterleiten</td>
+                                <td>Key, Action</td>
+                            </tr>
+                            <tr>
+                                <td>updateZOrder()</td>
+                                <td>Z-Ordnung aktualisieren</td>
+                                <td>keine</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-info">
+                        <strong>Overlay-System:</strong> Die GameEngine verwendet ein Overlay-System, bei dem GUIs als Overlays über dem Hauptinhalt schweben.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                            🎨
+                        </div>
+                        <div>
+                            <div class="card-title">GraphicUserInterface</div>
+                            <div class="card-description">Basisklasse für alle GUI-Overlays</div>
+                        </div>
+                    </div>
+
+                    <h4>Konfigurations-Methoden</h4>
+                    <div class="grid grid-2">
+                        <div>
+                            <h5>Größe & Position</h5>
+                            <ul class="feature-list">
+                                <li><code>size(width, height)</code> - Größe festlegen</li>
+                                <li><code>position(x, y)</code> - Absolute Position</li>
+                                <li><code>position(Position.Builder)</code> - Ausgerichtete Position</li>
+                                <li><code>align(Alignment)</code> - Automatische Ausrichtung</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Verhalten</h5>
+                            <ul class="feature-list">
+                                <li><code>moveable()</code> - Verschiebbar machen</li>
+                                <li><code>closeable()</code> - Schließen-Button hinzufügen</li>
+                                <li><code>alwaysInFront()</code> - Immer im Vordergrund</li>
+                                <li><code>blockOthers()</code> - Blockiert andere Overlays</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4>Beispiel: Settings-GUI</h4>
+                    <div class="code-block">
+<span class="keyword">public class</span> <span class="type">SettingsGUI</span> {
+    <span class="keyword">public static</span> <span class="type">GraphicUserInterface</span> create(<span class="type">GraphicWindow</span> window) {
+        <span class="keyword">return new</span> <span class="type">GraphicUserInterface</span>(window)
+            .size(<span class="number">400</span>, <span class="number">300</span>)
+            .title(<span class="string">"Einstellungen"</span>)
+            .backgroundColor(<span class="type">Color</span>.fromHex(<span class="string">"#2b2b2b"</span>))
+            .moveable()
+            .closeable()
+            .alwaysInFront()
+            .blockOthers()
+            .addItem(
+                <span class="type">GraphicText</span>.builder()
+                    .text(<span class="string">"Lautstärke"</span>)
+                    .fontSize(<span class="number">16</span>)
+                    .color(<span class="type">Color</span>.WHITE),
+                <span class="number">20</span>, <span class="number">50</span>
+            )
+            .addItem(
+                <span class="type">GraphicSlider</span>.builder()
+                    .range(<span class="number">0</span>, <span class="number">100</span>)
+                    .value(<span class="number">50</span>)
+                    .size(<span class="number">200</span>, <span class="number">20</span>)
+                    .onValueChanged(v -> updateVolume(v)),
+                <span class="number">20</span>, <span class="number">80</span>
+            )
+            .create();
+    }
+}</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">
+                            🏠
+                        </div>
+                        <div>
+                            <div class="card-title">MainGraphicUserInterface</div>
+                            <div class="card-description">Das Haupt-GUI, das den ganzen Bildschirm füllt</div>
+                        </div>
+                    </div>
+
+                    <h4>Spezialfunktionen</h4>
+                    <ul class="feature-list">
+                        <li><strong>exitGUI(GraphicUserInterface)</strong> - Exit-Dialog konfigurieren</li>
+                        <li><strong>debugGUI(GraphicUserInterface)</strong> - Debug-Overlay konfigurieren</li>
+                        <li><strong>Automatische Tastenbindung:</strong> "exit" (ESC) und "debug" (F3)</li>
+                    </ul>
+
+                    <div class="alert alert-warning">
+                        <strong>Wichtig:</strong> Das MainGUI ist immer im Hintergrund und kann nicht verschoben werden. Es dient als Container für alle anderen Overlays.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Grafikkomponenten -->
+            <section id="grafikkomponenten" class="section fade-in">
+                <h3>🎮 Grafische Steuerelemente</h3>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                            🔘
+                        </div>
+                        <div>
+                            <div class="card-title">GraphicButton</div>
+                            <div class="card-description">Voll konfigurierbarer Button mit Hover-States</div>
+                        </div>
+                    </div>
+
+                    <h4>Builder-Beispiel</h4>
+                    <div class="code-block"><span class="type">GraphicButton</span><span class="pun">.</span>builder<span class="pun">(</span><span class="pun">)</span>
+    <span class="pun">.</span>text<span class="pun">(</span><span class="string">"Klick mich!"</span><span class="pun">)</span>
+    <span class="pun">.</span>backgroundColor<span class="pun">(</span><span class="type">Color</span><span class="pun">.</span>fromHex<span class="pun">(</span><span class="string">"#3b82f6"</span><span class="pun">))</span>
+    <span class="pun">.</span>hover<span class="pun">(</span><span class="type">Color</span><span class="pun">.</span>fromHex<span class="pun">(</span><span class="string">"#60a5fa"</span><span class="pun">))</span>
+    <span class="pun">.</span>clickColor<span class="pun">(</span><span class="type">Color</span><span class="pun">.</span>fromHex<span class="pun">(</span><span class="string">"#2563eb"</span><span class="pun">))</span>
+    <span class="pun">.</span>textColor<span class="pun">(</span><span class="type">Color</span><span class="pun">.</span>WHITE<span class="pun">)</span>
+    <span class="pun">.</span>size<span class="pun">(</span><span class="number">120</span><span class="pun">,</span> <span class="number">40</span><span class="pun">)</span>
+    <span class="pun">.</span>roundedEdges<span class="pun">(</span><span class="number">0.1</span><span class="pun">)</span>
+    <span class="pun">.</span>onClick<span class="pun">(</span>() -> System<span class="pun">.</span>out<span class="pun">.</span>println<span class="pun">(</span><span class="string">"Button geklickt!"</span><span class="pun">))</span>
+    <span class="pun">.</span>build<span class="pun">(</span>gui<span class="pun">,</span> <span class="type">Position</span><span class="pun">.</span>of<span class="pun">(</span><span class="number">100</span><span class="pun">,</span> <span class="number">100</span><span class="pun">))</span><span class="pun">;</span></div>
+
+                    <h4>Spezialfunktionen</h4>
+                    <div class="grid grid-2">
+                        <div>
+                            <h5>Wiederholungsfunktionen</h5>
+                            <ul class="feature-list">
+                                <li><code>repeatingWhilePressed(scheduler, action, interval)</code></li>
+                                <li><code>repeatingWhileNotPressed(scheduler, action, interval)</code></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Styling</h5>
+                            <ul class="feature-list">
+                                <li><code>wrapText(boolean)</code> - Textumbruch</li>
+                                <li><code>alignment(Alignment)</code> - Textausrichtung</li>
+                                <li><code>graphicText(GraphicText)</code> - Grafischer Text</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <h4>Beispiel: Wiederholender Button</h4>
+                        <div class="component-preview">
+                            <div class="code-block">
+<span class="type">GraphicButton</span>.builder()
+    .text(<span class="string">"Feuer!"</span>)
+    .backgroundColor(<span class="type">NamedColor</span>.RED)
+    .repeatingWhilePressed(scheduler, () -> {
+        <span class="comment">// Diese Aktion wird wiederholt während der Button gedrückt ist</span>
+        shootBullet();
+    }, <span class="number">5</span>) <span class="comment">// Alle 5 Ticks wiederholen</span>
+    .build(gui, <span class="type">Position</span>.of(<span class="number">50</span>, <span class="number">50</span>));</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                            📝
+                        </div>
+                        <div>
+                            <div class="card-title">GraphicText</div>
+                            <div class="card-description">Textanzeige mit voller Schriftkonfiguration</div>
+                        </div>
+                    </div>
+
+                    <h4>Builder-Beispiel</h4>
+                    <div class="code-block"><span class="type">GraphicText</span><span class="pun">.</span>builder<span class="pun">(</span><span class="pun">)</span>
+    <span class="pun">.</span>text<span class="pun">(</span><span class="string">"Hallo GameEngine!"</span><span class="pun">)</span>
+    <span class="pun">.</span>fontSize<span class="pun">(</span><span class="number">18</span><span class="pun">)</span>
+    <span class="pun">.</span>bold<span class="pun">(</span><span class="keyword">true</span><span class="pun">)</span>
+    <span class="pun">.</span>italic<span class="pun">(</span><span class="keyword">false</span><span class="pun">)</span>
+    <span class="pun">.</span>color<span class="pun">(</span><span class="type">Color</span><span class="pun">.</span>fromRGB<span class="pun">(</span><span class="number">255</span><span class="pun">,</span> <span class="number">255</span><span class="pun">,</span> <span class="number">255</span><span class="pun">))</span>
+    <span class="pun">.</span>build<span class="pun">(</span>gui<span class="pun">,</span> <span class="type">Position</span><span class="pun">.</span>of<span class="pun">(</span><span class="number">100</span><span class="pun">,</span> <span class="number">100</span><span class="pun">))</span><span class="pun">;</span></div>
+
+                    <h4>Font-Methoden</h4>
+                    <table class="method-table">
+                        <thead>
+                            <tr>
+                                <th>Methode</th>
+                                <th>Beschreibung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>fontSize(double)</td>
+                                <td>Schriftgröße setzen</td>
+                            </tr>
+                            <tr>
+                                <td>bold(boolean)</td>
+                                <td>Fett-Formatierung</td>
+                            </tr>
+                            <tr>
+                                <td>italic(boolean)</td>
+                                <td>Kursiv-Formatierung</td>
+                            </tr>
+                            <tr>
+                                <td>font(Font)</td>
+                                <td>Komplette Schriftart</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-success">
+                        <strong>Auto-Size:</strong> GraphicText berechnet automatisch die Größe basierend auf dem Textinhalt und der Schriftart.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Input-Komponenten -->
+            <section id="input-komponenten" class="section fade-in">
+                <h3>⌨️ Eingabefelder & Interaktion</h3>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                            📝
+                        </div>
+                        <div>
+                            <div class="card-title">GraphicTextInputField</div>
+                            <div class="card-description">Texteingabefeld mit Validierung</div>
+                        </div>
+                    </div>
+
+                    <h4>Builder-Beispiel</h4>
+                    <div class="code-block">
+<span class="type">GraphicTextInputField</span>.builder()
+    .placeholder(<span class="string">"Spielername eingeben..."</span>)
+    .maxCharacters(<span class="number">20</span>)
+    .size(<span class="number">200</span>, <span class="number">30</span>)
+    .onValueChanged(text -> {
+        <span class="keyword">if</span> (text.length() > <span class="number">0</span>) {
+            playerName = text;
+        }
+    })
+    .build(gui, <span class="type">Position</span>.of(<span class="number">100</span>, <span class="number">100</span>));</div>
+
+                    <h4>Eigenschaften</h4>
+                    <ul class="feature-list">
+                        <li><strong>Automatische Validierung:</strong> Maximale Zeichenlänge wird durchgesetzt</li>
+                        <li><strong>Placeholder-Text:</strong> Hinweistext bei leerem Feld</li>
+                        <li><strong>Change-Events:</strong> Reaktion auf Textänderungen</li>
+                        <li><strong>Focus-Management:</strong> Automatische Fokus-Verwaltung</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">
+                            🎚️
+                        </div>
+                        <div>
+                            <div class="card-title">GraphicSlider</div>
+                            <div class="card-description">Schieberegler für numerische Werte</div>
+                        </div>
+                    </div>
+
+                    <h4>Builder-Beispiel</h4>
+                    <div class="code-block">
+<span class="type">GraphicSlider</span>.builder()
+    .range(<span class="number">0</span>, <span class="number">100</span>) <span class="comment">// Min-Max Bereich</span>
+    .value(<span class="number">50</span>) <span class="comment">// Startwert</span>
+    .size(<span class="number">200</span>, <span class="number">20</span>)
+    .onValueChanged(value -> {
+        volume = value;
+        updateVolumeDisplay();
+    })
+    .build(gui, <span class="type">Position</span>.of(<span class="number">100</span>, <span class="number">150</span>));</div>
+
+                    <h4>Spezialvarianten</h4>
+                    <div class="grid grid-2">
+                        <div>
+                            <h5>GraphicIntegerInputField</h5>
+                            <p>Eingabefeld für Ganzzahlen mit automatischer Validierung.</p>
+                        </div>
+                        <div>
+                            <h5>GraphicNumberInputField</h5>
+                            <p>Eingabefeld für Fließkommazahlen mit Dezimalpunkt-Unterstützung.</p>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>Typ-Sicherheit:</strong> Alle Input-Felder sind typsicher und wandeln Eingaben automatisch in den richtigen Datentyp um.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                            🏷️
+                        </div>
+                        <div>
+                            <div class="card-title">GraphicLabeledSlider</div>
+                            <div class="card-description">Slider mit integrierter Beschriftung</div>
+                        </div>
+                    </div>
+
+                    <h4>Kombinierte Komponente</h4>
+                    <p>Der GraphicLabeledSlider kombiniert einen Slider mit einem Text-Label zur Anzeige des aktuellen Wertes.</p>
+
+                    <div class="code-block">
+<span class="type">GraphicLabeledSlider</span>.builder()
+    .label(<span class="string">"Lautstärke: %d%%"</span>) <span class="comment">// Format-String</span>
+    .range(<span class="number">0</span>, <span class="number">100</span>)
+    .value(<span class="number">75</span>)
+    .size(<span class="number">250</span>, <span class="number">50</span>)
+    .onValueChanged(this::updateVolume)
+    .build(gui, <span class="type">Position</span>.of(<span class="number">50</span>, <span class="number">200</span>));</div>
+
+                    <div class="component-showcase">
+                        <h4>Ergebnis</h4>
+                        <div class="component-preview">
+                            <p>🎚️ Lautstärke: 75%</p>
+                            <div style="background: #e2e8f0; height: 8px; border-radius: 4px; margin: 10px 0;">
+                                <div style="background: #3b82f6; width: 75%; height: 100%; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Media-Komponenten -->
+            <section id="media-komponenten" class="section fade-in">
+                <h3>🖼️ Medien-Inhalte & Ressourcen</h3>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                            🖼️
+                        </div>
+                        <div>
+                            <div class="card-title">GraphicImage</div>
+                            <div class="card-description">Bilddarstellung mit Caching</div>
+                        </div>
+                    </div>
+
+                    <h4>Builder-Beispiel</h4>
+                    <div class="code-block">
+<span class="type">GraphicImage</span>.builder()
+    .path(<span class="string">"textures/player.png"</span>) <span class="comment">// Relativer Pfad</span>
+    .size(<span class="number">64</span>, <span class="number">64</span>)
+    .build(gui, <span class="type">Position</span>.of(<span class="number">100</span>, <span class="number">100</span>));</div>
+
+                    <h4>Features</h4>
+                    <ul class="feature-list">
+                        <li><strong>Automatisches Caching:</strong> Bilder werden über GraphicMediaCache gecacht</li>
+                        <li><strong>Flexible Größenanpassung:</strong> Automatische oder manuelle Größenskalierung</li>
+                        <li><strong>Lazy Loading:</strong> Bilder werden bei Bedarf geladen</li>
+                        <li><strong>Effiziente Verwaltung:</strong> Speicheroptimierte Bildverwaltung</li>
+                    </ul>
+
+                    <div class="alert alert-success">
+                        <strong>Performance-Tipp:</strong> Verwende für häufig genutzte Bilder das Caching-System für optimale Performance!
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                            🎬
+                        </div>
+                        <div>
+                            <div class="card-title">GraphicAnimation</div>
+                            <div class="card-description">Animationen mit Frame-Steuerung</div>
+                        </div>
+                    </div>
+
+                    <h4>Animation-Setup</h4>
+                    <div class="code-block">
+<span class="type">GraphicAnimation</span>.builder()
+    .frames(<span class="string">"animations/walk_"</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="string">".png"</span>)
+    .frameDuration(<span class="number">100</span>) <span class="comment">// Millisekunden pro Frame</span>
+    .loop(<span class="keyword">true</span>)
+    .size(<span class="number">32</span>, <span class="number">32</span>)
+    .onFrameChanged(frameIndex -> {
+        <span class="comment">// Reaktion auf Frame-Wechsel</span>
+    })
+    .build(gui, <span class="type">Position</span>.of(<span class="number">100</span>, <span class="number">100</span>));</div>
+
+                    <h4>Animations-Steuerung</h4>
+                    <table class="method-table">
+                        <thead>
+                            <tr>
+                                <th>Methode</th>
+                                <th>Beschreibung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>play()</td>
+                                <td>Animation starten</td>
+                            </tr>
+                            <tr>
+                                <td>pause()</td>
+                                <td>Animation pausieren</td>
+                            </tr>
+                            <tr>
+                                <td>stop()</td>
+                                <td>Animation stoppen und zurücksetzen</td>
+                            </tr>
+                            <tr>
+                                <td>setFrame(int)</td>
+                                <td>Bestimmten Frame setzen</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">
+                            🎞️
+                        </div>
+                        <div>
+                            <div class="card-title">GraphicAnimatedImage</div>
+                            <div class="card-description">Erweiterte Animation mit Sprite-Sheets</div>
+                        </div>
+                    </div>
+
+                    <h4>Sprite-Sheet-Unterstützung</h4>
+                    <p>Unterstützt für Sprite-Sheets mit automatischer Frame-Berechnung:</p>
+
+                    <div class="code-block">
+<span class="type">GraphicAnimatedImage</span>.builder()
+    .spriteSheet(<span class="string">"sprites/character.png"</span>, <span class="number">4</span>, <span class="number">4</span>) <span class="comment">// 4x4 Grid</span>
+    .frameSequence(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>) <span class="comment">// Frame-Reihenfolge</span>
+    .frameDuration(<span class="number">80</span>)
+    .size(<span class="number">64</span>, <span class="number">64</span>)
+    .build(gui, <span class="type">Position</span>.of(<span class="number">100</span>, <span class="number">100</span>));</div>
+
+                    <div class="alert alert-warning">
+                        <strong>Wichtig:</strong> Sprite-Sheets müssen gleich große Frames haben und werden automatisch berechnet.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Scheduler System -->
+            <section id="scheduler" class="section fade-in">
+                <h3>⏰ Zeitsteuerung & Aufgabenplanung</h3>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                            ⚡
+                        </div>
+                        <div>
+                            <div class="card-title">GameScheduler</div>
+                            <div class="card-description">Präzise Zeitsteuerung mit 50 TPS</div>
+                        </div>
+                    </div>
+
+                    <h4>Architecture</h4>
+                    <div class="alert alert-info">
+                        <strong>Tick-System:</strong> Der Scheduler verwendet ein präzises Tick-System mit 50 Ticks pro Sekunde (20ms pro Tick) für konsistente Game-Logic.
+                    </div>
+
+                    <h4>Aufgaben-Typen</h4>
+                    <div class="grid grid-2">
+                        <div>
+                            <h5>Synchron (Game-Thread)</h5>
+                            <ul class="feature-list">
+                                <li><code>runRepeating()</code> - Für Game-Logic</li>
+                                <li><code>runLater()</code> - Für verzögerte Aktionen</li>
+                                <li><code>runNextTick()</code> - Für sofortige nächste-Tick-Aktionen</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Asynchron (Background)</h5>
+                            <ul class="feature-list">
+                                <li><code>runAsync()</code> - Für langlaufende Aufgaben</li>
+                                <li><code>ExecutorService</code> - Thread-Pool Management</li>
+                                <li><code>Non-blocking</code> - Blockiert nicht die Game-Loop</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4>Praxisbeispiele</h4>
+                    <div class="code-block">
+<span class="comment">// Game-Logic Loop (50 TPS)</span>
+scheduler.runRepeating(<span class="keyword">this</span>::updateGameLogic, <span class="number">0</span>, <span class="number">1</span>);
+
+<span class="comment">// Langsame Updates (1 TPS)</span>
+scheduler.runRepeating(<span class="keyword">this</span>::updateSlowLogic, <span class="number">0</span>, <span class="number">50</span>);
+
+<span class="comment">// Verzögerte Aktion</span>
+scheduler.runLater(() -> {
+    showNotification(<span class="string">"Willkommen!"</span>);
+}, <span class="number">100</span>); <span class="comment">// 2 Sekunden warten (100 Ticks)</span>
+
+<span class="comment">// Asynchrone Aufgabe</span>
+scheduler.runAsync(() -> {
+    <span class="comment">// Lade-Ressourcen im Hintergrund</span>
+    <span class="type">List</span>&lt;<span class="type">Texture</span>&gt; textures = loadTextures();
+    <span class="type">Platform</span>.runLater(() -> {
+        applyTextures(textures);
+    });
+});</div>
+
+                    <h4>Debug-Features</h4>
+                    <div class="code-block">
+<span class="comment">// Debug-Modus aktivieren</span>
+<span class="type">GameScheduler</span>.debug = <span class="keyword">true</span>;
+<span class="type">GameScheduler</span>.debugOnlyOnLag = <span class="keyword">true</span>; <span class="comment">// Nur bei Lag ausgeben</span>
+<span class="type">GameScheduler</span>.lagThresholdMillis = <span class="number">25</span>; <span class="comment">// Lag-Schwelle</span>
+<span class="type">GameScheduler</span>.debugIntervalTicks = <span class="number">50</span>; <span class="comment">// Ausgabe-Intervall</span></div>
+
+                    <div class="alert alert-success">
+                        <strong>Performance-Monitoring:</strong> Der Scheduler überwacht automatisch die Performance und gibt Warnungen bei Lag aus.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">
+                            📊
+                        </div>
+                        <div>
+                            <div class="card-title">ScheduledTask</div>
+                            <div class="card-description">Verwaltete Aufgaben mit Lebenszyklus</div>
+                        </div>
+                    </div>
+
+                    <h4>Task-Management</h4>
+                    <div class="code-block">
+<span class="comment">// Task erstellen und verwalten</span>
+<span class="type">ScheduledTask</span> task = scheduler.runRepeating(() -> {
+    updateParticles();
+}, <span class="number">0</span>, <span class="number">2</span>); <span class="comment">// Alle 2 Ticks</span>
+
+<span class="comment">// Task später abbrechen</span>
+scheduler.runLater(() -> {
+    task.cancel(); <span class="comment">// Task stoppen</span>
+}, <span class="number">1000</span>); <span class="comment">// Nach 20 Sekunden</span></div>
+
+                    <h4>Task-Prioritäten</h4>
+                    <ul class="feature-list">
+                        <li><strong>Sequence:</strong> Tasks werden in Reihenfolge ihrer Erstellung ausgeführt</li>
+                        <li><strong>NextRun:</strong> Tasks mit früherer nextRun-Zeit werden zuerst ausgeführt</li>
+                        <li><strong>Separation:</strong> Sync und Async Tasks werden in separaten Queues verwaltet</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Input System -->
+            <section id="input-system" class="section fade-in">
+                <h3>🎮 Eingabe-System & Steuerung</h3>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                            ⌨️
+                        </div>
+                        <div>
+                            <div class="card-title">Key-Klasse</div>
+                            <div class="card-description">Repräsentiert Tastatur- und Maustasten</div>
+                        </div>
+                    </div>
+
+                    <h4>Key-Typen</h4>
+                    <table class="method-table">
+                        <thead>
+                            <tr>
+                                <th>Kategorie</th>
+                                <th>Beispiele</th>
+                                <th>Verwendung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tastatur</td>
+                                <td>Key.A, Key.ESCAPE, Key.SPACE</td>
+                                <td>Standard-Tasten</td>
+                            </tr>
+                            <tr>
+                                <td>Maus</td>
+                                <td>Key.MOUSE_LEFT, Key.MOUSE_RIGHT</td>
+                                <td>Maus-Klicks</td>
+                            </tr>
+                            <tr>
+                                <td>Spezial</td>
+                                <td>Key.UNDEFINED, Key.UNKNOWN</td>
+                                <td>Fehlerbehandlung</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>ActionType-Enum</h4>
+                    <div class="code-block">
+<span class="keyword">public enum</span> <span class="type">ActionType</span> {
+    PRESS,   <span class="comment">// Taste gedrückt</span>
+    RELEASE  <span class="comment">// Taste losgelassen</span>
+}</div>
+
+                    <h4>Ereignisfluss</h4>
+                    <div class="alert alert-info">
+                        <strong>Event-Chain:</strong> JavaFX → GraphicWindow.dispatchInput() → GraphicUserInterface.fire() → Listener-Aktion
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                            🔗
+                        </div>
+                        <div>
+                            <div class="card-title">KeyBinds</div>
+                            <div class="card-description">Benutzerdefinierte Tastenbelegungen</div>
+                        </div>
+                    </div>
+
+                    <h4>Standard-Bindings (DefaultBind Enum)</h4>
+                    <div class="code-block">
+<span class="keyword">public enum</span> <span class="type">DefaultBind</span> <span class="pun">{</span>
+    <span class="type">EXIT</span><span class="pun">(</span><span class="string">"exit"</span><span class="pun">,</span> <span class="string">"Beenden"</span><span class="pun">,</span> <span class="type">Key</span><span class="pun">.</span>ESCAPE<span class="pun">,</span> <span class="keyword">false</span><span class="pun">)</span><span class="pun">,</span>
+    <span class="type">DEBUG_SCREEN</span><span class="pun">(</span><span class="string">"debug"</span><span class="pun">,</span> <span class="string">"Informationen"</span><span class="pun">,</span> <span class="type">Key</span><span class="pun">.</span>F3<span class="pun">,</span> <span class="keyword">true</span><span class="pun">)</span><span class="pun">,</span>
+    <span class="type">JUMP</span><span class="pun">(</span><span class="string">"jump"</span><span class="pun">,</span> <span class="string">"Springen"</span><span class="pun">,</span> <span class="type">Key</span><span class="pun">.</span>SPACE<span class="pun">,</span> <span class="keyword">true</span><span class="pun">)</span><span class="pun">,</span>
+    <span class="type">MOVE_LEFT</span><span class="pun">(</span><span class="string">"move_left"</span><span class="pun">,</span> <span class="string">"Links bewegen"</span><span class="pun">,</span> <span class="type">Key</span><span class="pun">.</span>A<span class="pun">,</span> <span class="keyword">true</span><span class="pun">)</span><span class="pun">,</span>
+    <span class="type">MOVE_RIGHT</span><span class="pun">(</span><span class="string">"move_right"</span><span class="pun">,</span> <span class="string">"Rechts bewegen"</span><span class="pun">,</span> <span class="type">Key</span><span class="pun">.</span>D<span class="pun">,</span> <span class="keyword">true</span><span class="pun">)</span><span class="pun">;</span>
+<span class="pun">}</span></div>
+
+                    <h4>KeyBinds-Management (neue Methoden)</h4>
+                    <table class="method-table">
+                        <thead>
+                            <tr>
+                                <th>Methode</th>
+                                <th>Beschreibung</th>
+                                <th>Rückgabe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>registerOrGet(action, display, key)</td>
+                                <td>Registriert oder返回 bestehende Belegung</td>
+                                <td>KeyBind</td>
+                            </tr>
+                            <tr>
+                                <td>getResolvedKey(action)</td>
+                                <td>Gibt aktuelle oder Standard-Taste zurück</td>
+                                <td>Key</td>
+                            </tr>
+                            <tr>
+                                <td>getDefaultKey(action)</td>
+                                <td>Gibt Standard-Taste für Aktion zurück</td>
+                                <td>Key</td>
+                            </tr>
+                            <tr>
+                                <td>getDefault(action)</td>
+                                <td>Gibt DefaultBind-Enum für Aktion zurück</td>
+                                <td>DefaultBind</td>
+                            </tr>
+                            <tr>
+                                <td>getDefaults()</td>
+                                <td>Gibt alle DefaultBind-Werte zurück</td>
+                                <td>DefaultBind[]</td>
+                            </tr>
+                            <tr>
+                                <td>set(action, key)</td>
+                                <td>Belegung ändern (nur wenn änderbar)</td>
+                                <td>void</td>
+                            </tr>
+                            <tr>
+                                <td>get(action)</td>
+                                <td>Aktuelle Taste für Aktion abfragen</td>
+                                <td>Key</td>
+                            </tr>
+                            <tr>
+                                <td>getKeyBind(action)</td>
+                                <td>KeyBind-Objekt abfragen</td>
+                                <td>KeyBind</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>DefaultBind-Methoden</h4>
+                    <div class="code-block">
+<span class="comment">// DefaultBind Enum hat eigene Methoden</span>
+<span class="type">DefaultBind</span> jumpDefault = <span class="type">KeyBinds</span><span class="pun">.</span>getDefault<span class="pun">(</span><span class="string">"jump"</span><span class="pun">)</span><span class="pun">;</span>
+
+<span class="comment">// Über DefaultBind auf KeyBind zugreifen</span>
+<span class="type">KeyBind</span> jumpBind = jumpDefault<span class="pun">.</span>getKeyBind<span class="pun">()</span><span class="pun">;</span>
+
+<span class="comment">// Standard-Taste abfragen</span>
+<span class="type">Key</span> defaultKey = jumpDefault<span class="pun">.</span>getKey<span class="pun">()</span><span class="pun">;</span>
+
+<span class="comment">// Auf Standard zurücksetzen</span>
+jumpDefault<span class="pun">.</span>reset<span class="pun">()</span><span class="pun">;</span></div>
+
+                    <h4>Verbesserte Fehlerbehandlung</h4>
+                    <div class="code-block">
+<span class="comment">// Neue parseLine Methode mit besserer Fehlerbehandlung</span>
+<span class="keyword">private static void</span> parseLine<span class="pun">(</span>String line<span class="pun">)</span> <span class="pun">{</span>
+    <span class="keyword">if</span> <span class="pun">(</span>line == <span class="keyword">null</span> <span class="pun">||</span> line<span class="pun">.</span>isBlank<span class="pun">()</span> <span class="pun">||</span> line<span class="pun">.</span>startsWith<span class="pun">(</span><span class="string">"#"</span><span class="pun">))</span> <span class="keyword">return</span><span class="pun">;</span>
+
+    String<span class="pun">[]</span> split = line<span class="pun">.</span>split<span class="pun">(</span><span class="string">"\\|"</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="keyword">if</span> <span class="pun">(</span>split<span class="pun">.</span>length != <span class="number">3</span><span class="pun">)</span> <span class="keyword">return</span><span class="pun">;</span>
+
+    <span class="comment">// Behält changeable-Status von bestehenden Bindings</span>
+    <span class="type">Bind</span> existing = CACHE<span class="pun">.</span>get<span class="pun">(</span>action<span class="pun">)</span><span class="pun">;</span>
+    <span class="keyword">boolean</span> changeable = existing != <span class="keyword">null</span> ? existing<span class="pun">.</span>changeable : <span class="keyword">true</span><span class="pun">;</span>
+<span class="pun">}</span></div>
+
+                    <h4>Dateiformat (unverändert)</h4>
+                    <div class="code-block">
+<span class="comment"># Format: action|displayName|KEY_NAME</span>
+<span class="string">exit</span><span class="pun">|</span><span class="string">Beenden</span><span class="pun">|</span><span class="type">ESCAPE</span>
+<span class="string">debug</span><span class="pun">|</span><span class="string">Informationen</span><span class="pun">|</span><span class="type">F3</span>
+<span class="string">jump</span><span class="pun">|</span><span class="string">Springen</span><span class="pun">|</span><span class="type">SPACE</span>
+<span class="string">move_left</span><span class="pun">|</span><span class="string">Links bewegen</span><span class="pun">|</span><span class="type">A</span>
+<span class="string">move_right</span><span class="pun">|</span><span class="string">Rechts bewegen</span><span class="pun">|</span><span class="type">D</span></div>
+
+                    <h4>Beispiel: Custom KeyBind mit neuen Methoden</h4>
+                    <div class="code-block">
+<span class="comment">// Eigene Aktion registrieren (neue Methode)</span>
+<span class="type">KeyBind</span> fireBind = <span class="type">KeyBinds</span><span class="pun">.</span>registerOrGet<span class="pun">(</span>
+    <span class="string">"fire"</span><span class="pun">,</span> 
+    <span class="string">"Feuern"</span><span class="pun">,</span> 
+    <span class="type">Key</span><span class="pun">.</span>F
+<span class="pun">)</span><span class="pun">;</span>
+
+<span class="comment">// Aktuelle oder Standard-Taste abfragen</span>
+<span class="type">Key</span> currentKey = <span class="type">KeyBinds</span><span class="pun">.</span>getResolvedKey<span class="pun">(</span><span class="string">"fire"</span><span class="pun">)</span><span class="pun">;</span>
+<span class="type">Key</span> defaultKey = <span class="type">KeyBinds</span><span class="pun">.</span>getDefaultKey<span class="pun">(</span><span class="string">"fire"</span><span class="pun">)</span><span class="pun">;</span>
+
+<span class="comment">// Alle Defaults durchlaufen</span>
+<span class="keyword">for</span> <span class="pun">(</span><span class="type">DefaultBind</span> defaultBind : <span class="type">KeyBinds</span><span class="pun">.</span>getDefaults<span class="pun">(</span><span class="pun">))</span> <span class="pun">{</span>
+    System<span class="pun">.</span>out<span class="pun">.</span>println<span class="pun">(</span>defaultBind<span class="pun">.</span>action + <span class="string">" -> "</span> + defaultBind<span class="pun">.</span>getKey<span class="pun">(</span><span class="pun">))</span><span class="pun">;</span>
+<span class="pun">}</span></div>
+
+                    <div class="alert alert-info">
+                        <strong>Verbesserungen:</strong> Die neuen Methoden bieten bessere Fehlerbehandlung, preserve den changeable-Status und ermöglichen einfacheren Zugriff auf Standard-Werte.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                        👆
+                        </div>
+                        <div>
+                            <div class="card-title">Listener-Registrierung</div>
+                            <div class="card-description">Ereignis-Listener für GUI-Komponenten</div>
+                        </div>
+                    </div>
+
+                    <h4>GUI-Listener</h4>
+                    <div class="code-block">
+<span class="comment">// Einfacher Listener</span>
+gui.addListener(<span class="type">Key</span>.ESCAPE, <span class="type">ActionType</span>.PRESS, () -> {
+    System.out.println(<span class="string">"ESC gedrückt!"</span>);
+});
+
+<span class="comment">// Mit Action-Typ</span>
+gui.addListener(<span class="type">Key</span>.SPACE, <span class="type">ActionType</span>.PRESS, () -> {
+    player.jump();
+});
+
+gui.addListener(<span class="type">Key</span>.SPACE, <span class="type">ActionType</span>.RELEASE, () -> {
+    player.stopJump();
+});</div>
+
+                    <h4>Window-Listener</h4>
+                    <div class="code-block">
+<span class="comment">// Direct Key Binding (fest)</span>
+window.addKeyListener(<span class="type">Key</span>.F1, <span class="type">ActionType</span>.PRESS, () -> {
+    showHelp();
+});
+
+<span class="comment">// Binded Key Binding (dynamisch)</span>
+window.addBindedKeyListener(<span class="string">"help"</span>, <span class="type">ActionType</span>.PRESS, () -> {
+    showHelp();
+});</div>
+
+                    <div class="alert alert-warning">
+                        <strong>Input-Resolution:</strong> Das System löst Tasten automatisch in die richtigen Aktionen auf, basierend auf den aktuellen KeyBinds.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Farb-System -->
+            <section id="farb-system" class="section fade-in">
+                <h3>🎨 Farb-Management & Design</h3>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                            🌈
+                        </div>
+                        <div>
+                            <div class="card-title">Color-Klasse</div>
+                            <div class="card-description">Flexible Farbverwaltung</div>
+                        </div>
+                    </div>
+
+                    <h4>Farb-Erstellung</h4>
+                    <div class="code-block">
+<span class="comment">// RGB-Werte (0-255)</span>
+<span class="type">Color</span> red = <span class="type">Color</span>.fromRGB(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>);
+
+<span class="comment">// Hexadezimal</span>
+<span class="type">Color</span> blue = <span class="type">Color</span>.fromHex(<span class="string">"#0000FF"</span>);
+
+<span class="comment">// Vordefinierte Farben</span>
+<span class="type">Color</span> green = <span class="type">NamedColor</span>.GREEN;</div>
+
+                    <h4>Farb-Operationen</h4>
+                    <table class="method-table">
+                        <thead>
+                            <tr>
+                                <th>Methode</th>
+                                <th>Beschreibung</th>
+                                <th>Parameter</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>brighter(factor)</td>
+                                <td>Macht Farbe heller</td>
+                                <td>0.0 - 1.0</td>
+                            </tr>
+                            <tr>
+                                <td>darker(factor)</td>
+                                <td>Macht Farbe dunkler</td>
+                                <td>0.0 - 1.0</td>
+                            </tr>
+                            <tr>
+                                <td>toCSS()</td>
+                                <td>CSS-String für JavaFX</td>
+                                <td>keine</td>
+                            </tr>
+                            <tr>
+                                <td>isLight()</td>
+                                <td>Prüft ob hell</td>
+                                <td>keine</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>NamedColor-Konstanten</h4>
+                    <div class="grid grid-3">
+                        <div>
+                            <h5>Grundfarben</h5>
+                            <ul class="feature-list">
+                                <li><code>BLACK, WHITE</code></li>
+                                <li><code>RED, GREEN, BLUE</code></li>
+                                <li><code>YELLOW, CYAN, MAGENTA</code></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>UI-Farben</h5>
+                            <ul class="feature-list">
+                                <li><code>BACKGROUND, LIGHT</code></li>
+                                <li><code>DARK, ACCENT</code></li>
+                                <li><code>SUCCESS, WARNING, ERROR</code></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Spezial</h5>
+                            <ul class="feature-list">
+                                <li><code>TRANSPARENT</code></li>
+                                <li><code>GRAY, LIGHT_GRAY</code></li>
+                                <li><code>DARK_GRAY</code></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <h4>Farb-Beispiele</h4>
+                        <div class="component-preview">
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <div style="width: 40px; height: 40px; background: #ff0000; border-radius: 4px;"></div>
+                                <div style="width: 40px; height: 40px; background: #00ff00; border-radius: 4px;"></div>
+                                <div style="width: 40px; height: 40px; background: #0000ff; border-radius: 4px;"></div>
+                                <div style="width: 40px; height: 40px; background: #ffff00; border-radius: 4px;"></div>
+                                <div style="width: 40px; height: 40px; background: #ff00ff; border-radius: 4px;"></div>
+                                <div style="width: 40px; height: 40px; background: #00ffff; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                            🎨
+                        </div>
+                        <div>
+                            <div class="card-title">Farb-Harmonien</div>
+                            <div class="card-description">Automatische Farb-Generierung</div>
+                        </div>
+                    </div>
+
+                    <h4>Dynamische Farb-Generierung</h4>
+                    <div class="code-block">
+<span class="comment">// Basisfarbe erstellen</span>
+<span class="type">Color</span> base = <span class="type">Color</span>.fromHex(<span class="string">"#3b82f6"</span>);
+
+<span class="comment">// Farb-Varianten generieren</span>
+<span class="type">Color</span> hover = base.brighter(<span class="number">0.15</span>);
+<span class="type">Color</span> active = base.darker(<span class="number">0.15</span>);
+<span class="type">Color</span> disabled = base.withAlpha(<span class="number">0.5</span>);</div>
+
+                    <h4>Theme-System</h4>
+                    <div class="alert alert-info">
+                        <strong>Konsistente Themes:</strong> Verwende Farb-Operationen um konsistente Farb-Schemata für deine GUI zu erstellen.
+                    </div>
+
+                    <div class="code-block">
+<span class="keyword">public class</span> <span class="type">GameTheme</span> {
+    <span class="keyword">public static final</span> <span class="type">Color</span> PRIMARY = <span class="type">Color</span>.fromHex(<span class="string">"#3b82f6"</span>);
+    <span class="keyword">public static final</span> <span class="type">Color</span> PRIMARY_HOVER = PRIMARY.brighter(<span class="number">0.15</span>);
+    <span class="keyword">public static final</span> <span class="type">Color</span> PRIMARY_ACTIVE = PRIMARY.darker(<span class="number">0.15</span>);
+    
+    <span class="keyword">public static final</span> <span class="type">Color</span> BACKGROUND = <span class="type">Color</span>.fromHex(<span class="string">"#1e293b"</span>);
+    <span class="keyword">public static final</span> <span class="type">Color</span> SURFACE = BACKGROUND.brighter(<span class="number">0.1</span>);
+}</div>
+                </div>
+            </section>
+
+            <!-- Dateisystem -->
+            <section id="dateisystem" class="section fade-in">
+                <h3>📁 Dateiverwaltung & Ressourcen</h3>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                            📂
+                        </div>
+                        <div>
+                            <div class="card-title">Directories</div>
+                            <div class="card-description">Verzeichnis-Management</div>
+                        </div>
+                    </div>
+
+                    <h4>Verzeichnis-Typen</h4>
+                    <table class="method-table">
+                        <thead>
+                            <tr>
+                                <th>Methode</th>
+                                <th>Beschreibung</th>
+                                <th>Verwendung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>dataFile(name)</td>
+                                <td>Datei im resources/data-Verzeichnis</td>
+                                <td>Spielstände, Konfiguration</td>
+                            </tr>
+                            <tr>
+                                <td>resourceFile(path)</td>
+                                <td>Datei im Ressourcenverzeichnis</td>
+                                <td>Texturen, Sounds, Fonts</td>
+                            </tr>
+                            <tr>
+                                <td>init(resourceRoot)</td>
+                                <td>Initialisiert Verzeichnisse</td>
+                                <td>Start-up</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Verzeichnis-Struktur</h4>
+                    <div class="code-block">
+<span class="comment">// Automatisch erstellte Verzeichnisse im Projektverzeichnis</span>
+projektverzeichnis/
+├── resources/      <span class="comment">// Wird automatisch erstellt</span>
+│   ├── data/       <span class="comment">// Spielstände, Konfiguration</span>
+│   │   ├── keybinds.txt
+│   │   ├── settings.json
+│   │   └── saves/
+│   ├── assets/     <span class="comment">// Spiel-Ressourcen</span>
+│   │   ├── textures/
+│   │   ├── sounds/
+│   │   └── fonts/
+└── logs/           <span class="comment">// Log-Dateien</span></div>
+
+                    <div class="alert alert-success">
+                        <strong>Automatische Erstellung:</strong> Das gesamte <code>resources/</code> Verzeichnis mit allen Unterverzeichnissen wird automatisch im Projektverzeichnis erstellt.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">
+                            📄
+                        </div>
+                        <div>
+                            <div class="card-title">GameFile</div>
+                            <div class="card-description">Einfacher Dateizugriff</div>
+                        </div>
+                    </div>
+
+                    <h4>Datei-Operationen</h4>
+                    <table class="method-table">
+                        <thead>
+                            <tr>
+                                <th>Methode</th>
+                                <th>Beschreibung</th>
+                                <th>Rückgabe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>readLines()</td>
+                                <td>Zeilenweises Lesen</td>
+                                <td>List&lt;String&gt;</td>
+                            </tr>
+                            <tr>
+                                <td>writeString(content)</td>
+                                <td>Text schreiben</td>
+                                <td>void</td>
+                            </tr>
+                            <tr>
+                                <td>exists()</td>
+                                <td>Prüfen ob Datei existiert</td>
+                                <td>boolean</td>
+                            </tr>
+                            <tr>
+                                <td>delete()</td>
+                                <td>Datei löschen</td>
+                                <td>boolean</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Praxisbeispiele</h4>
+                    <div class="code-block">
+<span class="comment">// Konfigurationsdatei laden</span>
+<span class="type">GameFile</span> configFile = <span class="type">Directories</span>.dataFile(<span class="string">"settings.json"</span>);
+<span class="keyword">if</span> (configFile.exists()) {
+    <span class="type">String</span> json = configFile.readString();
+    settings = parseSettings(json);
+} <span class="keyword">else</span> {
+    <span class="comment">// Standard-Konfiguration erstellen</span>
+    settings = createDefaultSettings();
+    configFile.writeString(settings.toJson());
+}</div>
+
+                    <div class="code-block">
+<span class="comment">// Spielstand speichern</span>
+<span class="type">GameFile</span> saveFile = <span class="type">Directories</span>.dataFile(<span class="string">"saves/save_"</span> + slot + <span class="string">".json"</span>);
+saveFile.writeString(gameState.toJson());</div>
+
+                    <div class="alert alert-warning">
+                        <strong>Thread-Safety:</strong> Alle Dateioperationen sind thread-safe und können aus beliebigen Threads aufgerufen werden.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                            💾
+                        </div>
+                        <div>
+                            <div class="card-title">Ressourcen-Management</div>
+                            <div class="card-description">Effiziente Ressourcen-Verwaltung</div>
+                        </div>
+                    </div>
+
+                    <h4>Ressourcen-Typen</h4>
+                    <div class="grid grid-2">
+                        <div>
+                            <h5>Texturen & Bilder</h5>
+                            <ul class="feature-list">
+                                <li>Automatisches Caching über GraphicMediaCache</li>
+                                <li>Unterstützt PNG, JPG, GIF</li>
+                                <li>Lazy Loading bei Bedarf</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Konfigurationsdateien</h5>
+                            <ul class="feature-list">
+                                <li>JSON, Properties, Text</li>
+                                <li>Automatische Backup-Erstellung</li>
+                                <li>Validierung bei Laden</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4>Best Practices</h4>
+                    <ul class="feature-list">
+                        <li><strong>Konsistente Pfade:</strong> Verwende immer relative Pfade zum Ressourcen-Verzeichnis</li>
+                        <li><strong>Fehlerbehandlung:</strong> Prüfe immer mit exists() vor dem Lesen</li>
+                        <li><strong>Backup-Strategie:</strong> Erstelle Backups für wichtige Spielstände</li>
+                        <li><strong>Caching:</strong> Nutze das eingebaute Caching-System für Performance</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Beispielanwendung -->
+            <section id="beispiel-anwendung" class="section fade-in">
+                <h3>🎮 Praxisbeispiel & Anwendung</h3>
+
+                <div class="component-showcase">
+                    <h4>Vollständiges Spiel: "Simple Pong"</h4>
+                    <div class="component-preview">
+                        <div class="code-block">
+<span class="keyword">public class</span> <span class="type">SimplePongGame</span> <span class="keyword">extends</span> <span class="type">GameEngine</span> {
+    
+    <span class="keyword">private</span> <span class="type">GraphicText</span> scoreText;
+    <span class="keyword">private</span> <span class="keyword">int</span> playerScore = <span class="number">0</span>, aiScore = <span class="number">0</span>;
+    <span class="keyword">private</span> <span class="keyword">double</span> ballX = <span class="number">400</span>, ballY = <span class="number">300</span>;
+    <span class="keyword">private</span> <span class="keyword">double</span> ballVX = <span class="number">5</span>, ballVY = <span class="number">3</span>;
+    <span class="keyword">private</span> <span class="keyword">double</span> paddleY = <span class="number">250</span>;
+    <span class="keyword">private</span> <span class="keyword">double</span> aiY = <span class="number">250</span>;
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> onStart(<span class="type">GraphicWindow</span> window, <span class="type">GameScheduler</span> scheduler) {
+        setupGameGUI(window);
+        setupControls(window);
+        startGameLoop(scheduler);
+    }
+    
+    <span class="keyword">private void</span> setupGameGUI(<span class="type">GraphicWindow</span> window) {
+        window.main(main -> {
+            <span class="comment">// Score-Anzeige</span>
+            scoreText = main.addItemAndGet(
+                <span class="type">GraphicText</span>.builder()
+                    .text(<span class="string">"0 : 0"</span>)
+                    .fontSize(<span class="number">32</span>)
+                    .bold(<span class="keyword">true</span>)
+                    .color(<span class="type">Color</span>.WHITE),
+                <span class="type">Alignment</span>.of(<span class="number">0.5</span>, <span class="number">0.1</span>)
+            );
+            
+            <span class="comment">// Mittellinie</span>
+            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < <span class="number">10</span>; i++) {
+                main.addItem(
+                    <span class="type">GraphicText</span>.builder()
+                        .text(<span class="string">"|"</span>)
+                        .fontSize(<span class="number">24</span>)
+                        .color(<span class="type">Color</span>.fromRGB(<span class="number">100</span>, <span class="number">100</span>, <span class="number">100</span>)),
+                    <span class="type">Alignment</span>.of(<span class="number">0.5</span>, <span class="number">0.15</span> + i * <span class="number">0.08</span>)
+                );
+            }
+            
+            <span class="comment">// Spieler-Paddle</span>
+            main.addItemAndGet(
+                <span class="type">GraphicButton</span>.builder()
+                    .text(<span class="string">""</span>)
+                    .backgroundColor(<span class="type">Color</span>.WHITE)
+                    .size(<span class="number">15</span>, <span class="number">80</span>)
+                    .build(),
+                <span class="type">Position</span>.of(<span class="number">50</span>, <span class="number">250</span>)
+            );
+            
+            <span class="comment">// AI-Paddle</span>
+            main.addItemAndGet(
+                <span class="type">GraphicButton</span>.builder()
+                    .text(<span class="string">""</span>)
+                    .backgroundColor(<span class="type">Color</span>.WHITE)
+                    .size(<span class="number">15</span>, <span class="number">80</span>)
+                    .build(),
+                <span class="type">Position</span>.of(<span class="number">735</span>, <span class="number">250</span>)
+            );
+            
+            <span class="comment">// Ball</span>
+            main.addItemAndGet(
+                <span class="type">GraphicButton</span>.builder()
+                    .text(<span class="string">""</span>)
+                    .backgroundColor(<span class="type">Color</span>.WHITE)
+                    .size(<span class="number">15</span>, <span class="number">15</span>)
+                    .roundedEdges(<span class="number">0.5</span>)
+                    .build(),
+                <span class="type">Position</span>.of(<span class="number">400</span>, <span class="number">300</span>)
+            );
+        });
+    }
+    
+    <span class="keyword">private void</span> setupControls(<span class="type">GraphicWindow</span> window) {
+        <span class="comment">// Steuerung registrieren</span>
+        window.addKeyListener(<span class="type">Key</span>.W, <span class="type">ActionType</span>.PRESS, () -> movingUp = <span class="keyword">true</span>);
+        window.addKeyListener(<span class="type">Key</span>.W, <span class="type">ActionType</span>.RELEASE, () -> movingUp = <span class="keyword">false</span>);
+        window.addKeyListener(<span class="type">Key</span>.S, <span class="type">ActionType</span>.PRESS, () -> movingDown = <span class="keyword">true</span>);
+        window.addKeyListener(<span class="type">Key</span>.S, <span class="type">ActionType</span>.RELEASE, () -> movingDown = <span class="keyword">false</span>);
+        
+        <span class="comment">// Pause-Funktion</span>
+        window.addKeyListener(<span class="type">Key</span>.P, <span class="type">ActionType</span>.PRESS, <span class="keyword">this</span>::togglePause);
+    }
+    
+    <span class="keyword">private void</span> startGameLoop(<span class="type">GameScheduler</span> scheduler) {
+        scheduler.runRepeating(<span class="keyword">this</span>::updateGame, <span class="number">0</span>, <span class="number">1</span>);
+    }
+    
+    <span class="keyword">private void</span> updateGame() {
+        <span class="keyword">if</span> (isPaused) <span class="keyword">return</span>;
+        
+        <span class="comment">// Spieler-Bewegung</span>
+        <span class="keyword">if</span> (movingUp && paddleY > <span class="number">0</span>) paddleY -= <span class="number">8</span>;
+        <span class="keyword">if</span> (movingDown && paddleY < <span class="number">520</span>) paddleY += <span class="number">8</span>;
+        
+        <span class="comment">// AI-Bewegung</span>
+        <span class="keyword">double</span> aiTarget = ballY - <span class="number">40</span>;
+        <span class="keyword">if</span> (aiY < aiTarget - <span class="number">5</span>) aiY += <span class="number">6</span>;
+        <span class="keyword">if</span> (aiY > aiTarget + <span class="number">5</span>) aiY -= <span class="number">6</span>;
+        aiY = Math.max(<span class="number">0</span>, Math.min(<span class="number">520</span>, aiY));
+        
+        <span class="comment">// Ball-Bewegung</span>
+        ballX += ballVX;
+        ballY += ballVY;
+        
+        <span class="comment">// Ball-Kollision mit Wänden</span>
+        <span class="keyword">if</span> (ballY <= <span class="number">0</span> || ballY >= <span class="number">585</span>) {
+            ballVY = -ballVY;
+        }
+        
+        <span class="comment">// Ball-Kollision mit Paddles</span>
+        <span class="keyword">if</span> (ballX <= <span class="number">65</span> && ballX >= <span class="number">50</span> && 
+            ballY >= paddleY && ballY <= paddleY + <span class="number">80</span>) {
+            ballVX = Math.abs(ballVX);
+        }
+        
+        <span class="keyword">if</span> (ballX >= <span class="number">735</span> && ballX <= <span class="number">750</span> && 
+            ballY >= aiY && ballY <= aiY + <span class="number">80</span>) {
+            ballVX = -Math.abs(ballVX);
+        }
+        
+        <span class="comment">// Punkte vergeben</span>
+        <span class="keyword">if</span> (ballX < <span class="number">0</span>) {
+            aiScore++;
+            resetBall();
+        }
+        <span class="keyword">if</span> (ballX > <span class="number">800</span>) {
+            playerScore++;
+            resetBall();
+        }
+        
+        <span class="comment">// GUI aktualisieren</span>
+        updateGUI();
+    }
+    
+    <span class="keyword">private void</span> updateGUI() {
+        scoreText.text(playerScore + <span class="string">" : "</span> + aiScore);
+        <span class="comment">// Paddle- und Ball-Positionen aktualisieren...</span>
+    }
+    
+    <span class="keyword">private void</span> resetBall() {
+        ballX = <span class="number">400</span>;
+        ballY = <span class="number">300</span>;
+        ballVX = (Math.random() > <span class="number">0.5</span> ? <span class="number">5</span> : -<span class="number">5</span>);
+        ballVY = (Math.random() - <span class="number">0.5</span>) * <span class="number">6</span>;
+    }
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> tickLoop() {
+        <span class="comment">// Zusätzliche Game-Logic bei Bedarf</span>
+    }
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> secondLoop() {
+        <span class="comment">// Langsame Updates (z.B. Partikel-Effekte)</span>
+    }
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">public String</span> getName() {
+        <span class="keyword">return</span> <span class="string">"Simple Pong"</span>;
+    }
+}</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>Features des Beispiel-Spiels</h4>
+                    <div class="grid grid-2">
+                        <div>
+                            <h5>Game-Logic</h5>
+                            <ul class="feature-list">
+                                <li>Ball-Physik mit Kollisionserkennung</li>
+                                <li>AI-Gegner mit einfacher KI</li>
+                                <li>Punkte-System</li>
+                                <li>Pause-Funktion</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>GUI-Features</h5>
+                            <ul class="feature-list">
+                                <li>Real-time Score-Anzeige</li>
+                                <li>Smooth Paddle-Bewegung</li>
+                                <li>Visuelle Spielfeld-Elemente</li>
+                                <li>Keyboard-Steuerung</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Library Integration -->
+            <section id="library-integration" class="section fade-in">
+                <h3>📦 GameEngine als Library verwenden</h3>
+
+                <div class="alert alert-info">
+                    <strong>Wichtig:</strong> Die GameEngine ist als wiederverwendbare Library konzipiert. Andere Entwickler können sie einfach in ihre Projekte integrieren.
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                            📦
+                        </div>
+                        <div>
+                            <div class="card-title">Gradle Integration (Groovy)</div>
+                            <div class="card-description">GameEngine in externe Projekte einbinden</div>
+                        </div>
+                    </div>
+
+                    <h4>build.gradle Konfiguration</h4>
+                    <div class="code-block"><span class="keyword">plugins</span> <span class="pun">{</span>
+    id <span class="string">'java'</span>
+    id <span class="string">'application'</span>
+    id <span class="string">'org.openjfx.javafxplugin'</span> version <span class="string">'0.1.0'</span>
+<span class="pun">}</span>
+
+group = <span class="string">'de.projektarbeit'</span>
+version = <span class="string">'1.0-SNAPSHOT'</span>
+
+<span class="keyword">repositories</span> <span class="pun">{</span>
+    mavenCentral<span class="pun">()</span>
+
+    maven <span class="pun">{</span>
+        url <span class="string">'https://jitpack.io'</span>
+        content <span class="pun">{</span>
+            includeGroup <span class="string">"com.github.Jakomi1"</span>
+        <span class="pun">}</span>
+    <span class="pun">}</span>
+<span class="pun">}</span>
+
+<span class="keyword">dependencies</span> <span class="pun">{</span>
+    implementation <span class="string">"org.openjfx:javafx-controls:21"</span>
+    implementation <span class="string">"org.openjfx:javafx-fxml:21"</span>
+    implementation <span class="string">"org.openjfx:javafx-media:21.0.2"</span>
+    implementation <span class="string">"org.openjfx:javafx-graphics:21.0.2"</span>
+
+    implementation<span class="pun">(</span><span class="string">'com.github.Jakomi1:GameEngine:master-SNAPSHOT'</span><span class="pun">)</span> <span class="pun">{</span>
+        changing = <span class="keyword">true</span>
+    <span class="pun">}</span>
+
+    testImplementation platform<span class="pun">(</span><span class="string">'org.junit:junit-bom:5.10.0'</span><span class="pun">)</span>
+    testImplementation <span class="string">'org.junit.jupiter:junit-jupiter'</span>
+<span class="pun">}</span>
+
+<span class="keyword">javafx</span> <span class="pun">{</span>
+    version = <span class="string">"21"</span>
+    modules = <span class="pun">[</span>
+            <span class="string">'javafx.controls'</span><span class="pun">,</span>
+            <span class="string">'javafx.fxml'</span><span class="pun">,</span>
+            <span class="string">'javafx.media'</span><span class="pun">,</span>
+            <span class="string">'javafx.graphics'</span>
+    <span class="pun">]</span>
+<span class="pun">}</span>
+
+<span class="keyword">application</span> <span class="pun">{</span>
+    mainClass = <span class="string">'de.projektarbeit.Main'</span>
+<span class="pun">}</span>
+
+<span class="keyword">java</span> <span class="pun">{</span>
+    toolchain <span class="pun">{</span>
+        languageVersion = JavaLanguageVersion<span class="pun">.</span>of<span class="pun">(</span><span class="number">26</span><span class="pun">)</span>
+    <span class="pun">}</span>
+<span class="pun">}</span>
+
+<span class="keyword">tasks</span><span class="pun">.</span>named<span class="pun">(</span><span class="string">'run'</span><span class="pun">)</span> <span class="pun">{</span>
+    javaLauncher = javaToolchains<span class="pun">.</span>launcherFor <span class="pun">{</span>
+        languageVersion = JavaLanguageVersion<span class="pun">.</span>of<span class="pun">(</span><span class="number">26</span><span class="pun">)</span>
+    <span class="pun">}</span>
+    jvmArgs += <span class="pun">[</span><span class="string">'--enable-native-access=javafx.graphics'</span><span class="pun">]</span>
+<span class="pun">}</span>
+
+<span class="keyword">test</span> <span class="pun">{</span>
+    useJUnitPlatform<span class="pun">(</span><span class="pun">)</span>
+<span class="pun">}</span>
+
+<span class="keyword">configurations</span><span class="pun">.</span>configureEach <span class="pun">{</span>
+    resolutionStrategy <span class="pun">{</span>
+        cacheChangingModulesFor <span class="number">0</span><span class="pun">,</span> <span class="string">'seconds'</span>
+        cacheDynamicVersionsFor <span class="number">0</span><span class="pun">,</span> <span class="string">'seconds'</span>
+    <span class="pun">}</span>
+<span class="pun">}</span></div>
+
+                    <h4>Wichtige Konfigurationspunkte</h4>
+                    <div class="grid grid-2">
+                        <div>
+                            <h5>📦 Dependencies</h5>
+                            <ul class="feature-list">
+                                <li><strong>JavaFX 21:</strong> Alle notwendigen Module</li>
+                                <li><strong>JitPack:</strong> Für GitHub-Repository Zugriff</li>
+                                <li><strong>GameEngine:</strong> Master-SNAPSHOT Version</li>
+                                <li><strong>changing=true:</strong> Für Snapshot-Updates</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>⚙️ Konfiguration</h5>
+                            <ul class="feature-list">
+                                <li><strong>Java 26:</strong> Modern Toolchain</li>
+                                <li><strong>Native Access:</strong> Für JavaFX Performance</li>
+                                <li><strong>Cache Settings:</strong> Für schnelle Updates</li>
+                                <li><strong>JUnit 5:</strong> Für Testing</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <strong>Snapshot Version:</strong> Die <code>master-SNAPSHOT</code> Version wird automatisch bei jedem Push auf GitHub aktualisiert.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            🚀
+                        </div>
+                        <div>
+                            <div class="card-title">Beispiel: Eigenes Spiel mit GameEngine</div>
+                            <div class="card-description">Vollständiges Beispiel für externe Integration</div>
+                        </div>
+                    </div>
+
+                    <h4>Main.java</h4>
+                    <div class="code-block"><span class="keyword">package</span> de<span class="pun">.</span>projektarbeit<span class="pun">;</span>
+
+<span class="keyword">import</span> de<span class="pun">.</span>jakob<span class="pun">.</span>game<span class="pun">.</span>engine<span class="pun">.</span><span class="type">GameEngine</span><span class="pun">;</span>
+<span class="keyword">import</span> de<span class="pun">.</span>jakob<span class="pun">.</span>game<span class="pun">.</span>gui<span class="pun">.</span><span class="type">GraphicWindow</span><span class="pun">;</span>
+<span class="keyword">import</span> de<span class="pun">.</span>jakob<span class="pun">.</span>game<span class="pun">.</span>scheduler<span class="pun">.</span><span class="type">GameScheduler</span><span class="pun">;</span>
+<span class="keyword">import</span> de<span class="pun">.</span>jakob<span class="pun">.</span>game<span class="pun">.</span>gui<span class="pun">.</span>components<span class="pun">.</span><span class="type">GraphicButton</span><span class="pun">;</span>
+<span class="keyword">import</span> de<span class="pun">.</span>jakob<span class="pun">.</span>game<span class="pun">.</span>gui<span class="pun">.</span>components<span class="pun">.</span><span class="type">GraphicText</span><span class="pun">;</span>
+<span class="keyword">import</span> de<span class="pun">.</span>jakob<span class="pun">.</span>game<span class="pun">.</span>color<span class="pun">.</span><span class="type">Color</span><span class="pun">;</span>
+
+<span class="keyword">public class</span> <span class="type">Main</span> <span class="keyword">extends</span> <span class="type">GameEngine</span> <span class="pun">{</span>
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> onStart<span class="pun">(</span><span class="type">GraphicWindow</span> window<span class="pun">,</span> <span class="type">GameScheduler</span> scheduler<span class="pun">)</span> <span class="pun">{</span>
+        <span class="comment">// Haupt-GUI konfigurieren</span>
+        window<span class="pun">.</span>main<span class="pun">(</span>main -> <span class="pun">{</span>
+            <span class="comment">// Titel hinzufügen</span>
+            main<span class="pun">.</span>addItemAndGet<span class="pun">(</span>
+                <span class="type">GraphicText</span><span class="pun">.</span>builder<span class="pun">(</span><span class="pun">)</span>
+                    <span class="pun">.</span>text<span class="pun">(</span><span class="string">"Mein Spiel mit GameEngine!"</span><span class="pun">)</span>
+                    <span class="pun">.</span>fontSize<span class="pun">(</span><span class="number">32</span><span class="pun">)</span>
+                    <span class="pun">.</span>bold<span class="pun">(</span><span class="keyword">true</span><span class="pun">)</span>
+                    <span class="pun">.</span>color<span class="pun">(</span><span class="type">Color</span><span class="pun">.</span>WHITE<span class="pun">)</span><span class="pun">,</span>
+                <span class="type">Alignment</span><span class="pun">.</span>CENTER
+            <span class="pun">)</span><span class="pun">;</span>
+
+            <span class="comment">// Start-Button</span>
+            main<span class="pun">.</span>addItemAndGet<span class="pun">(</span>
+                <span class="type">GraphicButton</span><span class="pun">.</span>builder<span class="pun">(</span><span class="pun">)</span>
+                    <span class="pun">.</span>text<span class="pun">(</span><span class="string">"Spiel starten"</span><span class="pun">)</span>
+                    <span class="pun">.</span>backgroundColor<span class="pun">(</span><span class="type">Color</span><span class="pun">.</span>fromHex<span class="pun">(</span><span class="string">"#10b981"</span><span class="pun">))</span>
+                    <span class="pun">.</span>size<span class="pun">(</span><span class="number">200</span><span class="pun">,</span> <span class="number">50</span><span class="pun">)</span>
+                    <span class="pun">.</span>onClick<span class="pun">(</span>() -> startGame<span class="pun">(</span><span class="pun">))</span>
+                    <span class="pun">.</span>roundedEdges<span class="pun">(</span><span class="number">0.2</span><span class="pun">)</span><span class="pun">,</span>
+                <span class="type">Alignment</span><span class="pun">.</span>of<span class="pun">(</span><span class="number">0.5</span><span class="pun">,</span> <span class="number">0.6</span><span class="pun">)</span>
+            <span class="pun">)</span><span class="pun">;</span>
+        <span class="pun">}</span><span class="pun">)</span><span class="pun">;</span>
+
+        <span class="comment">// Game-Loop konfigurieren</span>
+        scheduler<span class="pun">.</span>runRepeating<span class="pun">(</span><span class="keyword">this</span><span class="pun">::</span>updateGame<span class="pun">,</span> <span class="number">0</span><span class="pun">,</span> <span class="number">1</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="pun">}</span>
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> tickLoop<span class="pun">()</span> <span class="pun">{</span>
+        <span class="comment">// Game-Logic läuft 50x pro Sekunde</span>
+    <span class="pun">}</span>
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> secondLoop<span class="pun">()</span> <span class="pun">{</span>
+        <span class="comment">// Langsame Updates laufen 1x pro Sekunde</span>
+    <span class="pun">}</span>
+
+    <span class="keyword">private void</span> updateGame<span class="pun">()</span> <span class="pun">{</span>
+        <span class="comment">// Deine Spiel-Logic hier</span>
+    <span class="pun">}</span>
+
+    <span class="keyword">private void</span> startGame<span class="pun">()</span> <span class="pun">{</span>
+        System<span class="pun">.</span>out<span class="pun">.</span>println<span class="pun">(</span><span class="string">"Spiel gestartet!"</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="pun">}</span>
+
+    <span class="keyword">public static void</span> main<span class="pun">(</span>String<span class="pun">[]</span> args<span class="pun">)</span> <span class="pun">{</span>
+        <span class="type">Application</span><span class="pun">.</span>launch<span class="pun">(</span><span class="type">Main</span><span class="pun">.</span><span class="keyword">class</span><span class="pun">,</span> args<span class="pun">)</span><span class="pun">;</span>
+    <span class="pun">}</span>
+<span class="pun">}</span></div>
+
+                    <div class="alert alert-success">
+                        <strong>Einfache Integration:</strong> Mit nur wenigen Zeilen Code kannst du die volle GameEngine-Funktionalität in deinem Projekt nutzen!
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            📚
+                        </div>
+                        <div>
+                            <div class="card-title">Versionsmanagement</div>
+                            <div class="card-description">Verschiedene Versionen und Releases</div>
+                        </div>
+                    </div>
+
+                    <h4>Verfügbare Versionen</h4>
+                    <table class="method-table">
+                        <thead>
+                            <tr>
+                                <th>Version</th>
+                                <th>Beschreibung</th>
+                                <th>Verwendung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>master-SNAPSHOT</td>
+                                <td>Aktuellste Entwicklerversion</td>
+                                <td>changing = true</td>
+                            </tr>
+                            <tr>
+                                <td>v1.0.0</td>
+                                <td>Stabiles Release</td>
+                                <td>Production ready</td>
+                            </tr>
+                            <tr>
+                                <td>feature-branch</td>
+                                <td>Spezifische Features</td>
+                                <td>Testing</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Release-Beispiel</h4>
+                    <div class="code-block"><span class="comment">// Stabile Version verwenden</span>
+implementation <span class="string">'com.github.Jakomi1:GameEngine:v1.0.0'</span>
+
+<span class="comment">// Feature-Branch testen</span>
+implementation <span class="string">'com.github.Jakomi1:GameEngine:feature-new-input-SNAPSHOT'</span></div>
+                </div>
+            </section>
+
+            <!-- Best Practices -->
+            <section id="best-practices" class="section fade-in">
+                <h3>✨ Best Practices & Entwicklungstipps</h3>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            ⚡
+                        </div>
+                        <div>
+                            <div class="card-title">Performance</div>
+                            <div class="card-description">Optimierungstipps für maximale Performance</div>
+                        </div>
+                    </div>
+
+                    <h4>Game-Loop Optimierung</h4>
+                    <ul class="feature-list">
+                        <li><strong>Halte tickLoop() kurz:</strong> Nur essentielle Game-Logic, keine langen Operationen</li>
+                        <li><strong>Nutze runAsync() für Heavy Tasks:</strong> Datei-Laden, Netzwerk-Operationen</li>
+                        <li><strong>Dirty-Flag-Pattern:</strong> GUI-Updates nur bei Änderungen durchführen</li>
+                        <li><strong>Object Pooling:</strong> Wiederverwendung von Objekten statt ständiger Neuerstellung</li>
+                    </ul>
+
+                    <h4>Memory Management</h4>
+                    <div class="code-block">
+<span class="comment">// ❌ Schlecht: Objekte werden ständig neu erstellt</span>
+<span class="keyword">public void</span> updateParticles() {
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < <span class="number">100</span>; i++) {
+        <span class="type">Particle</span> p = <span class="keyword">new</span> <span class="type">Particle</span>(); <span class="comment">// Memory-Leak!</span>
+        particles.add(p);
+    }
+}
+
+<span class="comment">// ✅ Gut: Object Pooling verwenden</span>
+<span class="keyword">private</span> <span class="type">Queue</span>&lt;<span class="type">Particle</span>&gt; particlePool = <span class="keyword">new</span> <span class="type">ArrayDeque</span>&lt;&gt;();
+
+<span class="keyword">public void</span> updateParticles() {
+    <span class="type">Particle</span> p = particlePool.poll();
+    <span class="keyword">if</span> (p == <span class="keyword">null</span>) p = <span class="keyword">new</span> <span class="type">Particle</span>();
+    
+    <span class="comment">// Particle verwenden...</span>
+    
+    particlePool.offer(p); <span class="comment">// Zurück zum Pool</span>
+}</div>
+
+                    <div class="alert alert-success">
+                        <strong>Performance-Tipp:</strong> Verwende das eingebaute Caching-System für Texturen und andere Ressourcen!
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            🎨
+                        </div>
+                        <div>
+                            <div class="card-title">GUI-Design</div>
+                            <div class="card-description">Best Practices für Benutzeroberflächen</div>
+                        </div>
+                    </div>
+
+                    <h4>Design-Prinzipien</h4>
+                    <ul class="feature-list">
+                        <li><strong>Builder-Pattern:</strong> Immer für GUI-Komponenten verwenden</li>
+                        <li><strong>Konsistente Farben:</strong> Theme-System für einheitliches Aussehen</li>
+                        <li><strong>Responsive Design:</strong> Flexible Positionierung mit Alignment</li>
+                        <li><strong>User Feedback:</strong> Hover-States und Click-Animationen</li>
+                    </ul>
+
+                    <h4>GUI-Struktur</h4>
+                    <div class="code-block">
+<span class="comment">// ✅ Gut: Strukturierte GUI-Erstellung</span>
+<span class="keyword">public class</span> <span class="type">GameHUD</span> {
+    <span class="keyword">public static</span> <span class="type">GraphicUserInterface</span> create(<span class="type">GraphicWindow</span> window) {
+        <span class="keyword">return new</span> <span class="type">GraphicUserInterface</span>(window)
+            .size(<span class="number">800</span>, <span class="number">600</span>)
+            .backgroundColor(<span class="type">Color</span>.TRANSPARENT)
+            .alwaysInFront()
+            .onlyInteractiveWhenActive()
+            .addHealthBar()
+            .addScoreDisplay()
+            .addMinimap()
+            .create();
+    }
+    
+    <span class="keyword">private static</span> <span class="type">GraphicUserInterface</span> addHealthBar(<span class="type">GraphicUserInterface</span> gui) {
+        <span class="keyword">return</span> gui.addItem(
+            <span class="type">GraphicProgressBar</span>.builder()
+                .maxHealth(<span class="number">100</span>)
+                .currentHealth(<span class="number">75</span>)
+                .size(<span class="number">200</span>, <span class="number">20</span>)
+                .build(),
+            <span class="type">Position</span>.of(<span class="number">20</span>, <span class="number">20</span>)
+        );
+    }
+}</div>
+
+                    <div class="alert alert-warning">
+                        <strong>UX-Tipp:</strong> Verwende immer Hover- und Click-States für bessere User Experience!
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                            🛡️
+                        </div>
+                        <div>
+                            <div class="card-title">Fehlerbehandlung</div>
+                            <div class="card-description">Robuste Fehlerbehandlung und Debugging</div>
+                        </div>
+                    </div>
+
+                    <h4>Validierung</h4>
+                    <ul class="feature-list">
+                        <li><strong>Parameter-Prüfung:</strong> Null-Checks in öffentlichen Methoden</li>
+                        <li><strong>Datei-Zugriff:</strong> Always prüfen ob Dateien existieren</li>
+                        <li><strong>Resource Loading:</strong> Graceful Fallbacks für fehlende Ressourcen</li>
+                        <li><strong>User Input:</strong> Validierung von Benutzereingaben</li>
+                    </ul>
+
+                    <h4>Debugging</h4>
+                    <div class="code-block">
+<span class="comment">// Debug-Helper Klasse</span>
+<span class="keyword">public class</span> <span class="type">GameDebugger</span> {
+    <span class="keyword">private static final boolean</span> DEBUG = <span class="keyword">true</span>;
+    
+    <span class="keyword">public static void</span> log(<span class="type">String</span> message) {
+        <span class="keyword">if</span> (DEBUG) {
+            System.out.println(<span class="string">"[DEBUG] "</span> + message);
+        }
+    }
+    
+    <span class="keyword">public static void</span> assertNonNull(<span class="type">Object</span> obj, <span class="type">String</span> name) {
+        <span class="keyword">if</span> (obj == <span class="keyword">null</span>) {
+            <span class="keyword">throw new</span> <span class="type">IllegalArgumentException</span>(name + <span class="string">" cannot be null!"</span>);
+        }
+    }
+    
+    <span class="keyword">public static void</span> measureTime(<span class="type">String</span> operation, <span class="type">Runnable</span> runnable) {
+        <span class="keyword">long</span> start = System.nanoTime();
+        runnable.run();
+        <span class="keyword">long</span> duration = System.nanoTime() - start;
+        log(operation + <span class="string">" took "</span> + (duration / <span class="number">1_000_000</span>) + <span class="string">" ms"</span>);
+    }
+}</div>
+
+                    <h4>Logging-Strategie</h4>
+                    <div class="alert alert-info">
+                        <strong>Logging-Level:</strong> Verwende verschiedene Log-Level (DEBUG, INFO, WARN, ERROR) für strukturiertes Logging.
+                    </div>
+
+                    <div class="code-block">
+<span class="comment">// Im Game verwenden</span>
+<span class="type">GameDebugger</span>.log(<span class="string">"Player position updated: "</span> + playerX + <span class="string">", "</span> + playerY);
+<span class="type">GameDebugger</span>.measureTime(<span class="string">"Texture loading"</span>, () -> loadTextures());
+<span class="type">GameDebugger</span>.assertNonNull(texture, <span class="string">"Player texture"</span>);</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                            🏗️
+                        </div>
+                        <div>
+                            <div class="card-title">Architektur</div>
+                            <div class="card-description">Strukturierte Code-Organisation</div>
+                        </div>
+                    </div>
+
+                    <h4>Package-Struktur</h4>
+                    <div class="code-block">
+game/
+├── engine/          <span class="comment">// Engine-Kern</span>
+│   ├── GameEngine.java
+│   ├── GameScheduler.java
+│   └── GraphicWindow.java
+├── gui/             <span class="comment">// GUI-System</span>
+│   ├── components/
+│   ├── overlays/
+│   └── themes/
+├── game/            <span class="comment">// Spiel-spezifisch</span>
+│   ├── entities/
+│   ├── systems/
+│   └── logic/
+├── input/           <span class="comment">// Input-System</span>
+├── resources/       <span class="comment">// Ressourcen</span>
+└── utils/           <span class="comment">// Hilfsklassen</span></div>
+
+                    <h4>Design Patterns</h4>
+                    <div class="grid grid-2">
+                        <div>
+                            <h5>Empfohlene Patterns</h5>
+                            <ul class="feature-list">
+                                <li><strong>Builder Pattern:</strong> Für GUI-Komponenten</li>
+                                <li><strong>Observer Pattern:</strong> Für Events</li>
+                                <li><strong>Factory Pattern:</strong> Für Entity-Erstellung</li>
+                                <li><strong>State Pattern:</strong> Für Game-States</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Anti-Patterns</h5>
+                            <ul class="feature-list">
+                                <li>God Classes vermeiden</li>
+                                <li>Keine statischen Dependencies</li>
+                                <li>Keine Hardcoded Values</li>
+                                <li>Keine Circular Dependencies</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>Architektur-Tipp:</strong> Halte die Engine sauber von Spiel-spezifischem Code getrennt!
+                    </div>
+                </div>
+            </section>
+
+            <!-- Abschluss -->
+            <section class="section fade-in">
+                <div class="component-showcase">
+                    <h4>🎉 Zusammenfassung</h4>
+                    <div class="component-preview">
+                        <p>Die GameEngine bietet eine komplette Grundlage für 2D-Spiele mit:</p>
+                        <ul class="feature-list">
+                            <li><strong>Modernes GUI-System</strong> mit Overlay-Management</li>
+                            <li><strong>Präzises Zeitmanagement</strong> mit 50 TPS Scheduler</li>
+                            <li><strong>Flexible Input-Verarbeitung</strong> mit KeyBinds</li>
+                            <li><strong>Modulare Architektur</strong> für einfache Erweiterung</li>
+                            <li><strong>Professionelle Features</strong> wie Drag&Drop, Z-Order, Async-Tasks</li>
+                        </ul>
+                        <p style="margin-top: 1rem;">Das System ist darauf ausgelegt, schnell und intuitiv zu sein, während gleichzeitig professionelle Features für komplexe Spiele bereitstehen.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            🚀
+                        </div>
+                        <div>
+                            <div class="card-title">Nächste Schritte</div>
+                            <div class="card-description">Jetzt mit der Entwicklung beginnen!</div>
+                        </div>
+                    </div>
+
+                    <h4>Quick Start</h4>
+                    <ol class="feature-list">
+                        <li>Kopiere das "Simple Pong" Beispiel als Startpunkt</li>
+                        <li>Passe die GUI-Elemente an dein Spiel an</li>
+                        <li>Implementiere deine Game-Logic in tickLoop()</li>
+                        <li>Füge eigene GUI-Overlays hinzu</li>
+                        <li>Erweitere mit Custom-Komponenten</li>
+                    </ol>
+
+                    <div class="alert alert-success">
+                        <strong>Happy Coding!</strong> Die GameEngine ist bereit für deine kreativen Ideen. Viel Erfolg bei der Entwicklung!
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Highlight active section on scroll
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
