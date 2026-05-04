@@ -3,40 +3,31 @@ package de.jakob.game.input;
 import de.jakob.game.file.Directories;
 import de.jakob.game.file.GameFile;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public final class KeyBinds {
 
     private static final Map<String, Bind> CACHE = new LinkedHashMap<>();
+    private static final Map<String, KeyBind> REF_CACHE = new LinkedHashMap<>();
     private static final GameFile FILE = Directories.dataFile("keybinds.txt");
 
     private KeyBinds() {}
 
-    private record Bind(String action, String displayName, Key key, boolean changeable) {
-        private Bind {
-            action = action != null ? action.trim() : "";
-            displayName = displayName != null ? displayName.trim() : "";
-        }
+    // ---------------- INTERNAL DATA ----------------
 
-        Bind(String action, String displayName, Key key) {
-            this(action, displayName, key, true);
-        }
-    }
+    private record Bind(String action, String displayName, Key key, boolean changeable) {}
 
     private enum DefaultBind {
         EXIT("exit", "Beenden", Key.ESCAPE, false),
-        DEBUG_SCREEN("debug", "Informationen", Key.F3, true);
+        DEBUG_SCREEN("debug", "Informationen", Key.F3, true),
+        JUMP("jump", "Springen", Key.SPACE, true),
+        MOVE_LEFT("move_left", "Links bewegen", Key.A, true),
+        MOVE_RIGHT("move_right", "Rechts bewegen", Key.D, true);
 
-        private final String action;
-        private final String displayName;
-        private final Key key;
-        private final boolean changeable;
+        final String action;
+        final String displayName;
+        final Key key;
+        final boolean changeable;
 
         DefaultBind(String action, String displayName, Key key, boolean changeable) {
             this.action = action;
@@ -44,26 +35,13 @@ public final class KeyBinds {
             this.key = key;
             this.changeable = changeable;
         }
-
-        private String action() {
-            return action;
-        }
-
-        private String displayName() {
-            return displayName;
-        }
-
-        private Key key() {
-            return key;
-        }
-
-        private boolean changeable() {
-            return changeable;
-        }
     }
+
+    // ---------------- LOAD ----------------
 
     public static void load() {
         CACHE.clear();
+
         List<String> lines = FILE.exists() ? FILE.readLines() : Collections.emptyList();
 
         if (lines.isEmpty()) {
@@ -76,192 +54,152 @@ public final class KeyBinds {
             parseLine(line);
         }
 
-        ensureAllDefaultsExist();
+        ensureDefaults();
         save();
+    }
+
+    private static void setDefaults() {
+        for (DefaultBind b : DefaultBind.values()) {
+            CACHE.put(b.action, new Bind(
+                    b.action,
+                    b.displayName,
+                    b.key,
+                    b.changeable
+            ));
+        }
+    }
+
+    private static void ensureDefaults() {
+        for (DefaultBind b : DefaultBind.values()) {
+            CACHE.putIfAbsent(b.action, new Bind(
+                    b.action,
+                    b.displayName,
+                    b.key,
+                    b.changeable
+            ));
+        }
     }
 
     private static void parseLine(String line) {
         if (line == null || line.isBlank()) return;
-        String trimmed = line.trim();
-        if (trimmed.startsWith("#")) return;
+        if (line.startsWith("#")) return;
 
-        if (trimmed.contains("|")) {
-            String[] split = trimmed.split("\\|", 3);
-            if (split.length != 3) return;
+        String[] split = line.split("\\|");
+        if (split.length != 3) return;
 
-            String action = split[0].trim();
-            String displayName = split[1].trim();
-            String keyName = split[2].trim();
+        String action = split[0].trim();
+        String display = split[1].trim();
+        String keyName = split[2].trim();
 
-            Key key = parseKey(keyName);
-            if (action.isEmpty()) return;
-
-            CACHE.put(action, new Bind(
-                    action,
-                    displayName.isEmpty() ? fallbackDisplayName(action) : displayName,
-                    key
-            ));
-        } else if (trimmed.contains("=")) {
-            String[] split = trimmed.split("=", 2);
-            if (split.length != 2) return;
-
-            String action = split[0].trim();
-            String keyName = split[1].trim();
-
-            Key key = parseKey(keyName);
-            if (action.isEmpty()) return;
-
-            String displayName = defaultDisplayNameFor(action);
-            if (displayName == null || displayName.isBlank()) {
-                displayName = fallbackDisplayName(action);
-            }
-
-            CACHE.put(action, new Bind(action, displayName, key));
-        }
-    }
-
-    private static Key parseKey(String keyName) {
-        if (keyName == null || keyName.isBlank()) return Key.UNDEFINED;
+        Key key;
         try {
-            return Key.valueOf(keyName.trim());
-        } catch (IllegalArgumentException ignored) {
-            return Key.UNDEFINED;
+            key = Key.valueOf(keyName);
+        } catch (Exception e) {
+            key = Key.UNDEFINED;
         }
+
+        CACHE.put(action, new Bind(
+                action,
+                display.isBlank() ? fallback(action) : display,
+                key,
+                true
+        ));
     }
 
-    private static void setDefaults() {
-        CACHE.clear();
-        for (DefaultBind bind : DefaultBind.values()) {
-            CACHE.put(bind.action(),
-                    new Bind(bind.action(), bind.displayName(), bind.key(), bind.changeable()));
-        }
-    }
-
-    private static void ensureAllDefaultsExist() {
-        for (DefaultBind bind : DefaultBind.values()) {
-            Bind existing = CACHE.get(bind.action());
-            if (existing == null) {
-                CACHE.put(bind.action(),
-                        new Bind(bind.action(), bind.displayName(), bind.key(), bind.changeable()));
-            } else {
-                CACHE.put(bind.action(),
-                        new Bind(bind.action(), bind.displayName(), existing.key(), bind.changeable()));
-            }
-        }
-    }
+    // ---------------- SAVE ----------------
 
     public static void save() {
         StringBuilder sb = new StringBuilder();
-        for (Bind bind : getOrderedBinds()) {
-            sb.append(bind.action()).append("|")
-                    .append(bind.displayName()).append("|")
-                    .append(bind.key().name()).append("\n");
+
+        for (Bind b : CACHE.values()) {
+            sb.append(b.action).append("|")
+                    .append(b.displayName).append("|")
+                    .append(b.key.name()).append("\n");
         }
+
         FILE.writeString(sb.toString());
     }
 
-    private static List<Bind> getOrderedBinds() {
-        List<Bind> ordered = new ArrayList<>();
-        for (DefaultBind bind : DefaultBind.values()) {
-            Bind cached = CACHE.get(bind.action());
-            if (cached != null) ordered.add(cached);
+    // ---------------- REGISTER / UPDATE ----------------
+
+    public static KeyBind register(String action, Key key) {
+        return register(action, fallback(action), key);
+    }
+
+    public static KeyBind register(String action, String display, Key key) {
+        if (action == null || action.isBlank()) return null;
+
+        if (CACHE.containsKey(action)) {
+            return getKeyBind(action);
         }
 
-        List<Bind> others = new ArrayList<>();
-        for (Bind bind : CACHE.values()) {
-            if (!isDefaultAction(bind.action())) others.add(bind);
-        }
-        others.sort(Comparator.comparing(Bind::action, String.CASE_INSENSITIVE_ORDER));
-        ordered.addAll(others);
-        return ordered;
-    }
+        CACHE.put(action, new Bind(
+                action,
+                display,
+                key,
+                true
+        ));
 
-    private static boolean isDefaultAction(String action) {
-        for (DefaultBind bind : DefaultBind.values()) {
-            if (Objects.equals(bind.action(), action)) return true;
-        }
-        return false;
-    }
-
-    private static String defaultDisplayNameFor(String action) {
-        for (DefaultBind bind : DefaultBind.values()) {
-            if (Objects.equals(bind.action(), action)) return bind.displayName();
-        }
-        return null;
-    }
-
-    private static String fallbackDisplayName(String action) {
-        if (action == null || action.isBlank()) return "";
-        String pretty = action.replace('_', ' ').trim();
-        if (pretty.isEmpty()) return action;
-        return Character.toUpperCase(pretty.charAt(0)) + pretty.substring(1);
-    }
-
-    public static void register(String action, Key key) {
-        register(action, fallbackDisplayName(action), key);
-    }
-
-    public static boolean isChangeable(String action) {
-        Bind bind = CACHE.get(action);
-        return bind != null && bind.changeable();
-    }
-
-    public static void register(String action, String displayName, Key key) {
-        if (action == null || action.isBlank()) return;
-
-        Bind existing = CACHE.get(action);
-
-        String usedDisplayName = (displayName == null || displayName.isBlank())
-                ? (existing != null ? existing.displayName() : fallbackDisplayName(action))
-                : displayName;
-
-        boolean changeable = existing == null || existing.changeable();
-
-        CACHE.put(action, new Bind(action, usedDisplayName, key, changeable));
         save();
+        return getKeyBind(action);
     }
 
     public static void set(String action, Key key) {
-        if (action == null || action.isBlank()) return;
+        Bind b = CACHE.get(action);
+        if (b == null || !b.changeable) return;
 
-        Bind existing = CACHE.get(action);
-        if (existing == null) return;
+        CACHE.put(action, new Bind(
+                action,
+                b.displayName,
+                key,
+                true
+        ));
 
-        if (!existing.changeable()) return;
-
-        CACHE.put(action, new Bind(action, existing.displayName(), key, true));
         save();
     }
 
+    // ---------------- API ----------------
+
+    public static KeyBind getKeyBind(String action) {
+        if (action == null || action.isBlank()) return null;
+        if (!CACHE.containsKey(action)) return null;
+
+        return REF_CACHE.computeIfAbsent(action, KeyBind::new);
+    }
+
     public static Key get(String action) {
-        Bind bind = CACHE.get(action);
-        return bind != null ? bind.key() : Key.UNDEFINED;
+        Bind b = CACHE.get(action);
+        return b != null ? b.key : Key.UNDEFINED;
     }
 
     public static String getDisplayName(String action) {
-        Bind bind = CACHE.get(action);
-        if (bind != null && !bind.displayName().isBlank()) return bind.displayName();
-        String defaultDisplay = defaultDisplayNameFor(action);
-        return defaultDisplay != null ? defaultDisplay : fallbackDisplayName(action);
+        Bind b = CACHE.get(action);
+        if (b != null) return b.displayName;
+        return fallback(action);
     }
 
-    public static Map<String, Key> getAll() {
-        Map<String, Key> result = new LinkedHashMap<>();
-        for (Bind bind : getOrderedBinds()) {
-            result.put(bind.action(), bind.key());
-        }
-        return Collections.unmodifiableMap(result);
-    }
-
-    public static Map<String, String> getAllDisplayNames() {
-        Map<String, String> result = new LinkedHashMap<>();
-        for (Bind bind : getOrderedBinds()) {
-            result.put(bind.action(), bind.displayName());
-        }
-        return Collections.unmodifiableMap(result);
+    public static boolean isChangeable(String action) {
+        Bind b = CACHE.get(action);
+        return b != null && b.changeable;
     }
 
     public static boolean contains(String action) {
-        return action != null && CACHE.containsKey(action);
+        return CACHE.containsKey(action);
+    }
+
+    public static Map<String, Key> getAll() {
+        Map<String, Key> out = new LinkedHashMap<>();
+        for (Bind b : CACHE.values()) {
+            out.put(b.action, b.key);
+        }
+        return Collections.unmodifiableMap(out);
+    }
+
+    // ---------------- UTILS ----------------
+
+    private static String fallback(String action) {
+        if (action == null) return "";
+        String p = action.replace('_', ' ');
+        return Character.toUpperCase(p.charAt(0)) + p.substring(1);
     }
 }
