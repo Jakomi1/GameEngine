@@ -5,6 +5,7 @@ import de.jakob.game.gui.generic.DebugGraphicUserInterface;
 import de.jakob.game.gui.generic.ExitGraphicUserInterface;
 import de.jakob.game.file.Directories;
 import de.jakob.game.input.KeyBinds;
+import de.jakob.game.logger.Logger;
 import de.jakob.game.scheduler.GameScheduler;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -15,6 +16,7 @@ public abstract class GameEngine extends Application {
 
     @Override
     public void start(Stage stage) {
+        Logger.info("Engine is starting...");
         scheduler = new GameScheduler();
         scheduler.start();
 
@@ -27,6 +29,7 @@ public abstract class GameEngine extends Application {
         onStart(window, scheduler);
         scheduler.runRepeating(this::tickLoop, 0, 1);
         scheduler.runRepeating(this::secondLoop, 0, GameScheduler.targetedTPS);
+        Logger.info("Engine started!");
     }
 
     public abstract void onStart(GraphicWindow window, GameScheduler scheduler);

@@ -1,6 +1,5 @@
-StrokeDrawer
-Graphic Butto nText so scalen, dass er immer rein passt
-Nach COlor setzen bei main kann man nicht mehr changen
-KeyBInd als Refernz ATtribut
-
-Handbuch zur bedienung
+- Improve StrokeDrawer functionality
+- Scale button text in GraphicButton so it always fits within the button
+- Fix issue where colors set in Main can no longer be changed afterwards
+- Refactor KeyBind to use reference attributes
+- Add user manual / usage documentation
