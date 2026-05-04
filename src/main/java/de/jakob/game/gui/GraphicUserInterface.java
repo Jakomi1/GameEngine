@@ -530,8 +530,8 @@ public class GraphicUserInterface {
         this.container = container;
     }
 
-    protected void setBuilt(boolean built) {
-        this.built = built;
+    protected void setBuilt() {
+        this.built = true;
     }
 
     protected boolean isBuilt() {

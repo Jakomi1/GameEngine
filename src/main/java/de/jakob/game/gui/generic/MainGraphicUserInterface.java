@@ -91,7 +91,7 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
         container.getChildren().add(getContent());
 
         setContainer(container);
-        setBuilt(true);
+        setBuilt();
 
         return this;
     }
