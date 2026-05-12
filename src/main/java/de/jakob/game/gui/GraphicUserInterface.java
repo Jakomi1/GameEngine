@@ -86,6 +86,17 @@ public class GraphicUserInterface {
         return height + EXTRA_SIZE;
     }
 
+    public GraphicUserInterface removeItem(GraphicItem item) {
+        if (item == null || content == null) return this;
+
+        javafx.scene.Node node = item.getNode();
+        if (node != null) {
+            content.getChildren().remove(node);
+        }
+
+        return this;
+    }
+
     protected boolean fire(Key incoming, ActionType type) {
         boolean executed = false;
 
