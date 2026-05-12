@@ -2,7 +2,6 @@ package de.jakob.game.gui.generic;
 
 import de.jakob.game.gui.GraphicUserInterface;
 import de.jakob.game.gui.GraphicWindow;
-import de.jakob.game.gui.graphics.basic.GraphicText;
 import de.jakob.game.gui.util.Position;
 import javafx.scene.layout.Pane;
 
@@ -24,7 +23,7 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
             gui.hide();
         }
 
-        getWindow().addKeyBindListener(de.jakob.game.input.KeyBinds.DefaultBind.EXIT.getKeyBind(), de.jakob.game.input.ActionType.PRESS, this::showExit);
+        window().addKeyBindListener(de.jakob.game.input.KeyBinds.DefaultBind.EXIT.getKeyBind(), de.jakob.game.input.ActionType.PRESS, this::showExit);
 
         return this;
     }
@@ -36,7 +35,7 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
             gui.hide();
         }
 
-        getWindow().addKeyBindListener(de.jakob.game.input.KeyBinds.DefaultBind.DEBUG_SCREEN.getKeyBind(), de.jakob.game.input.ActionType.PRESS, this::toggleDebug);
+        window().addKeyBindListener(de.jakob.game.input.KeyBinds.DefaultBind.DEBUG_SCREEN.getKeyBind(), de.jakob.game.input.ActionType.PRESS, this::toggleDebug);
 
         return this;
     }
@@ -45,7 +44,7 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
         if (exitGUI == null) return;
         if (exitGUI.isShown()) return;
         exitGUI.show();
-        getWindow().focus(exitGUI);
+        window().focus(exitGUI);
     }
 
     public void toggleDebug() {
@@ -55,7 +54,7 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
 
         if (debugVisible) {
             debugGUI.show();
-            getWindow().focus(debugGUI);
+            window().focus(debugGUI);
         } else {
             debugGUI.hide();
         }
@@ -87,8 +86,8 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
 
         Pane container = new Pane();
 
-        double width = getWindow().getViewportWidth();
-        double height = getWindow().getViewportHeight();
+        double width = window().getViewportWidth();
+        double height = window().getViewportHeight();
 
         size((int) width, (int) height);
         position(Position.of(0, 0));
@@ -109,8 +108,8 @@ public class MainGraphicUserInterface extends GraphicUserInterface {
 
     @Override
     public MainGraphicUserInterface show() {
-        getWindow().setActiveInterface(this);
-        getWindow().updateZOrder();
+        window().setActiveInterface(this);
+        window().updateZOrder();
         return this;
     }
 

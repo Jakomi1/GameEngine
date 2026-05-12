@@ -44,7 +44,7 @@ public class DebugGraphicUserInterface extends GraphicUserInterface {
 
     private void updateText() {
         if(!isShown()) return;
-        GraphicWindow window = getWindow();
+        GraphicWindow window = window();
 
         double mouseX = window.getMouseX();
         double mouseY = window.getMouseY();

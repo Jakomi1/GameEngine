@@ -10,7 +10,6 @@ import de.jakob.game.gui.util.Alignment;
 import de.jakob.game.gui.util.Position;
 import de.jakob.game.input.ActionType;
 import de.jakob.game.input.Key;
-import de.jakob.game.input.KeyBind;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.BorderPane;
@@ -96,6 +95,23 @@ public class GraphicUserInterface {
 
         return this;
     }
+
+    public GraphicUserInterface clearItems() {
+        content.getChildren().clear();
+        return this;
+    }
+
+    public GraphicUserInterface removeItemSafe(GraphicItem item) {
+        if (item == null) return this;
+
+        javafx.scene.Node node = item.getNode();
+        if (node != null) {
+            javafx.application.Platform.runLater(() -> content.getChildren().remove(node));
+        }
+
+        return this;
+    }
+
 
     protected boolean fire(Key incoming, ActionType type) {
         boolean executed = false;
@@ -530,7 +546,7 @@ public class GraphicUserInterface {
         return topBar.getBoundsInLocal().contains(local);
     }
 
-    protected GraphicWindow getWindow() {
+    public GraphicWindow window() {
         return window;
     }
 

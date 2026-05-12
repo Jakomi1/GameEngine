@@ -114,17 +114,28 @@ public abstract class GraphicItem {
     public void show() {
         visible = true;
         if (node == null) return;
-
-        node.setVisible(true);
-        node.setManaged(true);
+        javafx.application.Platform.runLater(() -> {
+            node.setVisible(true);
+            node.setManaged(true);
+            node.setMouseTransparent(false);
+        });
     }
 
     public void hide() {
         visible = false;
+
         if (node == null) return;
 
-        node.setVisible(false);
-        node.setManaged(false);
+        javafx.application.Platform.runLater(() -> {
+            node.setVisible(false);
+            node.setManaged(false);
+
+            node.setMouseTransparent(true);
+        });
+
+        if (gui != null) {
+            gui.window().updateZOrder();
+        }
     }
 
     public boolean isVisible() {
