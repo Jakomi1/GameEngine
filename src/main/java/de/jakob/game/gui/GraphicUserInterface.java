@@ -336,7 +336,23 @@ public class GraphicUserInterface {
         window.updateZOrder();
         return this;
     }
+    public GraphicUserInterface setVisible(boolean visible) {
+        if (!built) {
+            create();
+        }
 
+        if (visible) {
+            show();
+        } else {
+            hide();
+        }
+
+        return this;
+    }
+
+    public GraphicUserInterface toggleVisibility() {
+        return setVisible(!isShown());
+    }
     public void hide() {
         if (!built) return;
 

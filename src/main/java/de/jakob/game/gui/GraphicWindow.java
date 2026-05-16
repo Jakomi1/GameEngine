@@ -154,6 +154,9 @@ public class GraphicWindow {
         return this;
     }
 
+    public GraphicUserInterface createGUI() {
+        return new GraphicUserInterface(this);
+    }
 
     private void fireWindowKeyListeners(Key key, ActionType type) {
         for (WindowKeyBinding binding : bindedKeyBindings) {
