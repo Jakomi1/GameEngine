@@ -56,12 +56,14 @@ public class Position {
 
         private Alignment alignment;
         private boolean clampToGui = true;
+        private boolean forced = false;
 
         public Builder position(double x, double y) {
             this.x = x;
             this.y = y;
             return this;
         }
+
         public Builder offset(double x, double y) {
             this.offsetX = x;
             this.offsetY = y;
@@ -77,6 +79,7 @@ public class Position {
             this.offsetY = y;
             return this;
         }
+
         public Builder align(Alignment alignment) {
             this.alignment = alignment;
             return this;
@@ -127,6 +130,12 @@ public class Position {
         }
 
         public Builder noGuiClamp() {
+            this.clampToGui = false;
+            return this;
+        }
+
+        public Builder forced() {
+            this.forced = true;
             this.clampToGui = false;
             return this;
         }
@@ -213,7 +222,7 @@ public class Position {
                 resultY = y != null ? y : 0.0;
             }
 
-            if (clampToGui) {
+            if (!forced && clampToGui) {
                 final double minX = resolveHorizontalMargin(marginLeft, areaWidth);
                 final double minY = resolveVerticalMargin(marginTop, areaHeight);
                 final double maxX = Math.max(0.0, areaWidth - resolveHorizontalMargin(marginRight, areaWidth) - elementWidth);
@@ -223,11 +232,11 @@ public class Position {
                 resultY = resultY < minY ? minY : (resultY > maxY ? maxY : resultY);
             }
 
-
             if (this.minX != null && resultX < this.minX) resultX = this.minX;
             if (this.minY != null && resultY < this.minY) resultY = this.minY;
             if (this.maxX != null && resultX > this.maxX) resultX = this.maxX;
             if (this.maxY != null && resultY > this.maxY) resultY = this.maxY;
+
             resultX += offsetX;
             resultY += offsetY;
 
@@ -241,6 +250,5 @@ public class Position {
         private double resolveVerticalMargin(double value, double areaHeight) {
             return Math.abs(value) < 1.0 ? areaHeight * value : value;
         }
-
     }
 }
