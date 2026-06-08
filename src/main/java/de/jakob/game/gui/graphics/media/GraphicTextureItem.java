@@ -39,8 +39,8 @@ public abstract class GraphicTextureItem extends GraphicItem implements Moveable
     }
 
     private void updateScale() {
-        if (data != null) {
-            syncViewSize(data.width() * scaleFactor, data.height() * scaleFactor);
+        if (node != null) {
+            syncViewSize(getWidth(), getHeight());
         }
     }
 
@@ -50,6 +50,22 @@ public abstract class GraphicTextureItem extends GraphicItem implements Moveable
     }
 
     protected abstract GraphicMediaCache.CachedImage currentData();
+
+    @Override
+    public double getWidth() {
+        if (width > 0) return width;
+        GraphicMediaCache.CachedImage d = currentData();
+        if (d != null && d.width() > 0) return d.width() * scaleFactor;
+        return super.getWidth();
+    }
+
+    @Override
+    public double getHeight() {
+        if (height > 0) return height;
+        GraphicMediaCache.CachedImage d = currentData();
+        if (d != null && d.height() > 0) return d.height() * scaleFactor;
+        return super.getHeight();
+    }
 
     @Override
     public boolean touches(GraphicItem other) {
@@ -65,8 +81,8 @@ public abstract class GraphicTextureItem extends GraphicItem implements Moveable
         if (other == null || other == this) return false;
 
         final var a = currentData();
-        final double aw = effectiveWidth(a);
-        final double ah = effectiveHeight(a);
+        final double aw = getWidth();
+        final double ah = getHeight();
 
         if (!(other instanceof GraphicTextureItem otherTex)) {
             return aabbIntersectsAt(other, thisX, thisY, aw, ah);
@@ -76,8 +92,8 @@ public abstract class GraphicTextureItem extends GraphicItem implements Moveable
 
         final double bx = other.getPosition().getX();
         final double by = other.getPosition().getY();
-        final double bw = otherTex.effectiveWidth(b);
-        final double bh = otherTex.effectiveHeight(b);
+        final double bw = otherTex.getWidth();
+        final double bh = otherTex.getHeight();
 
         final double left = Math.max(thisX, bx);
         final double top = Math.max(thisY, by);
@@ -192,12 +208,6 @@ public abstract class GraphicTextureItem extends GraphicItem implements Moveable
         double ow = other.getWidth();
         double oh = other.getHeight();
 
-        if (other instanceof GraphicTextureItem tex) {
-            GraphicMediaCache.CachedImage d = tex.currentData();
-            ow = tex.effectiveWidth(d);
-            oh = tex.effectiveHeight(d);
-        }
-
         if (w <= 0 || h <= 0 || ow <= 0 || oh <= 0) {
             return false;
         }
@@ -208,21 +218,9 @@ public abstract class GraphicTextureItem extends GraphicItem implements Moveable
                 y + h > oy;
     }
 
-    protected double effectiveWidth(GraphicMediaCache.CachedImage d) {
-        double w = getWidth();
-        if (w > 0) return w;
-        return d != null ? d.width() * scaleFactor : 0;
-    }
-
-    protected double effectiveHeight(GraphicMediaCache.CachedImage d) {
-        double h = getHeight();
-        if (h > 0) return h;
-        return d != null ? d.height() * scaleFactor : 0;
-    }
-
     @Override
     protected Shape createCollisionShape() {
-        return new Rectangle(effectiveWidth(data), effectiveHeight(data));
+        return new Rectangle(Math.max(0, getWidth()), Math.max(0, getHeight()));
     }
 
     private static int clamp(int v, int min, int max) {
@@ -234,6 +232,11 @@ public abstract class GraphicTextureItem extends GraphicItem implements Moveable
             implements Moveable<B> {
 
         private double scaleFactor = 1.0;
+
+        protected GraphicTextureBuilder() {
+            this.width = -1;
+            this.height = -1;
+        }
 
         @SuppressWarnings("unchecked")
         public B scale(double scaleFactor) {
