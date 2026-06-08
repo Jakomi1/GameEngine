@@ -9,11 +9,12 @@ import javafx.scene.shape.Shape;
 
 import java.util.BitSet;
 
-@SuppressWarnings({"SameParameterValue"})
+@SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class GraphicTextureItem extends GraphicItem implements Moveable<GraphicTextureItem> {
 
     protected final ImageView view = new ImageView();
     protected volatile GraphicMediaCache.CachedImage data;
+    private double scaleFactor = 1.0;
 
     protected GraphicTextureItem() {
         setNode(view);
@@ -25,6 +26,22 @@ public abstract class GraphicTextureItem extends GraphicItem implements Moveable
     protected final void apply(GraphicMediaCache.CachedImage cached) {
         this.data = cached;
         view.setImage(cached != null ? cached.image() : null);
+        updateScale();
+    }
+
+    public void setScaleFactor(double scaleFactor) {
+        this.scaleFactor = scaleFactor;
+        updateScale();
+    }
+
+    public double getScaleFactor() {
+        return scaleFactor;
+    }
+
+    private void updateScale() {
+        if (data != null) {
+            syncViewSize(data.width() * scaleFactor, data.height() * scaleFactor);
+        }
     }
 
     protected final void syncViewSize(double width, double height) {
@@ -194,13 +211,13 @@ public abstract class GraphicTextureItem extends GraphicItem implements Moveable
     protected double effectiveWidth(GraphicMediaCache.CachedImage d) {
         double w = getWidth();
         if (w > 0) return w;
-        return d != null ? d.width() : 0;
+        return d != null ? d.width() * scaleFactor : 0;
     }
 
     protected double effectiveHeight(GraphicMediaCache.CachedImage d) {
         double h = getHeight();
         if (h > 0) return h;
-        return d != null ? d.height() : 0;
+        return d != null ? d.height() * scaleFactor : 0;
     }
 
     @Override
@@ -216,9 +233,18 @@ public abstract class GraphicTextureItem extends GraphicItem implements Moveable
             extends GraphicItemBuilder<T, B>
             implements Moveable<B> {
 
+        private double scaleFactor = 1.0;
+
+        @SuppressWarnings("unchecked")
+        public B scale(double scaleFactor) {
+            this.scaleFactor = scaleFactor;
+            return (B) this;
+        }
+
         @Override
         protected void configure(T item) {
             super.configure(item);
+            item.setScaleFactor(scaleFactor);
         }
     }
 }
