@@ -21,10 +21,93 @@ import java.util.Objects;
 public abstract class GraphicItem {
 
     private static final double MAX_STEP = 2.0;
+
+    protected Node node;
+    protected GraphicUserInterface gui;
+    protected Position.Builder position;
+    protected Point2D resolvedPosition = new Point2D(0, 0);
+
+    protected boolean visible = true;
+    protected double width;
+    protected double height;
+
     private Runnable onPress = null;
     private Runnable onRelease = null;
     private Runnable onClick = null;
+
     private boolean clickHandlerInstalled = false;
+    private boolean moveable = false;
+    private boolean moveHandlersInstalled = false;
+    private boolean blockOthers = true;
+    private boolean dragging = false;
+
+    private double dragOffsetX;
+    private double dragOffsetY;
+
+    private String fxBaseStyle = "";
+    private final List<String> fxExtraStyles = new ArrayList<>();
+    private String lastAppliedFxStyle = "";
+
+    public void init(GraphicUserInterface gui) {
+        if (gui == null) throw new IllegalArgumentException("GUI darf nicht null sein!");
+        this.gui = gui;
+    }
+
+    public abstract void build();
+
+    public double getHorizontalMidlineY(double yOffset) {
+        return getY() + (getEffectiveHeight() / 2.0) + yOffset;
+    }
+
+    public boolean touchesHorizontalMidline(GraphicItem other, double yOffset) {
+        if (other == null || other == this) return false;
+
+        double midY = getHorizontalMidlineY(yOffset);
+
+        boolean touchesVertically = other.getY() <= midY && (other.getY() + other.getEffectiveHeight()) >= midY;
+        boolean touchesHorizontally = this.getX() < other.getX() + other.getEffectiveWidth() &&
+                this.getX() + this.getEffectiveWidth() > other.getX();
+
+        return touchesVertically && touchesHorizontally;
+    }
+
+    public boolean touchesHorizontalMidline(GraphicItem other) {
+        return touchesHorizontalMidline(other, 0.0);
+    }
+
+    public List<GraphicItem> getTouchingItems() {
+        List<GraphicItem> touching = new ArrayList<>();
+        if (node == null || node.getParent() == null) return touching;
+
+        for (Node sibling : node.getParent().getChildrenUnmodifiable()) {
+            if (sibling == node || !sibling.isVisible()) continue;
+            if (sibling.getUserData() instanceof GraphicItem other && touches(other)) {
+                touching.add(other);
+            }
+        }
+        return touching;
+    }
+
+    public void show() {
+        visible = true;
+        applyVisibility();
+    }
+
+    public void hide() {
+        visible = false;
+        applyVisibility();
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    void applyVisibility() {
+        if (node == null) return;
+        node.setVisible(visible);
+        node.setManaged(visible);
+    }
+
     public GraphicItem onPress(Runnable action) {
         this.onPress = action;
         installClickHandlerIfPossible();
@@ -36,107 +119,6 @@ public abstract class GraphicItem {
         installClickHandlerIfPossible();
         return this;
     }
-    protected void fireOnPress() {
-        if (onPress != null) {
-            onPress.run();
-        }
-    }
-
-
-    protected void fireOnRelease() {
-        if (onRelease != null) {
-            onRelease.run();
-        }
-    }
-    protected Node node;
-    protected GraphicUserInterface gui;
-
-    protected Position.Builder position;
-    protected Point2D resolvedPosition = new Point2D(0, 0);
-
-    protected boolean visible = true;
-
-    protected double width;
-    protected double height;
-
-    private boolean moveable = false;
-    private boolean moveHandlersInstalled = false;
-    private boolean blockOthers = true;
-
-    private boolean dragging = false;
-    private double dragOffsetX;
-    private double dragOffsetY;
-
-    private String fxBaseStyle = "";
-    private final List<String> fxExtraStyles = new ArrayList<>();
-    private String lastAppliedFxStyle = "";
-
-    public void init(GraphicUserInterface gui) {
-        if (gui == null) {
-            throw new IllegalArgumentException("GUI darf nicht null sein!");
-        }
-        this.gui = gui;
-    }
-
-    public abstract void build();
-
-    public List<GraphicItem> getTouchingItems() {
-        List<GraphicItem> touching = new ArrayList<>();
-
-        if (node == null || node.getParent() == null) {
-            return touching;
-        }
-
-        for (Node sibling : node.getParent().getChildrenUnmodifiable()) {
-            if (sibling == node) {
-                continue;
-            }
-
-            if (!sibling.isVisible()) {
-                continue;
-            }
-
-            if (!(sibling.getUserData() instanceof GraphicItem other)) {
-                continue;
-            }
-
-            if (intersects(
-                    this.getX(), this.getY(), this.getEffectiveWidth(), this.getEffectiveHeight(),
-                    other.getX(), other.getY(), other.getEffectiveWidth(), other.getEffectiveHeight()
-            )) {
-                touching.add(other);
-            }
-        }
-
-        return touching;
-    }
-
-    public void show() {
-        visible = true;
-        if (node == null) return;
-
-        node.setVisible(true);
-        node.setManaged(true);
-    }
-
-    public void hide() {
-        visible = false;
-        if (node == null) return;
-
-        node.setVisible(false);
-        node.setManaged(false);
-    }
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    void applyVisibility() {
-        if (node == null) return;
-
-        node.setVisible(visible);
-        node.setManaged(visible);
-    }
 
     public GraphicItem onClick(Runnable action) {
         this.onClick = action;
@@ -144,10 +126,16 @@ public abstract class GraphicItem {
         return this;
     }
 
+    protected void fireOnPress() {
+        if (onPress != null) onPress.run();
+    }
+
+    protected void fireOnRelease() {
+        if (onRelease != null) onRelease.run();
+    }
+
     protected void fireOnClick() {
-        if (onClick != null) {
-            onClick.run();
-        }
+        if (onClick != null) onClick.run();
     }
 
     protected boolean usesExternalClickHandling() {
@@ -163,15 +151,10 @@ public abstract class GraphicItem {
 
     public GraphicItem addFXStyle(String style) {
         String normalized = normalizeFxStyle(style);
-        if (normalized.isBlank()) {
-            return this;
-        }
-
-        if (!fxExtraStyles.contains(normalized)) {
+        if (!normalized.isBlank() && !fxExtraStyles.contains(normalized)) {
             fxExtraStyles.add(normalized);
             applyFXStyle();
         }
-
         return this;
     }
 
@@ -183,30 +166,16 @@ public abstract class GraphicItem {
     }
 
     protected void applyFXStyle() {
-        if (node == null) {
-            return;
-        }
+        if (node == null) return;
 
-        StringBuilder style = new StringBuilder();
-
-        if (!fxBaseStyle.isBlank()) {
-            style.append(fxBaseStyle);
-        }
-
+        StringBuilder style = new StringBuilder(fxBaseStyle);
         for (String extra : fxExtraStyles) {
-            if (extra == null || extra.isBlank()) {
-                continue;
-            }
-
-            if (style.length() > 0 && style.charAt(style.length() - 1) != ';') {
-                style.append(';');
-            }
-
+            if (extra == null || extra.isBlank()) continue;
+            if (!style.isEmpty() && style.charAt(style.length() - 1) != ';') style.append(';');
             style.append(extra);
         }
 
         String newStyle = style.toString();
-
         if (!Objects.equals(lastAppliedFxStyle, newStyle)) {
             node.setStyle(newStyle);
             lastAppliedFxStyle = newStyle;
@@ -218,26 +187,13 @@ public abstract class GraphicItem {
     }
 
     private String normalizeFxStyle(String style) {
-        if (style == null) {
-            return "";
-        }
-
+        if (style == null || style.trim().isEmpty()) return "";
         String trimmed = style.trim();
-        if (trimmed.isEmpty()) {
-            return "";
-        }
-
-        if (!trimmed.endsWith(";")) {
-            trimmed = trimmed + ";";
-        }
-
-        return trimmed;
+        return trimmed.endsWith(";") ? trimmed : trimmed + ";";
     }
 
     public Node getNode() {
-        if (node != null && node.getUserData() != this) {
-            node.setUserData(this);
-        }
+        if (node != null && node.getUserData() != this) node.setUserData(this);
         installMoveHandlersIfPossible();
         installClickHandlerIfPossible();
         return node;
@@ -245,11 +201,7 @@ public abstract class GraphicItem {
 
     protected void setNode(Node node) {
         this.node = node;
-
-        if (this.node != null) {
-            this.node.setUserData(this);
-        }
-
+        if (this.node != null) this.node.setUserData(this);
         clickHandlerInstalled = false;
         installMoveHandlersIfPossible();
         installClickHandlerIfPossible();
@@ -259,36 +211,25 @@ public abstract class GraphicItem {
     }
 
     public GraphicItem position(Position.Builder builder) {
-        if (builder == null) {
-            throw new IllegalArgumentException("Position.Builder darf nicht null sein!");
-        }
-
+        if (builder == null) throw new IllegalArgumentException("Position.Builder darf nicht null sein!");
         this.position = builder;
         recalcPosition();
         return this;
     }
 
     protected Point2D resolvePosition() {
-        if (position == null) {
-            return resolvedPosition;
-        }
-        return position.get(gui, this);
+        return position != null ? position.get(gui, this) : resolvedPosition;
     }
 
     protected void recalcPosition() {
         if (position == null) return;
-
         Point2D p = resolvePosition();
         this.resolvedPosition = p != null ? p : new Point2D(0, 0);
-
-        if (node != null) {
-            node.relocate(resolvedPosition.getX(), resolvedPosition.getY());
-        }
+        applyPosition();
     }
 
     protected void applyPosition() {
-        if (node == null) return;
-        node.relocate(resolvedPosition.getX(), resolvedPosition.getY());
+        if (node != null) node.relocate(resolvedPosition.getX(), resolvedPosition.getY());
     }
 
     protected void setResolvedPosition(Point2D p) {
@@ -316,43 +257,27 @@ public abstract class GraphicItem {
 
     public double getWidth() {
         if (width > 0) return width;
-        if (node != null) {
-            double w = node.getLayoutBounds().getWidth();
-            if (w > 0) return w;
-        }
-        return 0;
+        return (node != null && node.getLayoutBounds().getWidth() > 0) ? node.getLayoutBounds().getWidth() : 0;
     }
 
     public double getHeight() {
         if (height > 0) return height;
-        if (node != null) {
-            double h = node.getLayoutBounds().getHeight();
-            if (h > 0) return h;
-        }
-        return 0;
+        return (node != null && node.getLayoutBounds().getHeight() > 0) ? node.getLayoutBounds().getHeight() : 0;
     }
 
     private void installClickHandlerIfPossible() {
         if (node == null || clickHandlerInstalled || usesExternalClickHandling()) return;
 
         node.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            if (e.getButton() != MouseButton.PRIMARY) return;
-            if (onPress != null) {
-                fireOnPress();
-            }
+            if (e.getButton() == MouseButton.PRIMARY) fireOnPress();
         });
 
         node.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-            if (e.getButton() != MouseButton.PRIMARY) return;
-            if (onRelease != null) {
-                fireOnRelease();
-            }
+            if (e.getButton() == MouseButton.PRIMARY) fireOnRelease();
         });
 
         node.setOnMouseClicked(e -> {
-            if (onClick == null) return;
-            if (e.getButton() != MouseButton.PRIMARY) return;
-            fireOnClick();
+            if (e.getButton() == MouseButton.PRIMARY) fireOnClick();
         });
 
         clickHandlerInstalled = true;
@@ -403,9 +328,7 @@ public abstract class GraphicItem {
         node.addEventFilter(MouseEvent.MOUSE_DRAGGED, e -> {
             if (!dragging) return;
             Point2D parentPoint = toParentPoint(e.getSceneX(), e.getSceneY());
-            double newX = parentPoint.getX() - dragOffsetX;
-            double newY = parentPoint.getY() - dragOffsetY;
-            moveClamped(newX, newY);
+            moveClamped(parentPoint.getX() - dragOffsetX, parentPoint.getY() - dragOffsetY);
             e.consume();
         });
 
@@ -414,15 +337,12 @@ public abstract class GraphicItem {
 
     private Point2D toParentPoint(double sceneX, double sceneY) {
         Parent parent = node != null ? node.getParent() : null;
-        return (parent != null) ? parent.sceneToLocal(sceneX, sceneY) : new Point2D(sceneX, sceneY);
+        return parent != null ? parent.sceneToLocal(sceneX, sceneY) : new Point2D(sceneX, sceneY);
     }
 
     private void moveClamped(double newX, double newY) {
-        double boundsWidth = getMovementBoundsWidth();
-        double boundsHeight = getMovementBoundsHeight();
-
-        double maxX = Math.max(0, boundsWidth - getEffectiveWidth());
-        double maxY = Math.max(0, boundsHeight - getEffectiveHeight());
+        double maxX = Math.max(0, getMovementBoundsWidth() - getEffectiveWidth());
+        double maxY = Math.max(0, getMovementBoundsHeight() - getEffectiveHeight());
 
         double targetX = clamp(newX, 0, maxX);
         double targetY = clamp(newY, 0, maxY);
@@ -438,10 +358,8 @@ public abstract class GraphicItem {
         double y = resolvedPosition.getY();
 
         for (int i = 0; i < steps; i++) {
-            double nextX = x + stepX;
-            if (!hasBlockingCollisionAt(nextX, y)) x = nextX;
-            double nextY = y + stepY;
-            if (!hasBlockingCollisionAt(x, nextY)) y = nextY;
+            if (!hasBlockingCollisionAt(x + stepX, y)) x += stepX;
+            if (!hasBlockingCollisionAt(x, y + stepY)) y += stepY;
         }
         commitPosition(x, y);
     }
@@ -499,8 +417,7 @@ public abstract class GraphicItem {
             }
 
             if (intersects(testX, testY, getEffectiveWidth(), getEffectiveHeight(),
-                    other.getX(), other.getY(),
-                    other.getEffectiveWidth(), other.getEffectiveHeight())) {
+                    other.getX(), other.getY(), other.getEffectiveWidth(), other.getEffectiveHeight())) {
                 return true;
             }
         }
@@ -543,8 +460,7 @@ public abstract class GraphicItem {
     public boolean touches(GraphicItem other) {
         if (other == null || other == this) return false;
         return intersects(getX(), getY(), getEffectiveWidth(), getEffectiveHeight(),
-                other.getX(), other.getY(),
-                other.getEffectiveWidth(), other.getEffectiveHeight());
+                other.getX(), other.getY(), other.getEffectiveWidth(), other.getEffectiveHeight());
     }
 
     public abstract static class GraphicItemBuilder<T extends GraphicItem, B extends GraphicItemBuilder<T, B>> {
@@ -556,12 +472,14 @@ public abstract class GraphicItem {
         protected boolean visible = true;
         protected Position.Builder position;
         protected Runnable onClick;
-        protected final List<String> fxStyles = new ArrayList<>();
         protected Runnable onPress;
         protected Runnable onRelease;
+        protected final List<String> fxStyles = new ArrayList<>();
+
         protected void setInternalMoveable(boolean value) {
             this.moveable = value;
         }
+
         @SuppressWarnings("unchecked")
         public B onPress(Runnable action) {
             this.onPress = action;
@@ -573,6 +491,7 @@ public abstract class GraphicItem {
             this.onRelease = action;
             return (B) this;
         }
+
         @SuppressWarnings("unchecked")
         public B size(double width, double height) {
             this.width = width;
@@ -612,14 +531,12 @@ public abstract class GraphicItem {
 
         @SuppressWarnings("unchecked")
         public B addFXStyle(String style) {
-            if (style != null && !style.isBlank()) {
-                this.fxStyles.add(style);
-            }
+            if (style != null && !style.isBlank()) this.fxStyles.add(style);
             return (B) this;
         }
 
-        @SuppressWarnings({ "unchecked", "unused" })
-        private B position(Position.Builder position) {
+        @SuppressWarnings("unchecked")
+        public B position(Position.Builder position) {
             this.position = position;
             return (B) this;
         }
@@ -638,25 +555,15 @@ public abstract class GraphicItem {
             configure(item);
 
             item.setInternalMoveable(this.moveable);
-
-            if (blockOthers) item.blockOthers();
-            else item.allowOverlap();
+            if (blockOthers) item.blockOthers(); else item.allowOverlap();
 
             item.visible = this.visible;
-            if (this.onClick != null) {
-                item.onClick(this.onClick);
-            }
+            if (this.onClick != null) item.onClick(this.onClick);
+            if (this.onPress != null) item.onPress(this.onPress);
+            if (this.onRelease != null) item.onRelease(this.onRelease);
 
-            for (String style : fxStyles) {
-                item.addFXStyle(style);
-            }
-            if (this.onPress != null) {
-                item.onPress(this.onPress);
-            }
+            for (String style : fxStyles) item.addFXStyle(style);
 
-            if (this.onRelease != null) {
-                item.onRelease(this.onRelease);
-            }
             item.position = positionBuilder;
             item.build();
             item.recalcPosition();
@@ -665,8 +572,7 @@ public abstract class GraphicItem {
             return item;
         }
 
-        protected void configure(T item) {
-        }
+        protected void configure(T item) {}
 
         protected abstract T create();
     }
