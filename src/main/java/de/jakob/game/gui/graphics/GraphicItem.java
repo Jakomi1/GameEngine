@@ -1,11 +1,13 @@
 package de.jakob.game.gui.graphics;
 
 import de.jakob.game.gui.GraphicUserInterface;
+import de.jakob.game.gui.GraphicWindow;
 import de.jakob.game.gui.generic.MainGraphicUserInterface;
 import de.jakob.game.gui.graphics.media.GraphicImage;
 import de.jakob.game.gui.graphics.media.GraphicTextureItem;
 import de.jakob.game.gui.util.Position;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseButton;
@@ -244,8 +246,12 @@ public abstract class GraphicItem {
         return resolvedPosition.getY();
     }
 
-    public Point2D getPosition() {
+    public Point2D getPointPosition() {
         return resolvedPosition;
+    }
+
+    public Position.Builder getPosition() {
+        return position;
     }
 
     public GraphicItem size(double width, double height) {
@@ -425,7 +431,7 @@ public abstract class GraphicItem {
     }
 
     private boolean collidesMovedImageAt(GraphicTextureItem movedImage, GraphicImage other, double testX, double testY) {
-        Point2D old = movedImage.getPosition();
+        Point2D old = movedImage.getPointPosition();
         movedImage.setResolvedPosition(new Point2D(testX, testY));
         movedImage.applyPosition();
         try {
@@ -437,7 +443,7 @@ public abstract class GraphicItem {
     }
 
     private boolean collidesItemAgainstImageAt(GraphicItem movedItem, GraphicImage image, double testX, double testY) {
-        Point2D old = movedItem.getPosition();
+        Point2D old = movedItem.getPointPosition();
         movedItem.setResolvedPosition(new Point2D(testX, testY));
         movedItem.applyPosition();
         try {
