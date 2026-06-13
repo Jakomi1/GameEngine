@@ -260,5 +260,26 @@ public class Position {
         private double resolveVerticalMargin(double value, double areaHeight) {
             return Math.abs(value) < 1.0 ? areaHeight * value : value;
         }
+
+        @Override
+        public String toString() {
+            return "Position.Builder{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    ", minX=" + minX +
+                    ", minY=" + minY +
+                    ", maxX=" + maxX +
+                    ", maxY=" + maxY +
+                    ", offsetX=" + offsetX +
+                    ", offsetY=" + offsetY +
+                    ", marginTop=" + marginTop +
+                    ", marginRight=" + marginRight +
+                    ", marginBottom=" + marginBottom +
+                    ", marginLeft=" + marginLeft +
+                    ", alignment=" + alignment +
+                    ", clampToGui=" + clampToGui +
+                    ", forced=" + forced +
+                    '}';
+        }
     }
 }
