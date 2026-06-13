@@ -59,10 +59,6 @@ public class GraphicUserInterface {
     private double dragOffsetY = 0;
     private boolean dragging = false;
 
-    private double zoom = 1.0;
-    private double minZoom = 0.10;
-    private double maxZoom = 10.0;
-
     private double cameraX = 0.0;
     private double cameraY = 0.0;
 
@@ -394,147 +390,10 @@ public class GraphicUserInterface {
         if (!built) return;
 
         container.setVisible(false);
-        stopZoomAnimation();
         window.onInterfaceHidden(this);
     }
 
-    public GraphicUserInterface setZoomRange(double minZoom, double maxZoom) {
-        this.minZoom = Math.max(0.01, Math.min(minZoom, maxZoom));
-        this.maxZoom = Math.max(this.minZoom, maxZoom);
-        return this;
-    }
 
-    public double getZoom() {
-        return zoom;
-    }
-
-    public GraphicUserInterface zoomToPercent(double percent) {
-        return zoomToPosition(percent, Position.of(Alignment.CENTER));
-    }
-
-    public GraphicUserInterface zoomToPosition(double percent, Position.Builder anchorPosition) {
-        stopZoomAnimation();
-
-        double newZoom = clamp(percent / 100.0, minZoom, maxZoom);
-
-        if (container == null) {
-            zoom = newZoom;
-            return this;
-        }
-
-        Point2D target = resolveAnchor(anchorPosition);
-
-        zoom = newZoom;
-
-        double centerX = window.getViewportWidth() / 2.0;
-        double centerY = window.getViewportHeight() / 2.0;
-
-        cameraX = centerX - target.getX() * newZoom;
-        cameraY = centerY - target.getY() * newZoom;
-
-        position = Position.of(cameraX, cameraY).forced();
-
-        applyPositionToContainer(false);
-        return this;
-    }
-
-    public GraphicUserInterface zoomToCenter(double percent) {
-        return zoomToPosition(percent, Position.of(Alignment.CENTER));
-    }
-
-    public GraphicUserInterface zoomIn(double percentStep, Position.Builder anchorPosition) {
-        return zoomToPosition(zoom * 100.0 + percentStep, anchorPosition);
-    }
-
-    public GraphicUserInterface zoomOut(double percentStep, Position.Builder anchorPosition) {
-        return zoomToPosition(zoom * 100.0 - percentStep, anchorPosition);
-    }
-
-    public GraphicUserInterface zoomIn() {
-        return zoomIn(10.0, Position.of(Alignment.CENTER));
-    }
-
-    public GraphicUserInterface zoomOut() {
-        return zoomOut(10.0, Position.of(Alignment.CENTER));
-    }
-
-    public GraphicUserInterface zoomInAnimated(double percentStep, Position.Builder anchorPosition, long durationMillis) {
-        return animateZoom(zoom * 100.0 + percentStep, anchorPosition, durationMillis);
-    }
-
-    public GraphicUserInterface zoomOutAnimated(double percentStep, Position.Builder anchorPosition, long durationMillis) {
-        return animateZoom(zoom * 100.0 - percentStep, anchorPosition, durationMillis);
-    }
-
-    public GraphicUserInterface zoomToPositionAnimated(double percent, Position.Builder anchorPosition, long durationMillis) {
-        return animateZoom(percent, anchorPosition, durationMillis);
-    }
-
-    public GraphicUserInterface zoomToCenterAnimated(double percent, long durationMillis) {
-        return animateZoom(percent, Position.of(Alignment.CENTER), durationMillis);
-    }
-
-    public GraphicUserInterface zoomInAnimated() {
-        return zoomInAnimated(10.0, Position.of(Alignment.CENTER), 250L);
-    }
-
-    public GraphicUserInterface zoomOutAnimated() {
-        return zoomOutAnimated(10.0, Position.of(Alignment.CENTER), 250L);
-    }
-
-    private GraphicUserInterface animateZoom(double targetPercent, Position.Builder anchorPosition, long durationMillis) {
-        stopZoomAnimation();
-
-        final double startZoom = zoom;
-        final double endZoom = clamp(targetPercent / 100.0, minZoom, maxZoom);
-        final Point2D target = resolveAnchor(anchorPosition);
-
-        final double centerX = window.getViewportWidth() / 2.0;
-        final double centerY = window.getViewportHeight() / 2.0;
-
-        zoomAnimation = new Transition() {
-            {
-                setCycleDuration(Duration.millis(Math.max(1L, durationMillis)));
-            }
-
-            @Override
-            protected void interpolate(double frac) {
-                double eased = 1.0 - Math.pow(1.0 - frac, 3.0);
-
-                zoom = startZoom + (endZoom - startZoom) * eased;
-                cameraX = centerX - target.getX() * zoom;
-                cameraY = centerY - target.getY() * zoom;
-
-                position = Position.of(cameraX, cameraY).forced();
-                applyPositionToContainer(false);
-            }
-        };
-
-        zoomAnimation.setOnFinished(e -> {
-            zoom = endZoom;
-            cameraX = centerX - target.getX() * zoom;
-            cameraY = centerY - target.getY() * zoom;
-            position = Position.of(cameraX, cameraY).forced();
-            applyPositionToContainer(false);
-        });
-
-        zoomAnimation.play();
-        return this;
-    }
-
-    private Point2D resolveAnchor(Position.Builder anchorPosition) {
-        if (anchorPosition == null) {
-            return new Point2D(getWindowWidth() / 2.0, getWindowHeight() / 2.0);
-        }
-        return anchorPosition.get(window, this);
-    }
-
-    private void stopZoomAnimation() {
-        if (zoomAnimation != null) {
-            zoomAnimation.stop();
-            zoomAnimation = null;
-        }
-    }
 
     private void applyLayoutChanges() {
         if (container != null) {
@@ -652,9 +511,6 @@ public class GraphicUserInterface {
     private void applyPositionToContainer(boolean clampToViewport) {
         if (container == null) return;
 
-        container.setScaleX(zoom);
-        container.setScaleY(zoom);
-
         double x = cameraX;
         double y = cameraY;
 
@@ -662,8 +518,8 @@ public class GraphicUserInterface {
             double viewportWidth = window.getViewportWidth();
             double viewportHeight = window.getViewportHeight();
 
-            double scaledWidth = getOuterWidth() * zoom;
-            double scaledHeight = getOuterHeight() * zoom;
+            double scaledWidth = getOuterWidth();
+            double scaledHeight = getOuterHeight();
 
             double minX = Math.min(0.0, viewportWidth - scaledWidth);
             double maxX = Math.max(0.0, viewportWidth - scaledWidth);
@@ -684,8 +540,8 @@ public class GraphicUserInterface {
     private void moveContainer(double newX, double newY) {
         if (container == null) return;
 
-        double scaledWidth = getOuterWidth() * zoom;
-        double scaledHeight = getOuterHeight() * zoom;
+        double scaledWidth = getOuterWidth();
+        double scaledHeight = getOuterHeight();
 
         double viewportWidth = window.getViewportWidth();
         double viewportHeight = window.getViewportHeight();
