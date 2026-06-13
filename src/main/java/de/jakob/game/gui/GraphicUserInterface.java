@@ -10,6 +10,7 @@ import de.jakob.game.gui.util.Alignment;
 import de.jakob.game.gui.util.Position;
 import de.jakob.game.input.ActionType;
 import de.jakob.game.input.Key;
+import javafx.animation.Interpolator;
 import javafx.animation.Transition;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.DropShadow;
@@ -26,6 +27,9 @@ public class GraphicUserInterface {
 
     public static final double TOP_BAR_HEIGHT = 30.0;
     public static final double EXTRA_SIZE = 2.0;
+
+    private static final double DEFAULT_MIN_ZOOM = 0.5;
+    private static final double DEFAULT_MAX_ZOOM = 3.0;
 
     private final GraphicWindow window;
     private final Pane content;
@@ -62,6 +66,10 @@ public class GraphicUserInterface {
     private double cameraX = 0.0;
     private double cameraY = 0.0;
 
+    private double zoom = 1.0;
+    private double minZoom = DEFAULT_MIN_ZOOM;
+    private double maxZoom = DEFAULT_MAX_ZOOM;
+
     private Transition zoomAnimation;
 
     public GraphicUserInterface(GraphicWindow window) {
@@ -91,6 +99,177 @@ public class GraphicUserInterface {
 
     private double getOuterHeight() {
         return height + EXTRA_SIZE;
+    }
+
+    public double getZoom() {
+        return zoom;
+    }
+
+    public double getZoomPercent() {
+        return zoom * 100.0;
+    }
+
+    public double getMinZoom() {
+        return minZoom;
+    }
+
+    public double getMaxZoom() {
+        return maxZoom;
+    }
+
+    public GraphicUserInterface zoomRange(double minZoom, double maxZoom) {
+        this.minZoom = Math.max(0.01, Math.min(minZoom, maxZoom));
+        this.maxZoom = Math.max(this.minZoom, Math.max(minZoom, maxZoom));
+        this.zoom = clamp(this.zoom, this.minZoom, this.maxZoom);
+        applyZoomToContainer();
+        applyPositionToContainer(true);
+        return this;
+    }
+
+    public GraphicUserInterface zoomIn(double percent, double seconds, Position.Builder focusPosition) {
+        double targetZoom = this.zoom * (1.0 + percent / 100.0);
+        return animateZoom(targetZoom, seconds, focusPosition);
+    }
+
+    public GraphicUserInterface zoomOut(double percent, double seconds, Position.Builder focusPosition) {
+        double targetZoom = this.zoom * (1.0 - percent / 100.0);
+        return animateZoom(targetZoom, seconds, focusPosition);
+    }
+
+    public GraphicUserInterface zoomIn(double percent, double seconds, double focusX, double focusY) {
+        return zoomIn(percent, seconds, Position.of(focusX, focusY));
+    }
+
+    public GraphicUserInterface resetZoom() {
+        stopZoomAnimation();
+
+        this.zoom = 1.0;
+
+        if (position != null) {
+            Point2D point = position.get(window, this);
+            this.cameraX = point.getX();
+            this.cameraY = point.getY();
+        } else {
+            this.cameraX = 0.0;
+            this.cameraY = 0.0;
+        }
+
+        applyZoomToContainer();
+        applyPositionToContainer(true);
+
+        return this;
+    }
+
+    public GraphicUserInterface zoomOut(double percent, double seconds, double focusX, double focusY) {
+        return zoomOut(percent, seconds, Position.of(focusX, focusY));
+    }
+
+    public GraphicUserInterface zoomIn(double percent, double seconds) {
+        return zoomIn(percent, seconds, (Position.Builder) null);
+    }
+
+    public GraphicUserInterface zoomOut(double percent, double seconds) {
+        return zoomOut(percent, seconds, (Position.Builder) null);
+    }
+
+    public GraphicUserInterface zoomInstant(double percent, Position.Builder focusPosition) {
+        double targetZoom = percent / 100.0;
+        setZoomInstant(targetZoom, resolveFocusPoint(focusPosition));
+        return this;
+    }
+
+    public GraphicUserInterface zoomInstant(double percent, double focusX, double focusY) {
+        return zoomInstant(percent, Position.of(focusX, focusY));
+    }
+
+    private GraphicUserInterface animateZoom(double targetZoom, double seconds, Position.Builder focusPosition) {
+        Point2D focus = resolveFocusPoint(focusPosition);
+        targetZoom = clamp(targetZoom, minZoom, maxZoom);
+
+        if (seconds <= 0.0) {
+            setZoomInstant(targetZoom, focus);
+            return this;
+        }
+
+        stopZoomAnimation();
+
+        final double startZoom = this.zoom <= 0.0 ? 1.0 : this.zoom;
+        final double startX = this.cameraX;
+        final double startY = this.cameraY;
+        final Point2D resolvedFocus = focus != null ? focus : new Point2D(0, 0);
+        final Duration duration = Duration.seconds(seconds);
+
+        double finalTargetZoom = targetZoom;
+        zoomAnimation = new Transition() {
+            {
+                setCycleDuration(duration);
+                setInterpolator(Interpolator.EASE_BOTH);
+            }
+
+            @Override
+            protected void interpolate(double frac) {
+                double currentZoom = startZoom + (finalTargetZoom - startZoom) * frac;
+                setZoomStep(currentZoom, startZoom, startX, startY, resolvedFocus);
+            }
+        };
+
+        double finalTargetZoom1 = targetZoom;
+        zoomAnimation.setOnFinished(e -> setZoomStep(finalTargetZoom1, startZoom, startX, startY, resolvedFocus));
+        zoomAnimation.playFromStart();
+        return this;
+    }
+
+    private void setZoomInstant(double targetZoom, Point2D focus) {
+        double startZoom = this.zoom <= 0.0 ? 1.0 : this.zoom;
+        setZoomStep(targetZoom, startZoom, cameraX, cameraY, focus);
+    }
+
+    private void setZoomStep(double currentZoom, double startZoom, double startX, double startY, Point2D focus) {
+        if (focus == null) {
+            focus = new Point2D(0, 0);
+        }
+
+        double clampedZoom = clamp(currentZoom, minZoom, maxZoom);
+        if (startZoom <= 0.0) startZoom = 1.0;
+
+        double fx = focus.getX();
+        double fy = focus.getY();
+
+        this.zoom = clampedZoom;
+        this.cameraX = fx - ((fx - startX) / startZoom) * clampedZoom;
+        this.cameraY = fy - ((fy - startY) / startZoom) * clampedZoom;
+
+        applyZoomToContainer();
+        applyPositionToContainer(true);
+        this.position = Position.of(cameraX, cameraY).forced();
+    }
+
+    private void stopZoomAnimation() {
+        if (zoomAnimation != null) {
+            zoomAnimation.stop();
+            zoomAnimation = null;
+        }
+    }
+
+    private Point2D resolveFocusPoint(Position.Builder focusPosition) {
+        if (focusPosition == null) {
+            return new Point2D(window.getViewportWidth() / 2.0, window.getViewportHeight() / 2.0);
+        }
+        return focusPosition.get(window, this);
+    }
+
+    private void applyZoomToContainer() {
+        if (container == null) return;
+        container.setScaleX(zoom);
+        container.setScaleY(zoom);
+    }
+
+    public double getRenderedWidth() {
+        return getOuterWidth() * zoom;
+    }
+
+    public double getRenderedHeight() {
+        return getOuterHeight() * zoom;
     }
 
     public GraphicUserInterface removeItem(GraphicItem item) {
@@ -332,12 +511,14 @@ public class GraphicUserInterface {
         applyLayoutChanges();
         refreshStyles();
         refreshTopBarContent();
+        applyZoomToContainer();
         applyPositionToContainer(true);
         installMoveHandlers();
 
         container.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_PRESSED, e -> window.focus(this));
 
         built = true;
+        applyZoomToContainer();
         applyPositionToContainer(true);
 
         return this;
@@ -355,6 +536,7 @@ public class GraphicUserInterface {
             create();
         }
 
+        applyZoomToContainer();
         applyPositionToContainer(true);
 
         if (!window.getRoot().getChildren().contains(container)) {
@@ -393,8 +575,6 @@ public class GraphicUserInterface {
         window.onInterfaceHidden(this);
     }
 
-
-
     private void applyLayoutChanges() {
         if (container != null) {
             container.setPrefSize(getOuterWidth(), getOuterHeight());
@@ -411,6 +591,7 @@ public class GraphicUserInterface {
         content.setPrefSize(width, Math.max(0, height - TOP_BAR_HEIGHT));
         refreshTopBarContent();
         refreshStyles();
+        applyZoomToContainer();
         applyPositionToContainer(true);
     }
 
@@ -511,6 +692,8 @@ public class GraphicUserInterface {
     private void applyPositionToContainer(boolean clampToViewport) {
         if (container == null) return;
 
+        applyZoomToContainer();
+
         double x = cameraX;
         double y = cameraY;
 
@@ -518,8 +701,8 @@ public class GraphicUserInterface {
             double viewportWidth = window.getViewportWidth();
             double viewportHeight = window.getViewportHeight();
 
-            double scaledWidth = getOuterWidth();
-            double scaledHeight = getOuterHeight();
+            double scaledWidth = getOuterWidth() * zoom;
+            double scaledHeight = getOuterHeight() * zoom;
 
             double minX = Math.min(0.0, viewportWidth - scaledWidth);
             double maxX = Math.max(0.0, viewportWidth - scaledWidth);
@@ -540,8 +723,8 @@ public class GraphicUserInterface {
     private void moveContainer(double newX, double newY) {
         if (container == null) return;
 
-        double scaledWidth = getOuterWidth();
-        double scaledHeight = getOuterHeight();
+        double scaledWidth = getOuterWidth() * zoom;
+        double scaledHeight = getOuterHeight() * zoom;
 
         double viewportWidth = window.getViewportWidth();
         double viewportHeight = window.getViewportHeight();
