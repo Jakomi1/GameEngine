@@ -55,6 +55,27 @@ public abstract class GraphicItem {
         this.gui = gui;
     }
 
+    public GraphicItem move(double x, double y) {
+        this.position = Position.of(x, y);
+        this.resolvedPosition = new Point2D(x, y);
+        applyPosition();
+        return this;
+    }
+
+    public GraphicItem setX(double x) {
+        this.position = Position.of(x, getY());
+        this.resolvedPosition = new Point2D(x, getY());
+        applyPosition();
+        return this;
+    }
+
+    public GraphicItem setY(double y) {
+        this.position = Position.of(getX(), y);
+        this.resolvedPosition = new Point2D(getX(), y);
+        applyPosition();
+        return this;
+    }
+
     public abstract void build();
 
     public double getHorizontalMidlineY(double yOffset) {
