@@ -3,9 +3,9 @@ package de.jakob.game.gui.graphics;
 @SuppressWarnings("unchecked")
 public interface Draggable<T extends Draggable<T>> {
 
-    default T moveable() {
+    default T draggable() {
         if (this instanceof GraphicItem item) {
-            item.setInternalMoveable(true);
+            item.setInternalDraggable(true);
         } else if (this instanceof GraphicItem.GraphicItemBuilder<?, ?> builder) {
             builder.setInternalMoveable(true);
         }
@@ -13,16 +13,16 @@ public interface Draggable<T extends Draggable<T>> {
     }
 
 
-    default T notMoveable() {
+    default T notDraggable() {
         if (this instanceof GraphicItem item) {
-            item.setInternalMoveable(false);
+            item.setInternalDraggable(false);
         } else if (this instanceof GraphicItem.GraphicItemBuilder<?, ?> builder) {
             builder.setInternalMoveable(false);
         }
         return (T) this;
     }
 
-    default boolean isMoveable() {
+    default boolean isDraggable() {
         if (this instanceof GraphicItem item) {
             return item.isDraggable();
         }

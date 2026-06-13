@@ -215,7 +215,7 @@ public abstract class GraphicItem {
 
     public Node getNode() {
         if (node != null && node.getUserData() != this) node.setUserData(this);
-        installMoveHandlersIfPossible();
+        installDraggableHandlersIfPossible();
         installClickHandlerIfPossible();
         return node;
     }
@@ -224,7 +224,7 @@ public abstract class GraphicItem {
         this.node = node;
         if (this.node != null) this.node.setUserData(this);
         clickHandlerInstalled = false;
-        installMoveHandlersIfPossible();
+        installDraggableHandlersIfPossible();
         installClickHandlerIfPossible();
         applyFXStyle();
         recalcPosition();
@@ -308,9 +308,9 @@ public abstract class GraphicItem {
         clickHandlerInstalled = true;
     }
 
-    protected void setInternalMoveable(boolean value) {
+    protected void setInternalDraggable(boolean value) {
         this.draggable = value;
-        installMoveHandlersIfPossible();
+        installDraggableHandlersIfPossible();
     }
 
     public boolean isDraggable() {
@@ -335,7 +335,7 @@ public abstract class GraphicItem {
         return new Rectangle(Math.max(0, getWidth()), Math.max(0, getHeight()));
     }
 
-    private void installMoveHandlersIfPossible() {
+    private void installDraggableHandlersIfPossible() {
         if (!(this instanceof Draggable) || !draggable || dragHandlersInstalled || node == null) return;
 
         dragHandlersInstalled = true;
@@ -579,7 +579,7 @@ public abstract class GraphicItem {
 
             configure(item);
 
-            item.setInternalMoveable(this.moveable);
+            item.setInternalDraggable(this.moveable);
             if (blockOthers) item.blockOthers(); else item.allowOverlap();
 
             item.visible = this.visible;
