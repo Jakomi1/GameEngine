@@ -18,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +28,6 @@ public class GraphicUserInterface {
 
     public static final double TOP_BAR_HEIGHT = 30.0;
     public static final double EXTRA_SIZE = 2.0;
-
-    private static final double DEFAULT_MIN_ZOOM = 0.5;
-    private static final double DEFAULT_MAX_ZOOM = 3.0;
 
     private final GraphicWindow window;
     private final Pane content;
@@ -67,8 +65,8 @@ public class GraphicUserInterface {
     private double cameraY = 0.0;
 
     private double zoom = 1.0;
-    private double minZoom = DEFAULT_MIN_ZOOM;
-    private double maxZoom = DEFAULT_MAX_ZOOM;
+    private double minZoom = 0.5;
+    private double maxZoom = 3.0;
 
     private Transition zoomAnimation;
 
@@ -140,26 +138,6 @@ public class GraphicUserInterface {
         return zoomIn(percent, seconds, Position.of(focusX, focusY));
     }
 
-    public GraphicUserInterface resetZoom() {
-        stopZoomAnimation();
-
-        this.zoom = 1.0;
-
-        if (position != null) {
-            Point2D point = position.get(window, this);
-            this.cameraX = point.getX();
-            this.cameraY = point.getY();
-        } else {
-            this.cameraX = 0.0;
-            this.cameraY = 0.0;
-        }
-
-        applyZoomToContainer();
-        applyPositionToContainer(true);
-
-        return this;
-    }
-
     public GraphicUserInterface zoomOut(double percent, double seconds, double focusX, double focusY) {
         return zoomOut(percent, seconds, Position.of(focusX, focusY));
     }
@@ -180,6 +158,23 @@ public class GraphicUserInterface {
 
     public GraphicUserInterface zoomInstant(double percent, double focusX, double focusY) {
         return zoomInstant(percent, Position.of(focusX, focusY));
+    }
+
+    public GraphicUserInterface resetZoom() {
+        stopZoomAnimation();
+        this.zoom = 1.0;
+
+        Point2D p = resolveCurrentPosition();
+        this.cameraX = p.getX();
+        this.cameraY = p.getY();
+
+        applyZoomToContainer();
+        applyPositionToContainer(true);
+        return this;
+    }
+
+    public GraphicUserInterface resetZoom(double seconds) {
+        return animateZoom(1.0, seconds, this.position);
     }
 
     private GraphicUserInterface animateZoom(double targetZoom, double seconds, Position.Builder focusPosition) {
@@ -255,7 +250,47 @@ public class GraphicUserInterface {
         if (focusPosition == null) {
             return new Point2D(window.getViewportWidth() / 2.0, window.getViewportHeight() / 2.0);
         }
+
+        Point2D raw = readRawPoint(focusPosition);
+        if (raw != null) {
+            return raw;
+        }
+
         return focusPosition.get(window, this);
+    }
+
+    private Point2D resolveCurrentPosition() {
+        if (position == null) {
+            return new Point2D(0, 0);
+        }
+
+        Point2D raw = readRawPoint(position);
+        if (raw != null) {
+            return raw;
+        }
+
+        return position.get(window, this);
+    }
+
+    private Point2D readRawPoint(Position.Builder builder) {
+        if (builder == null) return null;
+
+        try {
+            Field xField = builder.getClass().getDeclaredField("x");
+            Field yField = builder.getClass().getDeclaredField("y");
+            xField.setAccessible(true);
+            yField.setAccessible(true);
+
+            Object xObj = xField.get(builder);
+            Object yObj = yField.get(builder);
+
+            if (xObj instanceof Double x && yObj instanceof Double y) {
+                return new Point2D(x, y);
+            }
+        } catch (Throwable ignored) {
+        }
+
+        return null;
     }
 
     private void applyZoomToContainer() {

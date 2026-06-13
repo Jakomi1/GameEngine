@@ -140,6 +140,16 @@ public class Position {
             return this;
         }
 
+        public Builder setX(double x) {
+            this.x = x;
+            return this;
+        }
+
+        public Builder setY(double y) {
+            this.y = y;
+            return this;
+        }
+
         public Point2D get(GraphicWindow window, GraphicUserInterface gui) {
             final double areaWidth = window != null ? window.getViewportWidth() : 0.0;
             final double areaHeight = window != null ? window.getViewportHeight() : 0.0;
