@@ -25,7 +25,7 @@ public class SettingsGraphicUserInterface extends GraphicUserInterface{
         gui.size(400, 300)
                 .title("Einstellungen")
                 .interactiveAlways()
-                .moveable()
+                .draggable()
                 .alwaysInFront()
                 .align(Alignment.CENTER);
         gui.addItem(GraphicLabeledSlider.builder()

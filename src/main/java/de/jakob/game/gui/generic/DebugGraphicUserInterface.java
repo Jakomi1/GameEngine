@@ -25,7 +25,7 @@ public class DebugGraphicUserInterface extends GraphicUserInterface {
         gui.size(260, 140)
                 .position(10, 10)
                 .title("Informations - Menü")
-                .moveable()
+                .draggable()
                 .interactiveAlways();
 
         gui.debugText = gui.addItemAndGet(

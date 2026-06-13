@@ -1,7 +1,7 @@
 package de.jakob.game.gui.graphics.media;
 
+import de.jakob.game.gui.graphics.Draggable;
 import de.jakob.game.gui.graphics.GraphicItem;
-import de.jakob.game.gui.graphics.Moveable;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
-public abstract class GraphicTextureItem extends GraphicItem implements Moveable<GraphicTextureItem> {
+public abstract class GraphicTextureItem extends GraphicItem implements Draggable<GraphicTextureItem> {
 
     protected final ImageView view = new ImageView();
     protected volatile GraphicMediaCache.CachedImage data;
@@ -412,7 +412,7 @@ public abstract class GraphicTextureItem extends GraphicItem implements Moveable
 
     public abstract static class GraphicTextureBuilder<T extends GraphicTextureItem, B extends GraphicTextureBuilder<T, B>>
             extends GraphicItemBuilder<T, B>
-            implements Moveable<B> {
+            implements Draggable<B> {
 
         private double scaleFactor = 1.0;
 

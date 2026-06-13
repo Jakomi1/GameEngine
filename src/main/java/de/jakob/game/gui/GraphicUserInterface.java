@@ -43,7 +43,7 @@ public class GraphicUserInterface {
 
     private int width = 400;
     private int height = 300;
-    private boolean moveable = false;
+    private boolean draggable = false;
     private boolean closeButton = false;
     private String title = "";
 
@@ -394,9 +394,9 @@ public class GraphicUserInterface {
         return position(Position.of(alignment));
     }
 
-    public GraphicUserInterface moveable() {
-        this.moveable = true;
-        installMoveHandlers();
+    public GraphicUserInterface draggable() {
+        this.draggable = true;
+        installDraggableHandlers();
         return this;
     }
 
@@ -481,8 +481,8 @@ public class GraphicUserInterface {
         return onlyInteractiveWhenActive;
     }
 
-    public boolean isMoveable() {
-        return moveable;
+    public boolean isDraggable() {
+        return draggable;
     }
 
     public double getContentHeight() {
@@ -548,7 +548,7 @@ public class GraphicUserInterface {
         refreshTopBarContent();
         applyZoomToContainer();
         applyPositionToContainer(true);
-        installMoveHandlers();
+        installDraggableHandlers();
 
         container.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_PRESSED, e -> window.focus(this));
 
@@ -696,9 +696,9 @@ public class GraphicUserInterface {
         return topBarColor != null ? topBarColor : mainColor.darker(0.12);
     }
 
-    private void installMoveHandlers() {
+    private void installDraggableHandlers() {
         if (topBar == null) return;
-        if (!moveable) return;
+        if (!draggable) return;
 
         topBar.setOnMousePressed(e -> {
             window.focus(this);

@@ -2,14 +2,14 @@ package de.jakob.game.gui.graphics.polygon;
 
 import de.jakob.game.color.Color;
 import de.jakob.game.color.NamedColor;
+import de.jakob.game.gui.graphics.Draggable;
 import de.jakob.game.gui.graphics.GraphicItem;
-import de.jakob.game.gui.graphics.Moveable;
 import javafx.scene.Node;
 import javafx.scene.shape.Shape;
 
 import java.util.Objects;
 
-public abstract class GraphicPolygon extends GraphicItem implements Moveable<GraphicPolygon> {
+public abstract class GraphicPolygon extends GraphicItem implements Draggable<GraphicPolygon> {
 
     protected Shape shape;
 
@@ -122,11 +122,11 @@ public abstract class GraphicPolygon extends GraphicItem implements Moveable<Gra
 
     /**
      * Ein generischer Builder für alle Polygon-Typen.
-     * Erbt vom GraphicItemBuilder und implementiert Moveable für die Builder-Kette.
+     * Erbt vom GraphicItemBuilder und implementiert Draggable für die Builder-Kette.
      */
     public abstract static class GraphicPolygonBuilder<T extends GraphicPolygon, B extends GraphicPolygonBuilder<T, B>>
             extends GraphicItemBuilder<T, B>
-            implements Moveable<B> {
+            implements Draggable<B> {
 
         protected Color fillColor = NamedColor.RED;
         protected Color strokeColor;

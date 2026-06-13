@@ -2,8 +2,8 @@ package de.jakob.game.gui.graphics.basic;
 
 import de.jakob.game.color.Color;
 import de.jakob.game.font.FontUsable;
+import de.jakob.game.gui.graphics.Draggable;
 import de.jakob.game.gui.graphics.GraphicItem;
-import de.jakob.game.gui.graphics.Moveable;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -11,7 +11,7 @@ import javafx.scene.text.FontWeight;
 
 import java.util.Objects;
 
-public class GraphicText extends GraphicItem implements FontUsable<GraphicText>, Moveable<GraphicText> {
+public class GraphicText extends GraphicItem implements FontUsable<GraphicText>, Draggable<GraphicText> {
 
     private final Label label;
 
@@ -211,7 +211,7 @@ public class GraphicText extends GraphicItem implements FontUsable<GraphicText>,
         return Font.font(fontFamily, weight, posture, fontSize);
     }
 
-    public static class Builder extends GraphicItemBuilder<GraphicText, Builder> implements Moveable<GraphicText> {
+    public static class Builder extends GraphicItemBuilder<GraphicText, Builder> implements Draggable<GraphicText> {
 
         private String text = "";
         private Font font;

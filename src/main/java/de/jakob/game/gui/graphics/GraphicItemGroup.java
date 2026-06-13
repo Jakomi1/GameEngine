@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings({"UnusedReturnValue", "SameParameterValue"})
-public class GraphicItemGroup extends GraphicItem implements Moveable<GraphicItemGroup> {
+public class GraphicItemGroup extends GraphicItem implements Draggable<GraphicItemGroup> {
 
     private final Group root = new Group();
     private final List<GraphicItem> items = new ArrayList<>();

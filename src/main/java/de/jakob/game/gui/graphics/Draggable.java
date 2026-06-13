@@ -1,7 +1,7 @@
 package de.jakob.game.gui.graphics;
 
 @SuppressWarnings("unchecked")
-public interface Moveable<T extends Moveable<T>> {
+public interface Draggable<T extends Draggable<T>> {
 
     default T moveable() {
         if (this instanceof GraphicItem item) {
@@ -24,7 +24,7 @@ public interface Moveable<T extends Moveable<T>> {
 
     default boolean isMoveable() {
         if (this instanceof GraphicItem item) {
-            return item.isMoveable();
+            return item.isDraggable();
         }
         return false;
     }

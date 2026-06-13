@@ -1,13 +1,11 @@
 package de.jakob.game.gui.graphics;
 
 import de.jakob.game.gui.GraphicUserInterface;
-import de.jakob.game.gui.GraphicWindow;
 import de.jakob.game.gui.generic.MainGraphicUserInterface;
 import de.jakob.game.gui.graphics.media.GraphicImage;
 import de.jakob.game.gui.graphics.media.GraphicTextureItem;
 import de.jakob.game.gui.util.Position;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseButton;
@@ -38,8 +36,8 @@ public abstract class GraphicItem {
     private Runnable onClick = null;
 
     private boolean clickHandlerInstalled = false;
-    private boolean moveable = false;
-    private boolean moveHandlersInstalled = false;
+    private boolean draggable = false;
+    private boolean dragHandlersInstalled = false;
     private boolean blockOthers = true;
     private boolean dragging = false;
 
@@ -311,12 +309,12 @@ public abstract class GraphicItem {
     }
 
     protected void setInternalMoveable(boolean value) {
-        this.moveable = value;
+        this.draggable = value;
         installMoveHandlersIfPossible();
     }
 
-    public boolean isMoveable() {
-        return moveable;
+    public boolean isDraggable() {
+        return draggable;
     }
 
     public GraphicItem blockOthers() {
@@ -338,9 +336,9 @@ public abstract class GraphicItem {
     }
 
     private void installMoveHandlersIfPossible() {
-        if (!(this instanceof Moveable) || !moveable || moveHandlersInstalled || node == null) return;
+        if (!(this instanceof Draggable) || !draggable || dragHandlersInstalled || node == null) return;
 
-        moveHandlersInstalled = true;
+        dragHandlersInstalled = true;
 
         node.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> {
             if (e.getButton() != MouseButton.PRIMARY) return;
