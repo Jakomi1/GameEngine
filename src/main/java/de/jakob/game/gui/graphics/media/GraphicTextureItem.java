@@ -12,7 +12,6 @@ import java.util.BitSet;
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
-import java.util.concurrent.ScheduledFuture;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class GraphicTextureItem extends GraphicItem implements Draggable<GraphicTextureItem> {
@@ -21,7 +20,7 @@ public abstract class GraphicTextureItem extends GraphicItem implements Draggabl
     protected volatile GraphicMediaCache.CachedImage data;
     private double scaleFactor = 1.0;
     private GraphicMediaCache.CachedImage overrideTexture;
-    private ScheduledFuture<?> overrideTask;
+    private GameScheduler.ScheduledTask overrideTask;
     private static final Map<GraphicMediaCache.CachedImage, OpaqueBounds> OPAQUE_BOUNDS_CACHE =
             Collections.synchronizedMap(new WeakHashMap<>());
 
@@ -59,6 +58,7 @@ public abstract class GraphicTextureItem extends GraphicItem implements Draggabl
     protected GraphicMediaCache.CachedImage currentData() {
         return overrideTexture != null ? overrideTexture : data;
     }
+
     @Override
     public double getWidth() {
         if (width > 0) return width;
@@ -440,27 +440,33 @@ public abstract class GraphicTextureItem extends GraphicItem implements Draggabl
 
     public void overwriteTextureFor(String path, GameScheduler scheduler, long ticks) {
         if (path == null || path.isBlank()) return;
+
         if (overrideTask != null) {
-            overrideTask.cancel(false);
+            overrideTask.cancel();
         }
 
         GraphicMediaCache.CachedImage newTex = GraphicMediaCache.texture(path);
-
-        GraphicMediaCache.CachedImage old = this.currentData();
-
         this.overrideTexture = newTex;
 
+        if (newTex != null) {
+            view.setImage(newTex.image());
+        } else {
+            view.setImage(null);
+        }
+
         if (scheduler != null && ticks > 0) {
-            scheduler.runLater(() -> {
+            overrideTask = scheduler.runLater(() -> {
                 overrideTexture = null;
 
                 GraphicMediaCache.CachedImage current = currentData();
                 if (current != null) {
                     view.setImage(current.image());
+                } else {
+                    view.setImage(null);
                 }
 
+                overrideTask = null;
             }, ticks);
         }
     }
-
 }

@@ -189,15 +189,17 @@ public class GameScheduler {
         }
     }
 
-    public void runLater(Runnable runnable, long delayTicks) {
+    public ScheduledTask runLater(Runnable runnable, long delayTicks) {
         Objects.requireNonNull(runnable);
-        enqueueSync(new ScheduledTask(
+        ScheduledTask task = new ScheduledTask(
                 runnable,
                 tick + Math.max(0, delayTicks),
                 -1,
                 false,
                 sequence.getAndIncrement()
-        ));
+        );
+        enqueueSync(task);
+        return task;
     }
 
     public ScheduledTask runRepeating(Runnable runnable, long delay, long period) {
@@ -216,8 +218,8 @@ public class GameScheduler {
         asyncPool.execute(runnable);
     }
 
-    public void runNextTick(Runnable runnable) {
-        runLater(runnable, 1);
+    public ScheduledTask runNextTick(Runnable runnable) {
+        return runLater(runnable, 1);
     }
 
     public void shutdown() {
