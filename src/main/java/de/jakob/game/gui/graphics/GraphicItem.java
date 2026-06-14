@@ -5,6 +5,7 @@ import de.jakob.game.gui.generic.MainGraphicUserInterface;
 import de.jakob.game.gui.graphics.media.GraphicImage;
 import de.jakob.game.gui.graphics.media.GraphicTextureItem;
 import de.jakob.game.gui.util.Position;
+import de.jakob.game.scheduler.GameScheduler;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -47,6 +48,114 @@ public abstract class GraphicItem {
     private String fxBaseStyle = "";
     private final List<String> fxExtraStyles = new ArrayList<>();
     private String lastAppliedFxStyle = "";
+    public double getRotation() {
+        return node == null ? 0 : node.getRotate();
+    }
+
+    public GraphicItem setRotation(double degrees) {
+        if (node != null) {
+            node.setRotate(degrees);
+        }
+        return this;
+    }
+
+    public GraphicItem rotate(double degrees) {
+        return setRotation(getRotation() + degrees);
+    }
+
+    public GameScheduler.ScheduledTask rotateToInTime(
+            GameScheduler scheduler,
+            double targetRotation,
+            long ticks
+    ) {
+        return rotateInTime(
+                scheduler,
+                targetRotation - getRotation(),
+                ticks
+        );
+    }
+
+    public GameScheduler.ScheduledTask moveToInTime(
+            GameScheduler scheduler,
+            double targetX,
+            double targetY,
+            long ticks
+    ) {
+        return moveInTime(
+                scheduler,
+                targetX - getX(),
+                targetY - getY(),
+                ticks
+        );
+    }
+
+    public GameScheduler.ScheduledTask rotateInTime(
+            GameScheduler scheduler,
+            double degrees,
+            long ticks
+    ) {
+        if (ticks <= 0) {
+            rotate(degrees);
+            return null;
+        }
+
+        double step = degrees / ticks;
+
+        final long[] currentTick = {0};
+
+        final GameScheduler.ScheduledTask[] task = new GameScheduler.ScheduledTask[1];
+
+        task[0] = scheduler.runRepeating(() -> {
+
+            if (++currentTick[0] >= ticks) {
+                rotate(degrees - (step * (ticks - 1)));
+                task[0].cancel();
+                return;
+            }
+
+            rotate(step);
+
+        }, 0, 1);
+
+        return task[0];
+    }
+
+    public GameScheduler.ScheduledTask moveInTime(
+            GameScheduler scheduler,
+            double dx,
+            double dy,
+            long ticks
+    ) {
+        if (ticks <= 0) {
+            move(dx, dy);
+            return null;
+        }
+
+        double stepX = dx / ticks;
+        double stepY = dy / ticks;
+
+        final long[] currentTick = {0};
+
+        final GameScheduler.ScheduledTask[] task = new GameScheduler.ScheduledTask[1];
+
+        task[0] = scheduler.runRepeating(() -> {
+
+            if (++currentTick[0] >= ticks) {
+                move(
+                        dx - (stepX * (ticks - 1)),
+                        dy - (stepY * (ticks - 1))
+                );
+                task[0].cancel();
+                return;
+            }
+
+            move(stepX, stepY);
+
+        }, 0, 1);
+
+        return task[0];
+    }
+
 
     public void init(GraphicUserInterface gui) {
         if (gui == null) throw new IllegalArgumentException("GUI darf nicht null sein!");
