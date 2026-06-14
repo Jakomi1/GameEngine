@@ -63,7 +63,21 @@ public class GameScheduler {
 
     private AnimationTimer timer;
 
+    public double getTPS() {
+        return currentTPS;
+    }
 
+    public long getStartTimeMillis() {
+        return startTimeMillis;
+    }
+
+    public long getStartTimeNanos() {
+        return startTimeNanos;
+    }
+
+    public long getTick() {
+        return tick;
+    }
     public void start() {
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(this::start);
