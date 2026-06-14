@@ -78,6 +78,20 @@ public abstract class GraphicItem {
         return this;
     }
 
+    public GraphicItem toFront() {
+        if (node != null) {
+            node.toFront();
+        }
+        return this;
+    }
+
+    public GraphicItem toBack() {
+        if (node != null) {
+            node.toBack();
+        }
+        return this;
+    }
+
     public boolean isCompletelyOutsideGui() {
         if (gui == null) {
             return false;
