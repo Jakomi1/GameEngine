@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 public class GraphicUserInterface {
-
+    private boolean pauseSchedulerWhileOpen = false;
+    private boolean schedulerPausedByThisGui = false;
     public static final double TOP_BAR_HEIGHT = 30.0;
     public static final double EXTRA_SIZE = 2.0;
 
@@ -566,6 +567,18 @@ public class GraphicUserInterface {
                 && window.getRoot().getChildren().contains(container);
     }
 
+    private Runnable onShow = () -> {};
+    private Runnable onHide = () -> {};
+
+    public GraphicUserInterface onShow(Runnable action) {
+        this.onShow = action != null ? action : () -> {};
+        return this;
+    }
+
+    public GraphicUserInterface onHide(Runnable action) {
+        this.onHide = action != null ? action : () -> {};
+        return this;
+    }
     public GraphicUserInterface show() {
         if (!built) {
             create();
@@ -582,6 +595,12 @@ public class GraphicUserInterface {
         container.setVisible(true);
         window.focus(this);
         window.updateZOrder();
+
+        if (pauseSchedulerWhileOpen && !schedulerPausedByThisGui) {
+            window.pauseScheduler();
+            schedulerPausedByThisGui = true;
+        }
+
         return this;
     }
 
@@ -603,11 +622,30 @@ public class GraphicUserInterface {
         return setVisible(!isShown());
     }
 
+    public GraphicUserInterface pauseSchedulerWhileOpen() {
+        this.pauseSchedulerWhileOpen = true;
+        return this;
+    }
+
+    public GraphicUserInterface pauseSchedulerWhileOpen(boolean value) {
+        this.pauseSchedulerWhileOpen = value;
+        return this;
+    }
+
+    public boolean isPauseSchedulerWhileOpen() {
+        return pauseSchedulerWhileOpen;
+    }
+
     public void hide() {
         if (!built) return;
 
         container.setVisible(false);
         window.onInterfaceHidden(this);
+
+        if (pauseSchedulerWhileOpen && schedulerPausedByThisGui) {
+            window.resumeScheduler();
+            schedulerPausedByThisGui = false;
+        }
     }
 
     private void applyLayoutChanges() {

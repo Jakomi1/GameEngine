@@ -22,7 +22,7 @@ public abstract class GameEngine extends Application {
 
         Directories.init(getResourceRootPath());
         KeyBinds.load();
-        GraphicWindow window = new GraphicWindow(stage, getName(), GraphicWindow.Size.FULLSCREEN);
+        GraphicWindow window = new GraphicWindow(stage,scheduler, getName(), GraphicWindow.Size.FULLSCREEN);
         window.main().exitGUI(ExitGraphicUserInterface.create(window, scheduler).show());
         window.main().debugGUI(DebugGraphicUserInterface.create(window, scheduler).show());
 

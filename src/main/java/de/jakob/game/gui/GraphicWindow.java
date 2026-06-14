@@ -4,6 +4,7 @@ import de.jakob.game.gui.generic.MainGraphicUserInterface;
 import de.jakob.game.input.ActionType;
 import de.jakob.game.input.Key;
 import de.jakob.game.input.KeyBind;
+import de.jakob.game.scheduler.GameScheduler;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -23,6 +24,7 @@ import java.util.function.Consumer;
 @SuppressWarnings({"FieldCanBeLocal", "ConfusingMainMethod"})
 public class GraphicWindow {
 
+
     private final Stage stage;
     private final MainGraphicUserInterface root;
     private final String windowName;
@@ -35,14 +37,16 @@ public class GraphicWindow {
     private GraphicUserInterface hoveredInterface;
     private double lastMouseSceneX = Double.NaN;
     private double lastMouseSceneY = Double.NaN;
+    private GameScheduler scheduler;
     private Runnable onExit;
     private final List<WindowKeyBinding> bindedKeyBindings = new ArrayList<>();
-    public GraphicWindow(Stage stage) {
-        this(stage, "Main Window", Size.of(800, 600));
+    public GraphicWindow(Stage stage, GameScheduler scheduler) {
+        this(stage,scheduler, "Main Window", Size.of(800, 600));
     }
 
-    public GraphicWindow(Stage stage, String windowName, Size size) {
+    public GraphicWindow(Stage stage, GameScheduler scheduler, String windowName, Size size) {
         this.stage = stage;
+        this.scheduler = scheduler;
         this.windowName = windowName != null ? windowName : "Main Window";
         this.size = size != null ? size : Size.of(800, 600);
 
@@ -156,6 +160,19 @@ public class GraphicWindow {
 
     public GraphicUserInterface createGUI() {
         return new GraphicUserInterface(this);
+    }
+
+
+    public void pauseScheduler() {
+        if (scheduler != null) {
+            scheduler.pause();
+        }
+    }
+
+    public void resumeScheduler() {
+        if (scheduler != null) {
+            scheduler.resume();
+        }
     }
 
     private void fireWindowKeyListeners(Key key, ActionType type) {

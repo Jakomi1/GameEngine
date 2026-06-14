@@ -20,9 +20,11 @@ public class ExitGraphicUserInterface extends GraphicUserInterface {
 
         ExitGraphicUserInterface gui = new ExitGraphicUserInterface(window);
         gui.settingsInterface =  SettingsGraphicUserInterface.create(window, scheduler);
+
         gui.size(320, 220)
                 .title("Spielmenü")
                 .alwaysInFront()
+                .pauseSchedulerWhileOpen()
                 .align(Alignment.CENTER);
 
         gui.addItem(
@@ -62,4 +64,5 @@ public class ExitGraphicUserInterface extends GraphicUserInterface {
         gui.create();
         return gui;
     }
+
 }
