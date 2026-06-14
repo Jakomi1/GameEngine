@@ -48,6 +48,27 @@ public class GameScheduler {
     private final Queue<ScheduledTask> pendingSyncTasks = new ConcurrentLinkedQueue<>();
     private final Queue<ScheduledTask> pendingAsyncTasks = new ConcurrentLinkedQueue<>();
 
+    public void stopAllTasks() {
+        synchronized (syncLock) {
+            for (ScheduledTask task : syncTasks) {
+                task.cancel();
+            }
+            syncTasks.clear();
+        }
+
+        synchronized (asyncLock) {
+            for (ScheduledTask task : asyncTasks) {
+                task.cancel();
+            }
+            asyncTasks.clear();
+        }
+        pendingSyncTasks.clear();
+        pendingAsyncTasks.clear();
+        asyncPool.shutdownNow();
+
+        Logger.warn("[Scheduler] All tasks have been stopped.");
+    }
+
     private final ExecutorService asyncPool = Executors.newFixedThreadPool(
             Math.max(2, Runtime.getRuntime().availableProcessors()),
             daemonFactory("GameScheduler-Async")
