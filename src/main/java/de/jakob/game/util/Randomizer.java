@@ -60,7 +60,12 @@ public class Randomizer {
         return value;
     }
 
-    public static boolean chance(double percent) {
+
+    public static boolean chance(double chance) {
+        return chance((int)chance*100);
+    }
+
+    public static boolean chance(int percent) {
         if (percent <= 0) return false;
         if (percent >= 100) return true;
 

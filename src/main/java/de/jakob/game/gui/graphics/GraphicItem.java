@@ -78,6 +78,29 @@ public abstract class GraphicItem {
         return this;
     }
 
+    public boolean isCompletelyOutsideGui() {
+        if (gui == null) {
+            return false;
+        }
+
+        double guiWidth = gui.getContentWidth();
+        double guiHeight = gui.getContentHeight();
+
+        if (guiWidth <= 0 || guiHeight <= 0) {
+            return false;
+        }
+
+        double x = getX();
+        double y = getY();
+        double w = getEffectiveWidth();
+        double h = getEffectiveHeight();
+
+        return x + w <= 0
+                || y + h <= 0
+                || x >= guiWidth
+                || y >= guiHeight;
+    }
+
     public abstract void build();
 
     public double getHorizontalMidlineY(double yOffset) {
