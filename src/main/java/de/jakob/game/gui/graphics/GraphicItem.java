@@ -115,6 +115,40 @@ public abstract class GraphicItem {
                 || y >= guiHeight;
     }
 
+    public boolean bottomPartTouchesHorizontalMidline(
+            GraphicItem other,
+            double yOffset,
+            double bottomPercent,
+            double tolerance
+    ) {
+        if (other == null || other == this) return false;
+
+        bottomPercent = clamp(bottomPercent, 0.0, 1.0);
+        tolerance = Math.max(0.0, tolerance);
+
+        double midY = other.getHorizontalMidlineY(yOffset);
+
+        double height = getEffectiveHeight();
+        double topOfBottomArea = getY() + height * (1.0 - bottomPercent);
+        double bottomOfBottomArea = getY() + height;
+
+        boolean touchesVertically =
+                midY >= topOfBottomArea - tolerance &&
+                        midY <= bottomOfBottomArea + tolerance;
+
+        double left = getX() - tolerance;
+        double right = getX() + getEffectiveWidth() + tolerance;
+
+        double otherLeft = other.getX();
+        double otherRight = other.getX() + other.getEffectiveWidth();
+
+        boolean touchesHorizontally =
+                otherRight >= left &&
+                        otherLeft <= right;
+
+        return touchesVertically && touchesHorizontally;
+    }
+
     public abstract void build();
 
     public double getHorizontalMidlineY(double yOffset) {
