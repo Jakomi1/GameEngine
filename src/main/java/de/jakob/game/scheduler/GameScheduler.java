@@ -19,7 +19,7 @@ public class GameScheduler {
     public static volatile long debugIntervalTicks = 50L;
     public static volatile long lagThresholdMillis = 25L;
     public static volatile int maxCatchUpTicksPerFrame = 5;
-
+    private volatile long pauseStartedNanos = 0;
     public static final long targetedTPS = 50;
     private static final long tickDurationNanos = 1_000_000_000L / targetedTPS;
 
@@ -139,11 +139,18 @@ public class GameScheduler {
 
     public void pause() {
         if (!started.get() || paused.getAndSet(true)) return;
+        pauseStartedNanos = System.nanoTime();
         Logger.info("[Scheduler] Paused");
     }
 
     public void resume() {
         if (!paused.getAndSet(false)) return;
+
+        long now = System.nanoTime();
+        lastNanos = now;
+        lastDebugNanos = now;
+        pauseStartedNanos = 0;
+
         Logger.info("[Scheduler] Resumed");
     }
 
