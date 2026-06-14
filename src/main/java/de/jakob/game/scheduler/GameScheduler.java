@@ -37,6 +37,8 @@ public class GameScheduler {
 
     private final AtomicBoolean running = new AtomicBoolean(true);
     private final AtomicBoolean started = new AtomicBoolean(false);
+    private final AtomicBoolean paused = new AtomicBoolean(false);
+
     private final AtomicLong sequence = new AtomicLong();
 
     private final Object syncLock = new Object();
@@ -47,27 +49,6 @@ public class GameScheduler {
 
     private final Queue<ScheduledTask> pendingSyncTasks = new ConcurrentLinkedQueue<>();
     private final Queue<ScheduledTask> pendingAsyncTasks = new ConcurrentLinkedQueue<>();
-
-    public void stopAllTasks() {
-        synchronized (syncLock) {
-            for (ScheduledTask task : syncTasks) {
-                task.cancel();
-            }
-            syncTasks.clear();
-        }
-
-        synchronized (asyncLock) {
-            for (ScheduledTask task : asyncTasks) {
-                task.cancel();
-            }
-            asyncTasks.clear();
-        }
-        pendingSyncTasks.clear();
-        pendingAsyncTasks.clear();
-        asyncPool.shutdownNow();
-
-        Logger.warn("[Scheduler] All tasks have been stopped.");
-    }
 
     private final ExecutorService asyncPool = Executors.newFixedThreadPool(
             Math.max(2, Runtime.getRuntime().availableProcessors()),
@@ -82,19 +63,6 @@ public class GameScheduler {
 
     private AnimationTimer timer;
 
-    public GameScheduler() {}
-
-    public long getStartTimeMillis() {
-        return startTimeMillis;
-    }
-
-    public long getStartTimeNanos() {
-        return startTimeNanos;
-    }
-
-    public double getTPS() {
-        return currentTPS;
-    }
 
     public void start() {
         if (!Platform.isFxApplicationThread()) {
@@ -107,10 +75,14 @@ public class GameScheduler {
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+
                 if (!running.get()) {
                     stop();
                     return;
                 }
+
+                // ⛔ PAUSE LOGIC
+                if (paused.get()) return;
 
                 if (lastNanos == 0) {
                     lastNanos = now;
@@ -150,6 +122,21 @@ public class GameScheduler {
         timer.start();
     }
 
+
+    public void pause() {
+        if (!started.get() || paused.getAndSet(true)) return;
+        Logger.info("[Scheduler] Paused");
+    }
+
+    public void resume() {
+        if (!paused.getAndSet(false)) return;
+        Logger.info("[Scheduler] Resumed");
+    }
+
+    public boolean isPaused() {
+        return paused.get();
+    }
+
     private void updateTPS(long now) {
         long deltaTicks = tick - lastDebugTick;
         long deltaNanos = now - lastDebugNanos;
@@ -160,6 +147,8 @@ public class GameScheduler {
     }
 
     private void processTick() {
+        if (paused.get()) return;
+
         drainPending(syncTasks, pendingSyncTasks, syncLock);
         drainPending(asyncTasks, pendingAsyncTasks, asyncLock);
 
@@ -191,7 +180,7 @@ public class GameScheduler {
                 queue.poll();
             }
 
-            if (task.cancelled.get() || !running.get()) continue;
+            if (task.cancelled.get() || !running.get() || paused.get()) continue;
 
             if (async) {
                 try {
@@ -243,6 +232,24 @@ public class GameScheduler {
         return runLater(runnable, 1);
     }
 
+    public void stopAllTasks() {
+        synchronized (syncLock) {
+            for (ScheduledTask task : syncTasks) task.cancel();
+            syncTasks.clear();
+        }
+
+        synchronized (asyncLock) {
+            for (ScheduledTask task : asyncTasks) task.cancel();
+            asyncTasks.clear();
+        }
+
+        pendingSyncTasks.clear();
+        pendingAsyncTasks.clear();
+        asyncPool.shutdownNow();
+
+        Logger.warn("[Scheduler] All tasks have been stopped.");
+    }
+
     public void shutdown() {
         if (!running.compareAndSet(true, false)) return;
 
@@ -258,11 +265,11 @@ public class GameScheduler {
         asyncPool.shutdownNow();
     }
 
+
     private void enqueueSync(ScheduledTask task) {
         pendingSyncTasks.add(task);
     }
 
-    @SuppressWarnings("unused")
     private void enqueueAsync(ScheduledTask task) {
         pendingAsyncTasks.add(task);
     }
@@ -293,11 +300,11 @@ public class GameScheduler {
         };
     }
 
+
     public static class ScheduledTask {
         private final Runnable runnable;
         private volatile long nextRun;
         private final long period;
-        @SuppressWarnings("unused")
         private final boolean async;
         private final long sequence;
         private final AtomicBoolean cancelled = new AtomicBoolean(false);
