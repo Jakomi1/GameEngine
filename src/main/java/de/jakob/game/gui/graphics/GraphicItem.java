@@ -53,15 +53,22 @@ public abstract class GraphicItem {
         this.gui = gui;
     }
 
-    public GraphicItem move(double dx, double dy) {
+    public GraphicItem move(double dx, double dy, boolean forced) {
         double newX = getX() + dx;
         double newY = getY() + dy;
 
         this.position = Position.of(newX, newY);
+        if(forced) {
+            this.position.forced();
+        }
         this.resolvedPosition = new Point2D(newX, newY);
 
         applyPosition();
         return this;
+    }
+
+    public GraphicItem move(double dx, double dy) {
+        return move(dx, dy, false);
     }
 
     public GraphicItem setX(double x) {
