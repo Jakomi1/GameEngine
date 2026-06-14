@@ -121,25 +121,37 @@ public abstract class GraphicItem {
         return getY() + (getEffectiveHeight() / 2.0) + yOffset;
     }
 
-    public boolean touchesHorizontalMidline(GraphicItem other, double yOffset, double activePercent) {
+    public boolean touchesHorizontalMidline(
+            GraphicItem other,
+            double yOffset,
+            double activePercent,
+            double tolerance
+    ) {
         if (other == null || other == this) return false;
 
         activePercent = Math.max(0.0, Math.min(1.0, activePercent));
+        tolerance = Math.max(0.0, tolerance);
 
         double midY = getHorizontalMidlineY(yOffset);
+
 
         boolean touchesVertically =
                 other.getY() <= midY &&
                         other.getY() + other.getEffectiveHeight() >= midY;
 
-        double width = this.getEffectiveWidth();
-        double centerX = this.getX() + width / 2.0;
+
+        double width = getEffectiveWidth();
+        double centerX = getX() + width / 2.0;
 
         double activeWidth = width * activePercent;
         double halfActive = activeWidth / 2.0;
 
         double minX = centerX - halfActive;
         double maxX = centerX + halfActive;
+
+
+        minX -= tolerance;
+        maxX += tolerance;
 
         double otherCenterX = other.getX() + other.getEffectiveWidth() / 2.0;
 
@@ -149,13 +161,18 @@ public abstract class GraphicItem {
         return touchesVertically && touchesHorizontally;
     }
 
+    public boolean touchesHorizontalMidline(GraphicItem other, double yOffset, double activePercent) {
+        return touchesHorizontalMidline(other, yOffset, activePercent, 0.0);
+    }
+
     public boolean touchesHorizontalMidline(GraphicItem other, double yOffset) {
-        return touchesHorizontalMidline(other, yOffset, 1.0);
+        return touchesHorizontalMidline(other, yOffset, 1.0, 0.0);
     }
 
     public boolean touchesHorizontalMidline(GraphicItem other) {
-        return touchesHorizontalMidline(other, 0);
+        return touchesHorizontalMidline(other, 0.0, 1.0, 0.0);
     }
+
     public List<GraphicItem> getTouchingItems() {
         List<GraphicItem> touching = new ArrayList<>();
         if (node == null || node.getParent() == null) return touching;
