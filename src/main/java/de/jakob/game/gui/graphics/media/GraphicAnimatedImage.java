@@ -48,9 +48,8 @@ public class GraphicAnimatedImage extends GraphicTextureItem {
 
     @Override
     protected GraphicMediaCache.CachedImage currentData() {
-        return frames.isEmpty() ? null : frames.get(currentFrame);
+        return super.currentData();
     }
-
     @Override
     public void build() {
         if (frames.isEmpty()) return;

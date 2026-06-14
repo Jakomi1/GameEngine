@@ -27,9 +27,8 @@ public class GraphicImage extends GraphicTextureItem {
 
     @Override
     protected GraphicMediaCache.CachedImage currentData() {
-        return data;
+        return super.currentData();
     }
-
     @Override
     public void build() {
         final var d = data;
