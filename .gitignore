@@ -46,3 +46,4 @@ bin/
 .DS_Store
 
 /src/main/java/de/jakob/game/Main.java
+/resources/data/keybinds.txt
