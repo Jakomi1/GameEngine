@@ -119,32 +119,43 @@ public abstract class GraphicItem {
             GraphicItem other,
             double yOffset,
             double bottomPercent,
+            double activePercent,
             double tolerance
     ) {
         if (other == null || other == this) return false;
 
         bottomPercent = clamp(bottomPercent, 0.0, 1.0);
+        activePercent = clamp(activePercent, 0.0, 1.0);
         tolerance = Math.max(0.0, tolerance);
 
         double midY = other.getHorizontalMidlineY(yOffset);
 
         double height = getEffectiveHeight();
-        double topOfBottomArea = getY() + height * (1.0 - bottomPercent);
-        double bottomOfBottomArea = getY() + height;
+
+        double topOfBottomArea =
+                getY() + height * (1.0 - bottomPercent);
+
+        double bottomOfBottomArea =
+                getY() + height;
 
         boolean touchesVertically =
                 midY >= topOfBottomArea - tolerance &&
                         midY <= bottomOfBottomArea + tolerance;
 
-        double left = getX() - tolerance;
-        double right = getX() + getEffectiveWidth() + tolerance;
+        double width = getEffectiveWidth();
+        double centerX = getX() + width / 2.0;
 
-        double otherLeft = other.getX();
-        double otherRight = other.getX() + other.getEffectiveWidth();
+        double activeWidth = width * activePercent;
+        double halfActive = activeWidth / 2.0;
+
+        double minX = centerX - halfActive - tolerance;
+        double maxX = centerX + halfActive + tolerance;
+
+        double otherCenterX =
+                other.getX() + other.getEffectiveWidth() / 2.0;
 
         boolean touchesHorizontally =
-                otherRight >= left &&
-                        otherLeft <= right;
+                otherCenterX >= minX && otherCenterX <= maxX;
 
         return touchesVertically && touchesHorizontally;
     }
