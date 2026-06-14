@@ -121,22 +121,29 @@ public abstract class GraphicItem {
         return getY() + (getEffectiveHeight() / 2.0) + yOffset;
     }
 
-    public boolean touchesHorizontalMidline(GraphicItem other, double yOffset) {
+    public boolean touchesHorizontalMidline(GraphicItem other, double yOffset, double tolerance) {
         if (other == null || other == this) return false;
 
         double midY = getHorizontalMidlineY(yOffset);
 
-        boolean touchesVertically = other.getY() <= midY && (other.getY() + other.getEffectiveHeight()) >= midY;
-        boolean touchesHorizontally = this.getX() < other.getX() + other.getEffectiveWidth() &&
-                this.getX() + this.getEffectiveWidth() > other.getX();
+        boolean touchesVertically =
+                other.getY() <= midY + tolerance
+                        && (other.getY() + other.getEffectiveHeight()) >= midY - tolerance;
+
+        boolean touchesHorizontally =
+                this.getX() < other.getX() + other.getEffectiveWidth()
+                        && this.getX() + this.getEffectiveWidth() > other.getX();
 
         return touchesVertically && touchesHorizontally;
     }
 
-    public boolean touchesHorizontalMidline(GraphicItem other) {
-        return touchesHorizontalMidline(other, 0.0);
+    public boolean touchesHorizontalMidline(GraphicItem other, double yOffset) {
+        return touchesHorizontalMidline(other, yOffset, 0);
     }
 
+    public boolean touchesHorizontalMidline(GraphicItem other) {
+        return touchesHorizontalMidline(other, 0, 0);
+    }
     public List<GraphicItem> getTouchingItems() {
         List<GraphicItem> touching = new ArrayList<>();
         if (node == null || node.getParent() == null) return touching;
